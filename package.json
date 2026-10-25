@@ -20,6 +20,7 @@
     "fork:check": "node scripts/fork-check.mjs",
     "print:mandate": "tsx scripts/print-mandate-v1.ts",
     "tapeout:fork": "tsx scripts/tapeout-fork.ts",
+    "fork:reset-generated": "git checkout -- contracts/test/fork/Generated.sol",
     "deweb:publish": "tsx scripts/deweb-publish.ts"
   },
   "devDependencies": {

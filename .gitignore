@@ -4,6 +4,7 @@ proposal/
 # Secrets / keys (deploy wallets, RPC keys)
 .env
 .env.*
+!.env.example
 *.key
 secrets/
 

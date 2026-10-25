@@ -300,6 +300,9 @@ library GeneratedConstants {
   console.log(`Circuit ID: ${circuitId}`);
   console.log(`Packing Rule: ${winningCandidate}`);
   console.log('Result saved to deployments/fork/mandate-v1.json');
+  console.log(
+    'contracts/test/fork/Generated.sol now holds fork specific values. Run `npm run fork:reset-generated` before committing.',
+  );
 }
 
 main().catch((err) => {
