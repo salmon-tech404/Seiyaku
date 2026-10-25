@@ -68,13 +68,13 @@ All addresses verified with non-empty bytecode on live X Layer mainnet (`https:/
 
 Estimated at X Layer gas price (formula: `65,000 gas base + 216 gas/byte` per chunk + `45,000 gas` fallback):
 
-| Payload Size                                | Transactions / Chunks                         | Gas (ESTIMATE)     | Cost in OKB (ESTIMATE at 1.0 gwei) |
-| ------------------------------------------- | --------------------------------------------- | ------------------ | ---------------------------------- |
-| **1 KB** (hello-world / icon)               | 1 tx (`putFile`)                              | ~280,000 gas       | ~0.00028 OKB                       |
-| **24 KB** (1 full chunk)                    | 1 tx (`putFile`)                              | ~5,250,000 gas     | ~0.00525 OKB                       |
-| **100 KB**                                  | 5 txs (1 `putFile` + 4 `appendChunk`)         | ~22,000,000 gas    | ~0.02200 OKB                       |
-| **Full Web Bundle (143.4 KB, 143,449 bytes)**| 7 txs (1 HTML, 6 JS chunks) + 1 `setFallback` | **31,484,984 gas** | **0.03170 OKB**                    |
-| **Name Binding**                            | 1 tx (`DomainBinding.bind`)                   | ~80,000 gas        | ~0.00008 OKB                       |
+| Payload Size                                  | Transactions / Chunks                         | Gas (ESTIMATE)     | Cost in OKB (ESTIMATE at 1.0 gwei) |
+| --------------------------------------------- | --------------------------------------------- | ------------------ | ---------------------------------- |
+| **1 KB** (hello-world / icon)                 | 1 tx (`putFile`)                              | ~280,000 gas       | ~0.00028 OKB                       |
+| **24 KB** (1 full chunk)                      | 1 tx (`putFile`)                              | ~5,250,000 gas     | ~0.00525 OKB                       |
+| **100 KB**                                    | 5 txs (1 `putFile` + 4 `appendChunk`)         | ~22,000,000 gas    | ~0.02200 OKB                       |
+| **Full Web Bundle (143.4 KB, 143,449 bytes)** | 7 txs (1 HTML, 6 JS chunks) + 1 `setFallback` | **31,484,984 gas** | **0.03170 OKB**                    |
+| **Name Binding**                              | 1 tx (`DomainBinding.bind`)                   | ~80,000 gas        | ~0.00008 OKB                       |
 
 Note: Figures above are ESTIMATES calculated via `scripts/deweb-publish.ts` dry-run on 2026-10-25.
 

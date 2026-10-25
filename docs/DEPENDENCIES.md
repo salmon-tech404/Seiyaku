@@ -27,13 +27,13 @@ All dependencies are pinned to exact versions. Checked on 2026-10-25.
 
 An `npm audit` on the pinned dependencies reports 31 vulnerabilities (7 low, 14 moderate, 8 high, 2 critical). Per coding rule 0.6, versions are pinned and not upgraded without owner direction:
 
-| Package Affected | Severity | Vulnerability Advisory / Cause | Used in Browser Bundle? | Impact & Context |
-|---|---|---|---|---|
-| `ws` (via `viem`) | High | GHSA-58qx-3vcg-4xpx, GHSA-96hv-2xvq-fx4p | **No** (dev/node only; browser uses native WebSocket) | Node RPC scripts only. |
-| `zod` | High | GHSA-mrhx-c7xc-m3w5 (DoS on oversized collections) | **Yes** (via `@seiyaku/circuit-tools`) | Used for validating small local circuit AST structures; inputs are not unbounded user network strings. |
-| `@coinbase/wallet-sdk` / `@metamask/sdk` | High / Moderate | GHSA-8rgj-285w-qcq4, GHSA-qj3p-xc97-xw74 | **Optional** (wallet connector dependencies in wagmi) | Sub-dependencies of wagmi connectors. |
-| `tinypool` (via `vitest`) | Critical | GHSA-5gmw-xhrv-c9v3, GHSA-85c8-ppgw-ccpr | **No** (test runner only) | Only executed during `npm test` / Vitest. |
-| `esbuild` (via `vite`) | Moderate | GHSA-67mh-4wv8-2f99 | **No** (build-time compiler) | Does not ship in static bundle. |
-| `@eslint/plugin-kit` | Moderate | GHSA-xffm-g5w8-qvg7 | **No** (linter only) | Dev tool only. |
+| Package Affected                         | Severity        | Vulnerability Advisory / Cause                     | Used in Browser Bundle?                               | Impact & Context                                                                                       |
+| ---------------------------------------- | --------------- | -------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `ws` (via `viem`)                        | High            | GHSA-58qx-3vcg-4xpx, GHSA-96hv-2xvq-fx4p           | **No** (dev/node only; browser uses native WebSocket) | Node RPC scripts only.                                                                                 |
+| `zod`                                    | High            | GHSA-mrhx-c7xc-m3w5 (DoS on oversized collections) | **Yes** (via `@seiyaku/circuit-tools`)                | Used for validating small local circuit AST structures; inputs are not unbounded user network strings. |
+| `@coinbase/wallet-sdk` / `@metamask/sdk` | High / Moderate | GHSA-8rgj-285w-qcq4, GHSA-qj3p-xc97-xw74           | **Optional** (wallet connector dependencies in wagmi) | Sub-dependencies of wagmi connectors.                                                                  |
+| `tinypool` (via `vitest`)                | Critical        | GHSA-5gmw-xhrv-c9v3, GHSA-85c8-ppgw-ccpr           | **No** (test runner only)                             | Only executed during `npm test` / Vitest.                                                              |
+| `esbuild` (via `vite`)                   | Moderate        | GHSA-67mh-4wv8-2f99                                | **No** (build-time compiler)                          | Does not ship in static bundle.                                                                        |
+| `@eslint/plugin-kit`                     | Moderate        | GHSA-xffm-g5w8-qvg7                                | **No** (linter only)                                  | Dev tool only.                                                                                         |
 
 No upgrades performed; flagged for review by owner.

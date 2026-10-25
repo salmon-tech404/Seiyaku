@@ -59,5 +59,5 @@ For circuits with up to 16 inputs:
 - Inputs: 9
 - Outputs: 1
 - NAND Gates: 17
-- Total Binary Length: 119 bytes (17 gates * 7 bytes per gate)
+- Total Binary Length: 119 bytes (17 gates \* 7 bytes per gate)
 - Keccak256 Hash: `0xbe106fa891c4f0b430afdcf245df6a3df86508351ef76af2e1508b064dff24f5`
