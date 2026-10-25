@@ -15,7 +15,9 @@
     "test": "node scripts/test-all.mjs",
     "test:unit": "vitest run",
     "build": "node scripts/build-all.mjs",
-    "build:web": "npm --workspace=@seiyaku/web run build"
+    "build:web": "npm --workspace=@seiyaku/web run build",
+    "fork": "node scripts/fork.mjs",
+    "fork:check": "node scripts/fork-check.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.13.0",
