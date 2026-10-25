@@ -4,6 +4,7 @@ import {
   http,
   parseAbi,
   toHex,
+  getAddress,
   formatEther,
   type Address,
   type Hex,
@@ -84,11 +85,15 @@ async function main() {
   const blockNum = await publicClient.getBlockNumber();
   console.log(`Chain ID: ${chainId}, Fork Block: ${blockNum}`);
 
-  // Ensure balance
+  // Ensure balance and clean EOA code (Anvil fork accounts may inherit bytecode on live networks)
   try {
     await publicClient.request({
       method: 'anvil_setBalance',
       params: [account.address, '0x21e19e0c9bab2400000'],
+    } as unknown as Parameters<typeof publicClient.request>[0]);
+    await publicClient.request({
+      method: 'anvil_setCode',
+      params: [account.address, '0x'],
     } as unknown as Parameters<typeof publicClient.request>[0]);
   } catch {
     // Non-fatal if node is not anvil
@@ -122,13 +127,13 @@ async function main() {
   console.log(`createCPU tx: ${createCpuTx}`);
   const createCpuReceipt = await publicClient.waitForTransactionReceipt({ hash: createCpuTx });
 
-  let transistorsAddr: Address | undefined;
   let circuitsAddr: Address | undefined;
+  let transistorsAddr: Address | undefined;
 
   for (const log of createCpuReceipt.logs) {
     if (log.topics[1] && log.topics[2]) {
-      transistorsAddr = `0x${log.topics[1].slice(26)}` as Address;
-      circuitsAddr = `0x${log.topics[2].slice(26)}` as Address;
+      circuitsAddr = `0x${log.topics[1].slice(26)}` as Address;
+      transistorsAddr = `0x${log.topics[2].slice(26)}` as Address;
     }
   }
 
@@ -273,6 +278,7 @@ async function main() {
   // Generate Solidity constants file
   const genSolDir = path.resolve('contracts/test/fork');
   fs.mkdirSync(genSolDir, { recursive: true });
+  const checksummedCircuits = getAddress(circuitsAddr);
   fs.writeFileSync(
     path.join(genSolDir, 'Generated.sol'),
     `// SPDX-License-Identifier: MIT
@@ -280,7 +286,7 @@ async function main() {
 pragma solidity 0.8.23;
 
 library GeneratedConstants {
-    address internal constant PROCESSOR = ${circuitsAddr};
+    address internal constant PROCESSOR = ${checksummedCircuits};
     uint256 internal constant CIRCUIT_ID = ${circuitId};
     bytes32 internal constant NETLIST_HASH = ${MANDATE_V1_NETLIST_HASH};
 }

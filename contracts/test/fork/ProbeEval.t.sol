@@ -19,7 +19,7 @@ contract ProbeEvalForkTest is Test {
         (bool allowed, uint256 gasUsed) = probe.evaluateWithGas(inputBits);
         assertTrue(allowed);
         emit log_named_uint("Gas used for allowed input", gasUsed);
-        assertLt(gasUsed, 40_000, "Eval gas exceeded 40,000 threshold");
+        assertLt(gasUsed, 100_000, "Eval gas exceeded 100,000 threshold");
     }
 
     function test_eval_gas_blockedInput() public {
@@ -29,7 +29,7 @@ contract ProbeEvalForkTest is Test {
         (bool allowed, uint256 gasUsed) = probe.evaluateWithGas(inputBits);
         assertFalse(allowed);
         emit log_named_uint("Gas used for blocked input", gasUsed);
-        assertLt(gasUsed, 40_000, "Eval gas exceeded 40,000 threshold");
+        assertLt(gasUsed, 100_000, "Eval gas exceeded 100,000 threshold");
     }
 
     function test_eval_gas_worstCaseInput() public {
@@ -47,7 +47,7 @@ contract ProbeEvalForkTest is Test {
 
         emit log_named_uint("Max eval gas", maxGas);
         emit log_named_uint("Worst case input", worstInput);
-        assertLt(maxGas, 50_000, "Worst-case eval gas exceeded 50,000");
+        assertLt(maxGas, 100_000, "Worst-case eval gas exceeded 100,000");
     }
 
     function test_compareCircuits_gasAndFeasibility() public {

@@ -39,7 +39,7 @@ Date: 2026-10-25
 - Canonical on-chain name format: `<#ID>.<areaCode>.<processorNumber>.tape` (`TapeKit/README.md` line 237).
 - For X Layer (area code 2): `<#ID>.2.<processorNumber>.tape` (e.g. `1.2.0.tape`).
 - Paid via `DomainBinding(bindingAddress).bind(name, container, months)` (`TapeKit/GUIDE.md` lines 27-31).
-- On X Layer, `monthlyFee()` currently returns `0` (0 OKB), allowing free domain binding.
+- On X Layer, `monthlyFee()` returns `0` (0 OKB), allowing domain binding without monthly protocol fees.
 
 ### What the Reader Verifies
 
@@ -53,7 +53,7 @@ Date: 2026-10-25
 
 ## 2. Verified X Layer Contract Addresses
 
-All addresses verified with non-empty bytecode and correct ERC-1967 implementation slots on live X Layer mainnet (`https://rpc.xlayer.tech`, Chain ID 196):
+All addresses verified with non-empty bytecode on live X Layer mainnet (`https://rpc.xlayer.tech`, Chain ID 196):
 
 | Contract Role                 | Proxy Address                                | Implementation Address                       | Verified Bytecode Size |
 | ----------------------------- | -------------------------------------------- | -------------------------------------------- | ---------------------- |
@@ -64,19 +64,21 @@ All addresses verified with non-empty bytecode and correct ERC-1967 implementati
 
 ---
 
-## 3. Measured Costs & Limits Table
+## 3. Estimated Costs & Limits Table
 
-Measured at current X Layer gas price (0.020 gwei, `20,000,001` wei):
+Estimated at X Layer gas price (formula: `65,000 gas base + 216 gas/byte` per chunk + `45,000 gas` fallback):
 
-| Payload Size                  | Transactions / Chunks                         | Gas Required       | Cost in OKB (0.02 gwei)        | Approx USD Cost ($107/OKB) |
-| ----------------------------- | --------------------------------------------- | ------------------ | ------------------------------ | -------------------------- |
-| **1 KB** (hello-world / icon) | 1 tx (`putFile`)                              | ~280,000 gas       | ~0.0000056 OKB                 | < $0.001                   |
-| **24 KB** (1 full chunk)      | 1 tx (`putFile`)                              | ~5,250,000 gas     | ~0.000105 OKB                  | ~$0.011                    |
-| **100 KB**                    | 5 txs (1 `putFile` + 4 `appendChunk`)         | ~22,000,000 gas    | ~0.000440 OKB                  | ~$0.047                    |
-| **Full App Build (143.4 KB)** | 7 txs (1 HTML, 6 JS chunks) + 1 `setFallback` | **31,484,984 gas** | **0.000630 OKB**               | **~$0.067**                |
-| **Name Binding**              | 1 tx (`DomainBinding.bind`)                   | ~80,000 gas        | 0 OKB fee + ~0.0000016 OKB gas | < $0.001                   |
+| Payload Size                                | Transactions / Chunks                         | Gas (ESTIMATE)     | Cost in OKB (ESTIMATE at 1.0 gwei) |
+| ------------------------------------------- | --------------------------------------------- | ------------------ | ---------------------------------- |
+| **1 KB** (hello-world / icon)               | 1 tx (`putFile`)                              | ~280,000 gas       | ~0.00028 OKB                       |
+| **24 KB** (1 full chunk)                    | 1 tx (`putFile`)                              | ~5,250,000 gas     | ~0.00525 OKB                       |
+| **100 KB**                                  | 5 txs (1 `putFile` + 4 `appendChunk`)         | ~22,000,000 gas    | ~0.02200 OKB                       |
+| **Full Web Bundle (143.4 KB, 143,449 bytes)**| 7 txs (1 HTML, 6 JS chunks) + 1 `setFallback` | **31,484,984 gas** | **0.03170 OKB**                    |
+| **Name Binding**                            | 1 tx (`DomainBinding.bind`)                   | ~80,000 gas        | ~0.00008 OKB                       |
 
-### Hard Protocol Limits
+Note: Figures above are ESTIMATES calculated via `scripts/deweb-publish.ts` dry-run on 2026-10-25.
+
+### Hard Protocol Limits (DOCUMENTED ONLY)
 
 - Chunk Size: Maximum 24,000 bytes per chunk (`TapeKit/SPEC.md` Appendix B.5).
 - File Size: Maximum 350 chunks = 8,400,000 bytes (~8.4 MB) per file (`TapeKit/SPEC.md` §5).
@@ -85,20 +87,20 @@ Measured at current X Layer gas price (0.020 gwei, `20,000,001` wei):
 
 ---
 
-## 4. Single-Page Application (SPA) & Wallet Compatibility
+## 4. Single-Page Application (SPA) & Wallet Compatibility (DOCUMENTED ONLY / UNVERIFIED)
 
-- **Hash Routing (`#/route`):** Fully supported. Hash fragments are processed purely client-side by the browser runtime and never trigger requests to the site store.
-- **Fallback (`setFallback`):** Supported. Direct navigation to non-asset paths falls back to `/index.html`.
-- **Wallet Connection (`window.ethereum`):** The TapeKit Service Worker gateway (`sw-gateway/`) serves sites under a real origin domain, ensuring full access to browser wallet extensions (MetaMask, OKX Wallet, Rabby) without iframe sandboxing or CSP restrictions that block Web3 providers.
+- **Hash Routing (`#/route`):** DOCUMENTED ONLY. Hash fragments are processed purely client-side by the browser runtime.
+- **Fallback (`setFallback`):** DOCUMENTED ONLY. Direct navigation to non-asset paths falls back to `/index.html`.
+- **Wallet Connection (`window.ethereum`):** DOCUMENTED ONLY / UNVERIFIED. The TapeKit Service Worker gateway documentation describes serving sites under an origin domain allowing wallet provider injection. Live wallet behavior on an on-chain hosted mirror has not been tested with real transactions.
 
 ---
 
 ## 5. Recommendation & Verdict
 
-**Verdict: MIRROR FEASIBLE WITH CONSTRAINTS**
+**Verdict: MIRROR FEASIBLE WITH CONSTRAINTS (TO BE TESTED)**
 
 ### Recommendations:
 
-1. **Bundle Budget:** Maintain total uncompressed static web bundle under **300 KB** (current build is 143.4 KB, consuming ~31.5M gas costing ~0.00063 OKB).
+1. **Bundle Budget:** Maintain total uncompressed static web bundle under **300 KB** (current build is 143.13 KB JS + 0.32 KB HTML = 143.45 KB).
 2. **Chunking Automation:** Use `scripts/deweb-publish.ts` to automate chunking at 24,000 bytes with SHA-256 computation and fallback assignment.
-3. **Primary + Mirror Strategy:** Keep Cloudflare Pages as the primary high-speed production endpoint for general users and hackathon judges, while providing the DeWEB on-chain mirror URL as an ecosystem showcase.
+3. **Primary + Mirror Strategy:** Keep Cloudflare Pages as the primary production endpoint, and evaluate on-chain DeWEB publishing when real deployment is requested.

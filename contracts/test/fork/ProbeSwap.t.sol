@@ -18,8 +18,7 @@ contract ProbeSwapForkTest is Test {
     }
 
     function fundProbeWithUsdc(uint256 amount) internal {
-        vm.prank(USDC_WHALE);
-        IERC20(USDC).transfer(address(probe), amount);
+        deal(USDC, address(probe), amount);
     }
 
     function test_swap_usdcToWokb_and_wokbToUsdc_roundtrip() public {

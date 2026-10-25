@@ -61,14 +61,12 @@ contract AddressesForkTest is Test {
         assertTrue(amountOut > 0, "Quoted amountOut must be greater than zero");
     }
 
-    function test_funding_impersonateUsdcHolderTransfersFunds() public {
+    function test_funding_dealOrSlotBalances() public {
         address recipient = address(0xCAFE);
         uint256 fundAmount = 100 * 1e6; // 100 USDC
 
-        // Impersonate whale holder
-        vm.prank(USDC_HOLDER);
-        bool success = IERC20Metadata(USDC).transfer(recipient, fundAmount);
-        assertTrue(success, "Transfer from impersonated holder failed");
-        assertEq(IERC20Metadata(USDC).balanceOf(recipient), fundAmount, "Recipient balance mismatch");
+        // Deal using Foundry deal cheatcode with storage slot 9 for FiatTokenV2
+        deal(USDC, recipient, fundAmount);
+        assertEq(IERC20Metadata(USDC).balanceOf(recipient), fundAmount, "Recipient balance mismatch after deal");
     }
 }
