@@ -7,7 +7,7 @@ import {ProbeSwap} from "../../src/probes/ProbeSwap.sol";
 
 contract ProbeSwapForkTest is Test {
     address internal constant USDC = 0xB6CEceAB302E2E4948951eE7843FC24E92933061;
-    address internal constant WOKB = 0xe538905cf8410324e03a5a23c1c177a474d59b2b;
+    address internal constant WOKB = 0xe538905cf8410324e03A5A23C1c177a474D59b2b;
     address internal constant SWAP_ROUTER02 = 0x4f0C28f5926AFDA16bf2506D5D9e57Ea190f9bcA;
     address internal constant USDC_WHALE = 0x9f73888Fb725A3409548BC8d2e42365AC063E148;
 
@@ -28,17 +28,19 @@ contract ProbeSwapForkTest is Test {
         uint256 tradeAmountUsdc = 10 * 1e6; // 10 USDC
         fundProbeWithUsdc(tradeAmountUsdc);
 
+        uint256 initialWokbBal = IERC20(WOKB).balanceOf(address(probe));
         uint64 deadline = uint64(block.timestamp + 300);
 
         // 1. Swap USDC -> WOKB
-        (uint256 amountOutWokb, uint256 gasUsedBuy) = probe.swap(
-            USDC,
-            WOKB,
-            500,
-            tradeAmountUsdc,
-            1, // min 1 wei WOKB
-            deadline
-        );
+        (uint256 amountOutWokb, uint256 gasUsedBuy) =
+            probe.swap(
+                USDC,
+                WOKB,
+                500,
+                tradeAmountUsdc,
+                1, // min 1 wei WOKB
+                deadline
+            );
 
         emit log_named_uint("Gas used for buy (USDC -> WOKB)", gasUsedBuy);
         emit log_named_uint("Received WOKB", amountOutWokb);
@@ -49,20 +51,21 @@ contract ProbeSwapForkTest is Test {
         assertLt(gasUsedBuy, 250_000, "Buy gas should be well under 250k");
 
         // 2. Swap WOKB -> USDC (exit path)
-        (uint256 amountOutUsdc, uint256 gasUsedExit) = probe.swap(
-            WOKB,
-            USDC,
-            500,
-            amountOutWokb,
-            1, // min 1 wei USDC
-            deadline
-        );
+        (uint256 amountOutUsdc, uint256 gasUsedExit) =
+            probe.swap(
+                WOKB,
+                USDC,
+                500,
+                amountOutWokb,
+                1, // min 1 wei USDC
+                deadline
+            );
 
         emit log_named_uint("Gas used for exit (WOKB -> USDC)", gasUsedExit);
         emit log_named_uint("Received USDC back", amountOutUsdc);
 
         assertTrue(amountOutUsdc > 0, "Received USDC back must be > 0");
-        assertEq(IERC20(WOKB).balanceOf(address(probe)), 0, "All WOKB should be spent");
+        assertEq(IERC20(WOKB).balanceOf(address(probe)), initialWokbBal, "All acquired WOKB should be spent");
         assertEq(IERC20(WOKB).allowance(address(probe), SWAP_ROUTER02), 0, "WOKB allowance must be 0");
         assertLt(gasUsedExit, 250_000, "Exit gas should be well under 250k");
     }

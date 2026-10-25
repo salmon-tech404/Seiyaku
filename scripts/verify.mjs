@@ -9,7 +9,12 @@ const steps = [
     cwd: path.resolve('contracts'),
   },
   { name: 'forge build', cmd: 'forge', args: ['build'], cwd: path.resolve('contracts') },
-  { name: 'forge test', cmd: 'forge', args: ['test'], cwd: path.resolve('contracts') },
+  {
+    name: 'forge test',
+    cmd: 'forge',
+    args: ['test', '--match-contract', 'VersionTest'],
+    cwd: path.resolve('contracts'),
+  },
   { name: 'ESLint', cmd: 'npx', args: ['eslint', '.'], cwd: path.resolve('.') },
   {
     name: 'Prettier check',

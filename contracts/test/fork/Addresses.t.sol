@@ -20,19 +20,14 @@ interface IQuoterV2 {
         uint160 sqrtPriceLimitX96;
     }
 
-    function quoteExactInputSingle(
-        QuoteExactInputSingleParams calldata params
-    ) external returns (
-        uint256 amountOut,
-        uint160 sqrtPriceX96After,
-        uint32 initializedTicksCrossed,
-        uint256 gasEstimate
-    );
+    function quoteExactInputSingle(QuoteExactInputSingleParams calldata params)
+        external
+        returns (uint256 amountOut, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256 gasEstimate);
 }
 
 contract AddressesForkTest is Test {
     address internal constant USDC = 0xB6CEceAB302E2E4948951eE7843FC24E92933061;
-    address internal constant WOKB = 0xe538905cf8410324e03a5a23c1c177a474d59b2b;
+    address internal constant WOKB = 0xe538905cf8410324e03A5A23C1c177a474D59b2b;
     address internal constant UNISWAP_V3_FACTORY = 0x4B2ab38DBF28D31D467aA8993f6c2585981D6804;
     address internal constant SWAP_ROUTER02 = 0x4f0C28f5926AFDA16bf2506D5D9e57Ea190f9bcA;
     address internal constant QUOTER_V2 = 0xD1b797D92d87B688193A2B976eFc8D577D204343;

@@ -16,7 +16,6 @@ dist/
 coverage/
 *.tsbuildinfo
 deployments/
-contracts/test/fork/Generated.sol
 .next/
 
 # OS / editor

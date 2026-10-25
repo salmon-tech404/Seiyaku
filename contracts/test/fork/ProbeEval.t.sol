@@ -12,8 +12,8 @@ contract ProbeEvalForkTest is Test {
         probe = new ProbeEval(GeneratedConstants.PROCESSOR, GeneratedConstants.CIRCUIT_ID);
     }
 
-    function test_eval_gas_allowedInput() public view {
-        if (GeneratedConstants.PROCESSOR.code.length == 0) return;
+    function test_eval_gas_allowedInput() public {
+        if (GeneratedConstants.PROCESSOR == address(0) || GeneratedConstants.PROCESSOR.code.length == 0) return;
         // Allowed input: sane (bit 0) and isExit (bit 8)
         uint16 inputBits = (1 << 0) | (1 << 8);
         (bool allowed, uint256 gasUsed) = probe.evaluateWithGas(inputBits);
@@ -22,8 +22,8 @@ contract ProbeEvalForkTest is Test {
         assertLt(gasUsed, 40_000, "Eval gas exceeded 40,000 threshold");
     }
 
-    function test_eval_gas_blockedInput() public view {
-        if (GeneratedConstants.PROCESSOR.code.length == 0) return;
+    function test_eval_gas_blockedInput() public {
+        if (GeneratedConstants.PROCESSOR == address(0) || GeneratedConstants.PROCESSOR.code.length == 0) return;
         // Blocked input: all 0
         uint16 inputBits = 0;
         (bool allowed, uint256 gasUsed) = probe.evaluateWithGas(inputBits);
@@ -32,8 +32,8 @@ contract ProbeEvalForkTest is Test {
         assertLt(gasUsed, 40_000, "Eval gas exceeded 40,000 threshold");
     }
 
-    function test_eval_gas_worstCaseInput() public view {
-        if (GeneratedConstants.PROCESSOR.code.length == 0) return;
+    function test_eval_gas_worstCaseInput() public {
+        if (GeneratedConstants.PROCESSOR == address(0) || GeneratedConstants.PROCESSOR.code.length == 0) return;
         uint256 maxGas = 0;
         uint16 worstInput = 0;
 
@@ -50,8 +50,8 @@ contract ProbeEvalForkTest is Test {
         assertLt(maxGas, 50_000, "Worst-case eval gas exceeded 50,000");
     }
 
-    function test_compareCircuits_gasAndFeasibility() public view {
-        if (GeneratedConstants.PROCESSOR.code.length == 0) return;
+    function test_compareCircuits_gasAndFeasibility() public {
+        if (GeneratedConstants.PROCESSOR == address(0) || GeneratedConstants.PROCESSOR.code.length == 0) return;
         // Measure gas to evaluate 512 inputs
         uint256 startGas = gasleft();
         for (uint16 i = 0; i < 512; i++) {

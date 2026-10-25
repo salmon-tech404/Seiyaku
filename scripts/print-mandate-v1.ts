@@ -5,7 +5,7 @@ import {
   MANDATE_V1_NETLIST_HASH,
   mandateV1Netlist,
   truthTable,
-} from '../packages/circuit-tools/dist/index.js';
+} from '@seiyaku/circuit-tools';
 
 console.log('=== MANDATE_V1 Circuit Specification ===');
 console.log('Input Names (ordered by bit index 0..8):');

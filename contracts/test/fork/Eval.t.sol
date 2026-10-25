@@ -42,8 +42,8 @@ contract EvalForkTest is Test {
     }
 
     function test_eval_all512InputsMatchSimulator() public view {
-        if (processor.code.length == 0) {
-            // Skips if running without active fork tapeout
+        if (processor == address(0) || processor.code.length == 0) {
+            // Skips if running placeholder without active fork tapeout
             return;
         }
 

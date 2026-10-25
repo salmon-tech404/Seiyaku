@@ -17,7 +17,7 @@ import {
   MANDATE_V1_GATE_COUNT,
   MANDATE_V1_NETLIST_HASH,
   evaluate,
-} from '../packages/circuit-tools/dist/index.js';
+} from '@seiyaku/circuit-tools';
 
 // Anvil default account #0 (throwaway test key only)
 const ANVIL_DEFAULT_KEY =
