@@ -1,98 +1,180 @@
-# Seiyaku
+<p align="center">
+  <img src="docs/assets/banner.svg" alt="Seiyaku, a pledge to yourself, enforced onchain" width="100%">
+</p>
 
-A pledge to yourself, enforced onchain.
+<p align="center">
+  <b>Seiyaku</b> is a vault for traders and AI agents on X Layer.<br>
+  Set your rules once, calmly. Every trade must pass a rule circuit published onchain.
+</p>
 
-Seiyaku is a vault for traders and AI agents on X Layer. You deposit funds, set your own trading rules, and from that moment every trade must pass a rule circuit stored onchain. You can tighten your rules at any time, but loosening them takes 24 hours. The vault never traps you in a position, so selling back to USDC is always allowed.
+<p align="center">
+  <img alt="Status" src="https://img.shields.io/badge/Status-Prototype-E8590C?style=flat">
+  <img alt="Network" src="https://img.shields.io/badge/Network-X%20Layer-111111?style=flat">
+  <img alt="Protocol" src="https://img.shields.io/badge/Protocol-TapeOut-6B46C1?style=flat">
+  <img alt="Solidity" src="https://img.shields.io/badge/Solidity-0.8.23-363636?style=flat&logo=solidity&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=flat&logo=typescript&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/Frontend-React-61DAFB?style=flat&logo=react&logoColor=black">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-C9A227?style=flat">
+</p>
 
-The name comes from the Japanese word 誓約 (seiyaku), which means a solemn pledge or oath. You make the pledge once, calmly, and the vault holds you to it when you are not calm.
+<p align="center">
+  <a href="#1-overview">Overview</a> ·
+  <a href="#2-how-a-trade-flows">How it works</a> ·
+  <a href="#3-the-rule-circuit">Rule circuit</a> ·
+  <a href="#4-tighten-fast-loosen-slow">Tighten and loosen</a> ·
+  <a href="#5-architecture">Architecture</a> ·
+  <a href="#7-quick-start">Quick start</a> ·
+  <a href="#8-security-and-limits">Security</a>
+</p>
 
-Seiyaku is built for the X Layer Build X: TapeOut Accelerate hackathon. It is an unaudited prototype and it is still in development.
+---
 
-## The problem
+## 1. Overview
 
-Most trading losses come from broken rules, not from bad analysis. A trader decides to risk 2 percent per trade, then doubles the size after a loss. A bot is told to stay within limits, then a bad prompt or a bug pushes it past them.
+The name comes from the Japanese word 誓約 (seiyaku), which means a solemn pledge. You make the pledge once, when you are calm. The vault holds you to it when you are not.
 
-Existing onchain guards mostly protect a swap from technical risk, such as slippage or a strange token. Very few protect the owner from their own impulses, or from their own agent, while actually holding the funds behind the rules.
+Most trading losses come from broken rules, not from bad analysis. A trader promises to risk 2 percent per trade, then doubles the size after a loss. An AI agent is told to stay inside limits, then a bad prompt or a bug pushes it past them. Existing onchain guards mostly protect a swap from technical risk. Very few protect the owner from their own impulses, or from their own agent, while holding the funds behind the rules.
 
-## What Seiyaku does
+Seiyaku does exactly that.
 
-* Holds your trading funds in a vault that only you can withdraw from.
-* Lets a trader key swap tokens, but only when the rule circuit says yes.
-* Lets you tighten limits instantly, so a calm decision takes effect at once.
-* Delays every loosening by 24 hours, so a heated decision cannot take effect.
-* Delays withdrawals, so you cannot empty the vault on impulse.
-* Always allows exits, so protection never becomes a trap.
-* Explains every blocked trade in plain language, with the exact rule that failed.
-
-The trader key can be your own second wallet or an AI agent. It can trade, freeze and tighten, and it can never loosen a rule or withdraw funds.
+| You get | What it means |
+| :--- | :--- |
+| **A vault with your own rules** | Funds sit in a vault that only you can withdraw from. A trader key can swap, but only inside your limits. |
+| **Tighten instantly** | Any change that makes a rule stricter takes effect at once. |
+| **Loosen slowly** | Any change that makes a rule weaker waits 24 hours and can be cancelled. |
+| **Exits always open** | Selling back to USDC is never blocked, so protection never becomes a trap. |
+| **Plain language blocks** | Every blocked trade names the exact rule that stopped it. |
+| **Agent ready** | The trader key can be an AI agent. It can trade, freeze and tighten. It can never loosen a rule or withdraw. |
 
 Seiyaku is not a trading bot. It does not pick trades. It is the supervisor that stands behind whoever does.
 
-## How it works
+Built for the X Layer Build X: TapeOut Accelerate hackathon. It is an unaudited prototype and still in development.
 
-1. You create a vault and choose a template or edit the numbers. The app shows each rule in plain language.
-2. You deposit USDC. A deposit cap applies during the prototype stage.
-3. A trader or agent submits a swap request.
-4. The vault measures nine facts about the request and sends them as bits to a rule circuit on X Layer.
-5. The circuit answers allow or block. If it allows, the vault swaps through Uniswap V3. If it blocks, the transaction reverts and carries the failed bits, so any app can say which rule stopped it.
+## 2. How a trade flows
 
-## The rules
+```mermaid
+sequenceDiagram
+    autonumber
+    participant T as Trader or AI agent
+    participant V as Seiyaku vault
+    participant C as Rule circuit (TapeOut)
+    participant U as Uniswap V3
 
-The vault tracks these limits for each owner:
+    T->>V: Request a swap
+    V->>V: Measure nine facts about the request
+    V->>C: Evaluate the nine bits
+    C-->>V: Allow or block
+    alt Allowed
+        V->>U: Swap with exact approval
+        U-->>V: Tokens received
+        V-->>T: Trade done
+    else Blocked
+        V-->>T: Revert with the failed bits
+    end
+```
 
-* Maximum spend on a single buy
-* Maximum spend per UTC day
-* Maximum number of buys per UTC day
-* Minimum cooldown between buys
-* An allowlist of tokens
-* An expiry date after which buys stop
-* A freeze switch
-* A withdrawal delay
+## 3. The rule circuit
 
-The rule circuit combines nine checks into one decision. In words, a trade is allowed when its parameters are sane, and either it is an exit back to USDC, or it is a buy that passes every limit above.
+The decision is made by a small circuit of NAND gates, published onchain through the TapeOut protocol. The vault measures nine facts and feeds them to the circuit as bits.
+
+```mermaid
+flowchart LR
+    S["sane request"]
+    X["isExit<br/>selling back to USDC"]
+    B["all buy rules green<br/>tokenAllowed, notExpired, notFrozen<br/>sizeOk, dailyOk, tradesOk, cooldownOk"]
+    O{{"OR"}}
+    A{{"AND"}}
+    R(["allow"])
+    X --> O
+    B --> O
+    O --> A
+    S --> A
+    A --> R
+```
+
+In words, a trade is allowed when its parameters are sane, and either it is an exit back to USDC, or it is a buy that passes every limit.
 
 ```
 allow = sane AND ( isExit OR ( tokenAllowed AND notExpired AND notFrozen
         AND sizeOk AND dailyOk AND tradesOk AND cooldownOk ) )
 ```
 
-Tightening means making any limit stricter. It takes effect immediately. Loosening means anything else, including adding a token, raising a limit or unfreezing. It is queued and executes only after the delay. You can cancel a queued change at any time.
+**Limits each owner controls**
 
-## Why a circuit
+| Limit | Meaning |
+| :--- | :--- |
+| Single buy size | Maximum USDC spent on one buy |
+| Daily volume | Maximum USDC spent on buys per UTC day |
+| Daily trades | Maximum number of buys per UTC day |
+| Cooldown | Minimum time between buys |
+| Token allowlist | The only tokens the trader may buy |
+| Expiry | Buys stop after this date, exits still work |
+| Freeze | Blocks all buys at once |
+| Withdrawal delay | Waiting time between a withdrawal request and payout |
 
-The decision logic is a small circuit made of NAND gates, published onchain through the TapeOut protocol. This gives Seiyaku a few properties that plain contract code does not give as naturally:
+**Why a circuit and not plain Solidity?** For one product, plain Solidity would also work. The circuit earns its place in four ways:
 
-* The rule is a public object. Anyone can call it for free and check what it does, without trusting our vault code.
-* A circuit with nine inputs has only 512 possible cases, so we test every one of them against a reference model.
+* The rule is a public object. Anyone can call it for free and see what it does, without trusting our vault code.
+* Nine inputs mean only 512 possible cases, so every one of them is tested against a reference model.
 * The circuit cannot call other contracts or loop, so the rule engine behaves in a strictly bounded way.
-* One audited circuit can serve every vault. Only the numbers differ per owner.
+* One circuit can serve every vault. Only the numbers differ per owner.
 
-We are honest about the tradeoff. For a single product, ordinary Solidity would also work. The circuit earns its place through transparency, exhaustive testing and reuse by third parties.
+## 4. Tighten fast, loosen slow
 
-## Who it is for
+```mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> Active
+    Active --> Active: tighten, instant
+    Active --> Pending: queue a loosening
+    Pending --> Active: execute after 24 hours
+    Pending --> Active: cancel at any time
+```
 
-* Active onchain traders who know they overtrade and want a rule they cannot talk themselves out of.
-* Builders running AI trading agents who need to show that the agent is bounded by limits it cannot change.
-* Anyone who wants to verify, from the outside, that an account is bound by a specific rule set.
+Tightening means making any limit stricter, such as a smaller size, fewer trades or a longer cooldown. Loosening means anything else, including adding a token, raising a limit, extending the expiry or unfreezing. A calm decision takes effect at once. A heated decision has to wait a day.
 
-## Architecture
+## 5. Architecture
 
-* **Rule circuit.** A fixed circuit on a TapeOut processor on X Layer. The factory pins its address, id and a hash of its netlist.
-* **Vault factory.** Deploys one minimal proxy vault per owner. It holds no funds and has no admin.
-* **Vault.** Holds funds, keeps counters, builds the nine input bits, asks the circuit, and swaps through Uniswap V3 when allowed.
-* **Circuit tools.** TypeScript code that builds the circuit from the rule formula, simulates it, verifies every input, and prepares it for tape out.
-* **Agent SDK.** A TypeScript library and command line tool for agents. It checks a trade before sending it and explains any block.
-* **Web app.** A static single page app with a vault builder, a dashboard with timers, and a public verify page that shows any vault, its circuit as a gate diagram, and a live evaluation.
+```mermaid
+flowchart LR
+    subgraph Client
+        W["Web app<br/>Cloudflare Pages and DeWEB"]
+        K["Agent SDK<br/>library and CLI"]
+    end
+    subgraph XL["X Layer"]
+        F["Vault factory"]
+        V["Vault per owner"]
+        P["TapeOut processor<br/>rule circuit"]
+        U["Uniswap V3"]
+    end
+    W --> V
+    K --> V
+    F --> V
+    V --> P
+    V --> U
+```
 
-## Technology
+| Part | Role |
+| :--- | :--- |
+| **Rule circuit** | Fixed circuit on a TapeOut processor. The factory pins its address, id and netlist hash. |
+| **Vault factory** | Deploys one minimal proxy vault per owner. Holds no funds and has no admin. |
+| **Vault** | Holds funds, keeps counters, builds the nine bits, asks the circuit, swaps when allowed. |
+| **Circuit tools** | Builds the circuit from the rule formula, simulates it and verifies every input. |
+| **Agent SDK** | Lets an agent check a trade before sending it and explain any block. |
+| **Web app** | Vault builder, dashboard with timers, and a public verify page that shows any vault, its circuit as a gate diagram, and a live evaluation. |
 
-* Solidity 0.8.23 and Foundry for contracts and tests
-* OpenZeppelin Contracts for token handling and reentrancy protection
-* TypeScript, viem and zod for tools and the agent SDK
-* React, Vite and wagmi for the web app, in English and Vietnamese
-* X Layer (chain id 196), TapeOut and Uniswap V3
+## 6. Technology
 
-## Repository layout
+<p>
+  <img alt="Solidity" src="https://img.shields.io/badge/Solidity-0.8.23-363636?style=for-the-badge&logo=solidity&logoColor=white">
+  <img alt="Foundry" src="https://img.shields.io/badge/Foundry-Tests-B8381D?style=for-the-badge">
+  <img alt="OpenZeppelin" src="https://img.shields.io/badge/OpenZeppelin-Contracts-4E5EE4?style=for-the-badge">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+  <img alt="wagmi" src="https://img.shields.io/badge/wagmi-viem-1C1C1C?style=for-the-badge">
+</p>
+
+Contracts and tests in Solidity with Foundry. Tools and SDK in TypeScript with viem and zod. A static React app with wagmi, available in English and Vietnamese. Runs on X Layer (chain id 196) with TapeOut and Uniswap V3.
 
 ```
 contracts/                 Foundry project
@@ -103,7 +185,7 @@ scripts/                   fork, deploy and publish helpers
 docs/                      public documentation
 ```
 
-## Getting started
+## 7. Quick start
 
 You need Node.js 20 or newer, npm, Git and Foundry.
 
@@ -112,41 +194,42 @@ npm ci
 npm run verify
 ```
 
-The verify command runs formatting, linting, type checks, unit tests, contract tests and the translation check. To work against a local copy of X Layer, set `XLAYER_RPC_URL` as described in `.env.example` and run `npm run fork`.
+The verify command runs formatting, linting, type checks, unit tests, contract tests and the translation check. To work against a local copy of X Layer, set `XLAYER_RPC_URL` as shown in `.env.example` and run `npm run fork`.
 
 Never put a private key in a file in this repository. Tests use throwaway accounts that exist only on a local fork.
 
-## Security and limits
+## 8. Security and limits
 
 Seiyaku is an unaudited hackathon prototype. Please read this section before depositing anything.
 
 * The contracts have not been audited. A deposit cap limits the possible loss.
-* TapeOut contracts are written by a third party, are partly upgradeable and have not been audited. Seiyaku pins the circuit address, id and netlist hash, and a change to the circuit stops trading but cannot take funds. Owner withdrawal keeps working.
+* TapeOut contracts are written by a third party, are partly upgradeable and have not been audited. Seiyaku pins the circuit address, id and netlist hash. A change to the circuit stops trading but cannot take funds, and owner withdrawal keeps working.
 * There are no admin keys, no upgrade path and no pause switch controlled by us.
 * Version one uses no price oracle. Limits count only the USDC spent on buys.
 * Fee on transfer and rebasing tokens are not supported.
-* A trader key that is compromised can still trade within the limits you set. That is the reason the limits exist.
-* Seiyaku does not give financial advice and does not promise profit.
+* A compromised trader key can still trade inside the limits you set. That is the reason the limits exist.
+* Seiyaku gives no financial advice and promises no profit.
 
-## Prior art and what was built for the event
+## 9. Prior art and what was built for the event
 
-The idea of a mandate, meaning a set of limits that an agent cannot change, was first explored by the author in an earlier offchain trading agent project. This repository contains new code written for the hackathon. Other TapeOut projects such as TapeGuard, OpenGate and TapeSafe also use circuits to enforce rules, and they informed our understanding of what works onchain. Seiyaku differs in its focus: it protects the owner and their agent from their own impulses by holding the funds, delaying loosening, and always allowing exits.
+The idea of a mandate, meaning a set of limits that an agent cannot change, was first explored by the author in an earlier offchain trading agent project. This repository contains new code written for the hackathon.
 
-## Roadmap
+Other TapeOut projects such as TapeGuard, OpenGate and TapeSafe also use circuits to enforce rules, and they informed our understanding of what works onchain. Seiyaku differs in its focus. It protects the owner and their agent from their own impulses by holding the funds, delaying every loosening and always allowing exits.
 
-* Prototype on a local fork with the rule circuit, factory and vault
-* Web app, verify page and agent SDK
-* Mainnet deployment with a small deposit cap and verified source code
-* Possible next steps: price based rules such as daily loss limits, support for more assets, an independent audit
+## 10. Roadmap
 
-## Deployments
+* [ ] Rule circuit, factory and vault on a local fork
+* [ ] Circuit tools and agent SDK
+* [ ] Web app with vault builder, dashboard and verify page
+* [ ] Mainnet release with a small deposit cap and verified source code
+* [ ] Later: price based rules such as daily loss limits, more assets, an independent audit
 
-Not deployed yet. Addresses, transaction links and the demo video will be listed here after the mainnet release.
+## 11. Deployments
 
-## License
+Not deployed yet. Addresses, transaction links, the live app and the demo video will be listed here after the mainnet release.
+
+## 12. License
 
 MIT. See the LICENSE file.
-
-## Disclaimer
 
 This software is provided as is, without warranty of any kind. Use it at your own risk. Nothing in this repository is investment advice.
