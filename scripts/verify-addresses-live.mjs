@@ -84,8 +84,12 @@ async function main() {
   console.log(`  WOKB: ${wokbName} (${wokbSymbol}), Decimals: ${wokbDecimals}`);
 
   console.log('\n=== USDC / WOKB Uniswap V3 Pools ===');
-  const feeTiers = [500, 3000, 10000];
-  for (const fee of feeTiers) {
+  const feeTiers = [
+    { fee: 500, label: '0.05%' },
+    { fee: 3000, label: '0.3%' },
+    { fee: 10000, label: '1%' },
+  ];
+  for (const { fee, label } of feeTiers) {
     const pool = await client.readContract({
       address: addresses.uniswapV3Factory,
       abi: factoryAbi,
@@ -93,7 +97,7 @@ async function main() {
       args: [addresses.usdc, addresses.wokb, fee],
     });
 
-    console.log(`\n  Fee Tier: ${fee} (0.${fee / 100}%)`);
+    console.log(`\n  Fee Tier: ${fee} (${label})`);
     console.log(`  Pool Address: ${pool}`);
 
     if (pool === '0x0000000000000000000000000000000000000000') {
