@@ -1,0 +1,15 @@
+{
+  "name": "@seiyaku/circuit-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "viem": "2.21.34",
+    "zod": "3.23.8"
+  }
+}

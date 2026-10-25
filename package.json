@@ -1,0 +1,29 @@
+{
+  "name": "seiyaku-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "verify": "node scripts/verify.mjs",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "typecheck": "npm --workspace=@seiyaku/circuit-tools run typecheck && npm --workspace=@seiyaku/agent-sdk run typecheck && npm --workspace=@seiyaku/web run typecheck",
+    "test": "node scripts/test-all.mjs",
+    "test:unit": "vitest run",
+    "build": "node scripts/build-all.mjs",
+    "build:web": "npm --workspace=@seiyaku/web run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.13.0",
+    "@types/node": "20.17.0",
+    "eslint": "9.13.0",
+    "prettier": "3.3.3",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.11.0",
+    "vitest": "2.1.3"
+  }
+}

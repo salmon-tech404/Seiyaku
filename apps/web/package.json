@@ -1,0 +1,25 @@
+{
+  "name": "@seiyaku/web",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:static": "vite build",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.59.16",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "viem": "2.21.34",
+    "wagmi": "2.12.22"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "4.3.3",
+    "typescript": "5.6.3",
+    "vite": "5.4.10"
+  }
+}

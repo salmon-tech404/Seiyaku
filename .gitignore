@@ -13,6 +13,8 @@ out/
 cache/
 broadcast/
 dist/
+coverage/
+*.tsbuildinfo
 .next/
 
 # OS / editor
