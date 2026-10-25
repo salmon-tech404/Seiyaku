@@ -1,0 +1,21 @@
+# Private planning notes — never publish
+proposal/
+
+# Secrets / keys (deploy wallets, RPC keys)
+.env
+.env.*
+*.key
+secrets/
+
+# Dependencies and build output
+node_modules/
+out/
+cache/
+broadcast/
+dist/
+.next/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
