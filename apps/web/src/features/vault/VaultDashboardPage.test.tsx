@@ -7,6 +7,7 @@ import { I18nProvider } from '../../shared/i18n/index.js';
 import { RouterProvider } from '../../shared/router/index.js';
 import { WalletProvider } from '../../chain/wallet.js';
 import * as vaultModule from '../../chain/vault.js';
+import { DEFAULT_TOKENS } from '../../chain/config.js';
 
 import * as clientsModule from '../../chain/clients.js';
 import type { Block } from 'viem';
@@ -40,7 +41,7 @@ describe('VaultDashboardPage Component', () => {
         withdrawDelaySec: 86400,
       },
       frozen: false,
-      dayIndex: 100n,
+      dayIndex: BigInt(Math.floor(Date.now() / 1000 / 86400)),
       tradesToday: 1,
       buyVolumeTodayBase: 25_000_000n,
       lastBuyAt: BigInt(Math.floor(Date.now() / 1000) - 300),
@@ -133,10 +134,107 @@ describe('VaultDashboardPage Component', () => {
     renderComponent('en');
     expect(await screen.findByText('Read only')).not.toBeNull();
 
-    // Emergency freeze and tighten should be disabled for stranger
     const freezeBtn = screen.getByText('Emergency freeze').closest('button');
     const tightenBtn = screen.getByText('Tighten limits').closest('button');
     expect(freezeBtn?.disabled).toBe(true);
     expect(tightenBtn?.disabled).toBe(true);
+  });
+
+  it('renders "Today" card with trades and volume remaining, and pending event summary', async () => {
+    renderComponent('en');
+
+    // 1 of 4 trades spent -> 3 remaining
+    expect(await screen.findByText('3 of 4 trades remaining')).not.toBeNull();
+    // 25 of 100 spent -> $75 of $100 remaining
+    expect(screen.getByText('$75 of $100 remaining')).not.toBeNull();
+    // Cooldown label
+    expect(screen.getByText('Cooldown remaining')).not.toBeNull();
+    // Next pending event label & none value
+    expect(screen.getByText('Next pending event')).not.toBeNull();
+    expect(screen.getByText('None')).not.toBeNull();
+  });
+
+  it('renders status and role chips in a flex container with vault-chips-row', async () => {
+    const { container } = renderComponent('en');
+    await screen.findByText('Vault dashboard');
+
+    const chipsRow = container.querySelector('.vault-chips-row');
+    expect(chipsRow).not.toBeNull();
+    expect(chipsRow?.textContent).toContain('Active');
+    expect(chipsRow?.textContent).toContain('Read only');
+  });
+
+  it('formats token balances with max 6 decimals and shows full precision in tooltip', async () => {
+    // Mock balances with 18-decimal precision
+    vi.spyOn(vaultModule, 'readVaultBalances').mockResolvedValue({
+      '0xB6CEceAB302E2E4948951eE7843FC24E92933061': 100_000_000n,
+      [DEFAULT_TOKENS.wokb.address]: 92387980018182294n, // 0.092387980018182294
+    });
+
+    renderComponent('en');
+
+    // 18 decimals WOKB should be formatted to at most 6 decimals
+    const wokbElement = await screen.findByText('0.092388 WOKB');
+    expect(wokbElement).not.toBeNull();
+    // Hover tooltip via title attribute
+    expect(wokbElement.getAttribute('title')).toBe('0.092387980018182294 WOKB');
+  });
+
+  it('renders Refresh button with "Refresh" label instead of "Retry"', async () => {
+    renderComponent('en');
+    expect(await screen.findByText('Refresh')).not.toBeNull();
+
+    renderComponent('vi');
+    expect(await screen.findByText('Làm mới')).not.toBeNull();
+  });
+
+  it('renders trade checker with responsive grid, labels above controls, and token symbol with short address', async () => {
+    const { container } = renderComponent('en');
+    await screen.findByText('Vault dashboard');
+
+    const grid = container.querySelector('.trade-checker-grid');
+    expect(grid).not.toBeNull();
+
+    // Check token option contains WOKB and short address
+    const tokenSelect = container.querySelector('#checker-token-select') as HTMLSelectElement;
+    expect(tokenSelect).not.toBeNull();
+    const optionsText = Array.from(tokenSelect.options).map((o) => o.textContent);
+    expect(optionsText.some((t) => t?.includes('WOKB (0xe538...9b2b)'))).toBe(true);
+  });
+
+  it('renders activity timeline event details including amounts and relative time', async () => {
+    vi.spyOn(vaultModule, 'readVaultLogs').mockResolvedValue([
+      {
+        eventName: 'Deposited',
+        blockNumber: 123450n,
+        transactionHash: '0x1111111111111111111111111111111111111111111111111111111111111111',
+        args: {
+          owner: mockOwner,
+          amount: 100_000_000n,
+        },
+      },
+      {
+        eventName: 'Traded',
+        blockNumber: 123455n,
+        transactionHash: '0x2222222222222222222222222222222222222222222222222222222222222222',
+        args: {
+          tokenIn: DEFAULT_TOKENS.usdc.address,
+          tokenOut: DEFAULT_TOKENS.wokb.address,
+          amountIn: 10_000_000n,
+          amountOut: 92387980018182294n,
+          isExit: false,
+        },
+      },
+    ]);
+
+    renderComponent('en');
+
+    // Deposited detail
+    expect(await screen.findByText('+100.00 USDC')).not.toBeNull();
+    // Traded detail
+    expect(await screen.findByText(/Bought 0.092388 WOKB for 10.00 USDC/)).not.toBeNull();
+    // Block numbers and relative time
+    expect(screen.getByText(/Block #123450/)).not.toBeNull();
+    expect(screen.getByText(/Block #123455/)).not.toBeNull();
   });
 });

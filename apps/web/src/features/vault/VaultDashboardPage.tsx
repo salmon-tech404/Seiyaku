@@ -20,6 +20,10 @@ import {
   getUserRole,
   isStricterOrEqual,
   getRolledDayStats,
+  formatTokenBalance,
+  formatTokenOption,
+  getNextPendingSummary,
+  formatLogEvent,
   type UserRole,
 } from './vaultHelpers.js';
 import { computeInputBits, explainBlock } from '@seiyaku/circuit-tools';
@@ -32,7 +36,6 @@ import { Tooltip } from '../../shared/ui/Tooltip.js';
 import { FieldRow } from '../../shared/ui/FieldRow.js';
 import { AddressText } from '../../shared/ui/AddressText.js';
 import { AmountText } from '../../shared/ui/AmountText.js';
-import { TimeText } from '../../shared/ui/TimeText.js';
 import { Skeleton } from '../../shared/ui/Skeleton.js';
 import { ErrorState } from '../../shared/ui/ErrorState.js';
 import './vault.css';
@@ -586,7 +589,7 @@ export function VaultDashboardPage() {
         </div>
 
         <div className="vault-header-badges">
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div className="vault-chips-row">
             <Chip
               variant={
                 statusInfo.status === 'active'
@@ -607,8 +610,30 @@ export function VaultDashboardPage() {
               {t('dashboard.freshness.refreshed', { block: Number(freshnessBlock) })}
               {isStale ? <span> ({t('dashboard.freshness.stale')})</span> : null}
             </span>
-            <Button variant="quiet" loading={isRefreshing} onClick={() => fetchData(false)}>
-              <span>{t('common.retry')}</span>
+            <Button
+              variant="quiet"
+              loading={isRefreshing}
+              onClick={() => fetchData(false)}
+              aria-label={t('dashboard.freshness.refresh')}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={isRefreshing ? 'spin-icon' : ''}
+                aria-hidden="true"
+              >
+                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+                <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                <path d="M16 21h5v-5" />
+              </svg>
+              <span>{t('dashboard.freshness.refresh')}</span>
             </Button>
           </div>
         </div>
@@ -624,19 +649,107 @@ export function VaultDashboardPage() {
           <div className="dashboard-card-body">
             {dayStats && (
               <>
-                <Meter
-                  label={t('dashboard.today.volume')}
-                  value={Number(dayStats.buyVolumeTodayBase) / 1e6}
-                  max={Number(vaultState.limits.maxDailyBase) / 1e6}
-                  unit="USDC"
-                />
-                <Meter
-                  label={t('dashboard.today.trades')}
-                  value={dayStats.tradesToday}
-                  max={vaultState.limits.maxTradesPerDay}
-                />
+                {/* Cooldown */}
+                <FieldRow label={t('dashboard.today.cooldown')}>
+                  {(() => {
+                    const cooldownEndSec =
+                      Number(vaultState.lastBuyAt) + vaultState.limits.cooldownSec;
+                    const isCooldownActive =
+                      vaultState.lastBuyAt > 0n && cooldownEndSec > Number(effectiveNowSec);
+                    return isCooldownActive ? (
+                      <Countdown targetTimestampSec={cooldownEndSec} />
+                    ) : (
+                      <span className="today-ready-pill">{t('dashboard.today.ready')}</span>
+                    );
+                  })()}
+                </FieldRow>
+
+                {/* Trades left today */}
+                <div>
+                  <Meter
+                    label={t('dashboard.today.trades')}
+                    value={dayStats.tradesToday}
+                    max={vaultState.limits.maxTradesPerDay}
+                  />
+                  <div className="today-stat-subtext">
+                    {t('dashboard.today.tradesRemaining', {
+                      remaining: Math.max(
+                        0,
+                        vaultState.limits.maxTradesPerDay - dayStats.tradesToday,
+                      ),
+                      total: vaultState.limits.maxTradesPerDay,
+                    })}
+                  </div>
+                </div>
+
+                {/* Volume left today */}
+                <div>
+                  <Meter
+                    label={t('dashboard.today.volume')}
+                    value={Number(dayStats.buyVolumeTodayBase) / 1e6}
+                    max={Number(vaultState.limits.maxDailyBase) / 1e6}
+                    unit="USDC"
+                  />
+                  <div className="today-stat-subtext">
+                    {(() => {
+                      const maxDailyUsdc = Number(vaultState.limits.maxDailyBase) / 1e6;
+                      const spentDailyUsdc = Number(dayStats.buyVolumeTodayBase) / 1e6;
+                      const remainingUsdc = Math.max(0, maxDailyUsdc - spentDailyUsdc);
+                      return t('dashboard.today.volumeRemaining', {
+                        remaining: remainingUsdc.toLocaleString('en-US', {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        }),
+                        total: maxDailyUsdc.toLocaleString('en-US', {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        }),
+                      });
+                    })()}
+                  </div>
+                </div>
+
+                {/* UTC day rollover countdown */}
                 <FieldRow label={t('dashboard.today.rollover')}>
-                  <TimeText timestampSec={nowSec + dayStats.secondsUntilMidnight} />
+                  <Countdown
+                    targetTimestampSec={Number(effectiveNowSec) + dayStats.secondsUntilMidnight}
+                  />
+                </FieldRow>
+
+                {/* Next pending event summary */}
+                <FieldRow label={t('dashboard.today.nextPending')}>
+                  {(() => {
+                    const summary = getNextPendingSummary(
+                      vaultState.pending.eta,
+                      vaultState.withdrawal.eta,
+                      Number(effectiveNowSec),
+                    );
+                    if (summary.type === 'none') {
+                      return (
+                        <span style={{ color: 'var(--color-muted)' }}>
+                          {t('dashboard.today.noPendingEvents')}
+                        </span>
+                      );
+                    }
+                    const label =
+                      summary.type === 'loosen'
+                        ? t('dashboard.today.pendingLoosenSummary')
+                        : t('dashboard.today.pendingWithdrawSummary');
+
+                    if (summary.isReady) {
+                      return (
+                        <span className="today-ready-pill">
+                          {label} ({t('dashboard.today.ready')})
+                        </span>
+                      );
+                    }
+                    return (
+                      <div className="pending-event-countdown">
+                        <span>{label} in </span>
+                        <Countdown targetTimestampSec={summary.eta} />
+                      </div>
+                    );
+                  })()}
                 </FieldRow>
               </>
             )}
@@ -697,18 +810,34 @@ export function VaultDashboardPage() {
             )}
           </div>
           <div className="dashboard-card-body">
-            <div className="rule-row-item">
-              <span style={{ fontWeight: 600 }}>{t('dashboard.balances.baseToken')}</span>
-              <AmountText amount={balances[vaultState.baseToken] ?? 0n} decimals={6} unit="USDC" />
-            </div>
-            <div className="rule-row-item">
-              <span style={{ fontWeight: 600 }}>{t('dashboard.balances.wokb')}</span>
-              <AmountText
-                amount={balances[DEFAULT_TOKENS.wokb.address] ?? 0n}
-                decimals={18}
-                unit="WOKB"
-              />
-            </div>
+            {(() => {
+              const baseBal =
+                balances[vaultState.baseToken] ??
+                balances[vaultState.baseToken.toLowerCase()] ??
+                0n;
+              const wokbBal =
+                balances[DEFAULT_TOKENS.wokb.address] ??
+                balances[DEFAULT_TOKENS.wokb.address.toLowerCase()] ??
+                0n;
+              const baseFormatted = formatTokenBalance(baseBal, 6, 'USDC');
+              const wokbFormatted = formatTokenBalance(wokbBal, 18, 'WOKB');
+              return (
+                <>
+                  <div className="rule-row-item">
+                    <span style={{ fontWeight: 600 }}>{t('dashboard.balances.baseToken')}</span>
+                    <span className="token-balance-value" title={baseFormatted.full} tabIndex={0}>
+                      {baseFormatted.formatted}
+                    </span>
+                  </div>
+                  <div className="rule-row-item">
+                    <span style={{ fontWeight: 600 }}>{t('dashboard.balances.wokb')}</span>
+                    <span className="token-balance-value" title={wokbFormatted.full} tabIndex={0}>
+                      {wokbFormatted.formatted}
+                    </span>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </section>
 
@@ -943,9 +1072,11 @@ export function VaultDashboardPage() {
             {t('dashboard.checker.desc')}
           </p>
 
-          <div className="actions-buttons-grid" style={{ marginBottom: '8px' }}>
-            <FieldRow label={t('dashboard.checker.tradeType')}>
+          <div className="trade-checker-grid">
+            <div className="checker-field">
+              <label htmlFor="checker-trade-type">{t('dashboard.checker.tradeType')}</label>
               <select
+                id="checker-trade-type"
                 className="input-control"
                 value={checkerType}
                 onChange={(e) => setCheckerType(e.target.value as 'buy' | 'exit')}
@@ -953,29 +1084,62 @@ export function VaultDashboardPage() {
                 <option value="buy">{t('dashboard.checker.buy')}</option>
                 <option value="exit">{t('dashboard.checker.exit')}</option>
               </select>
-            </FieldRow>
+            </div>
 
-            <FieldRow label={t('dashboard.checker.token')}>
-              <input
-                type="text"
+            <div className="checker-field">
+              <label htmlFor="checker-token-select">{t('dashboard.checker.token')}</label>
+              <select
+                id="checker-token-select"
                 className="input-control"
-                value={checkerToken}
-                onChange={(e) => setCheckerToken(e.target.value)}
-              />
-            </FieldRow>
+                value={
+                  checkerToken.toLowerCase() === DEFAULT_TOKENS.wokb.address.toLowerCase()
+                    ? DEFAULT_TOKENS.wokb.address
+                    : checkerToken.toLowerCase() === DEFAULT_TOKENS.usdc.address.toLowerCase()
+                      ? DEFAULT_TOKENS.usdc.address
+                      : 'custom'
+                }
+                onChange={(e) => {
+                  if (e.target.value !== 'custom') {
+                    setCheckerToken(e.target.value);
+                  }
+                }}
+              >
+                <option value={DEFAULT_TOKENS.wokb.address}>
+                  {formatTokenOption(DEFAULT_TOKENS.wokb.address)}
+                </option>
+                <option value={DEFAULT_TOKENS.usdc.address}>
+                  {formatTokenOption(DEFAULT_TOKENS.usdc.address)}
+                </option>
+                <option value="custom">{t('dashboard.checker.customToken')}</option>
+              </select>
+              {checkerToken.toLowerCase() !== DEFAULT_TOKENS.wokb.address.toLowerCase() &&
+                checkerToken.toLowerCase() !== DEFAULT_TOKENS.usdc.address.toLowerCase() && (
+                  <input
+                    type="text"
+                    className="input-control"
+                    placeholder="0x..."
+                    value={checkerToken}
+                    onChange={(e) => setCheckerToken(e.target.value)}
+                  />
+                )}
+            </div>
 
-            <FieldRow label={t('dashboard.checker.amount')}>
+            <div className="checker-field">
+              <label htmlFor="checker-amount-input">{t('dashboard.checker.amount')}</label>
               <input
+                id="checker-amount-input"
                 type="text"
                 data-testid="checker-amount-input"
                 className="input-control"
                 value={checkerAmount}
                 onChange={(e) => setCheckerAmount(e.target.value)}
               />
-            </FieldRow>
+            </div>
 
-            <FieldRow label={t('dashboard.checker.feeTier')}>
+            <div className="checker-field">
+              <label htmlFor="checker-fee-tier">{t('dashboard.checker.feeTier')}</label>
               <select
+                id="checker-fee-tier"
                 className="input-control"
                 value={checkerFeeTier}
                 onChange={(e) => setCheckerFeeTier(Number(e.target.value))}
@@ -984,7 +1148,7 @@ export function VaultDashboardPage() {
                 <option value={3000}>{t('dashboard.feeTier.3000')}</option>
                 <option value={10000}>{t('dashboard.feeTier.10000')}</option>
               </select>
-            </FieldRow>
+            </div>
           </div>
 
           <Button variant="primary" loading={isCheckingTrade} onClick={handleCheckTrade}>
@@ -993,23 +1157,64 @@ export function VaultDashboardPage() {
 
           {checkerResult && (
             <div className={`checker-result-box ${checkerResult.allowed ? 'allowed' : 'blocked'}`}>
-              <div style={{ fontWeight: 600 }}>
-                {checkerResult.allowed
-                  ? t('dashboard.checker.allowed')
-                  : t('dashboard.checker.blocked')}
+              <div className="checker-result-header">
+                {checkerResult.allowed ? (
+                  <svg
+                    className="checker-status-icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                ) : (
+                  <svg
+                    className="checker-status-icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                )}
+                <span>
+                  {checkerResult.allowed
+                    ? t('dashboard.checker.allowed')
+                    : t('dashboard.checker.blocked')}
+                </span>
               </div>
-              <div>
+              <div className="checker-result-agreement">
                 {checkerResult.agreement
                   ? t('dashboard.checker.agreement')
                   : t('dashboard.checker.disagreement')}
               </div>
               {checkerResult.failedCodes.length > 0 && (
-                <div>
-                  {t('dashboard.checker.failedRules', {
-                    codes: checkerResult.failedCodes
-                      .map((code) => t(FAIL_CODE_KEYS[code] ?? 'dashboard.fail.other'))
-                      .join(' '),
-                  })}
+                <div className="checker-failed-rules">
+                  <div className="checker-failed-title">
+                    {t('dashboard.checker.failedRulesTitle')}:
+                  </div>
+                  <ul className="checker-failed-list">
+                    {checkerResult.failedCodes.map((code, idx) => (
+                      <li key={`${code}-${idx}`}>
+                        {t(FAIL_CODE_KEYS[code] ?? 'dashboard.fail.other')}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
@@ -1029,19 +1234,31 @@ export function VaultDashboardPage() {
             </p>
           ) : (
             <div className="timeline-list">
-              {activityLogs.map((log, index) => (
-                <div key={`${log.transactionHash}-${index}`} className="timeline-event-item">
-                  <div>
-                    <span className="timeline-event-title">{log.eventName}</span>
-                    <div style={{ fontSize: '11px', color: 'var(--color-muted)' }}>
-                      Block #{Number(log.blockNumber)}
+              {activityLogs.map((log, index) => {
+                const eventInfo = formatLogEvent(log, freshnessBlock, Number(effectiveNowSec), t);
+                return (
+                  <div key={`${log.transactionHash}-${index}`} className="timeline-event-item">
+                    <div className="timeline-event-main">
+                      <div className="timeline-event-primary-row">
+                        <span className="timeline-event-title">{log.eventName}</span>
+                        {eventInfo.detail && (
+                          <span className={`timeline-detail-badge ${log.eventName.toLowerCase()}`}>
+                            {eventInfo.detail}
+                          </span>
+                        )}
+                      </div>
+                      <div className="timeline-event-meta">
+                        <span className="timeline-event-time">{eventInfo.localTime}</span>
+                        <span className="timeline-relative-pill">{eventInfo.relative}</span>
+                        <span>Block #{Number(log.blockNumber)}</span>
+                      </div>
+                    </div>
+                    <div className="timeline-event-tx">
+                      <AddressText address={log.transactionHash} />
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <AddressText address={log.transactionHash} />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

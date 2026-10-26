@@ -45,7 +45,31 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: 10px;
+}
+
+/* Status & Role Chips spacing */
+.vault-chips-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.vault-chips-row .ui-tooltip-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+.vault-chips-row .ui-tooltip-trigger {
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  cursor: pointer;
 }
 
 .vault-freshness-box {
@@ -56,10 +80,25 @@
   gap: 8px;
 }
 
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 2-col Grid with align-items: start */
 .vault-grid-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  align-items: start;
 }
 
 @media (max-width: 768px) {
@@ -96,6 +135,31 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* Today card stats */
+.today-stat-subtext {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: -6px;
+  margin-bottom: 4px;
+}
+
+.today-ready-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(47, 182, 124, 0.12);
+  color: var(--color-success);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.pending-event-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* Rules list styling */
@@ -142,6 +206,16 @@
   background: var(--color-accent);
 }
 
+/* Balances card */
+.token-balance-value {
+  font-family: var(--font-mono, monospace);
+  font-weight: 500;
+  cursor: help;
+  position: relative;
+  text-decoration: underline dotted var(--color-line-focus);
+  text-underline-offset: 4px;
+}
+
 /* Actions buttons grid */
 .actions-buttons-grid {
   display: grid;
@@ -168,6 +242,35 @@
 }
 
 /* Trade checker */
+.trade-checker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .trade-checker-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checker-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.checker-field .input-control {
+  width: 100%;
+}
+
 .checker-result-box {
   padding: 14px;
   border-radius: var(--radius-sm);
@@ -189,6 +292,47 @@
   color: var(--color-accent);
 }
 
+.checker-result-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.checker-status-icon {
+  flex-shrink: 0;
+}
+
+.checker-result-agreement {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.checker-failed-rules {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid currentColor;
+  opacity: 0.95;
+}
+
+.checker-failed-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.checker-failed-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checker-failed-list li {
+  line-height: 1.4;
+}
+
 /* Activity timeline */
 .timeline-list {
   display: flex;
@@ -200,19 +344,70 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: 12px 14px;
   background: var(--color-bg);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-sm);
   font-size: 13px;
+  gap: 12px;
+}
+
+.timeline-event-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.timeline-event-primary-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .timeline-event-title {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text);
 }
 
-.timeline-event-time {
-  color: var(--color-muted);
+.timeline-detail-badge {
+  font-family: var(--font-mono, monospace);
   font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  color: var(--color-text);
+}
+
+.timeline-detail-badge.deposited {
+  color: var(--color-success);
+  border-color: rgba(47, 182, 124, 0.3);
+  background: rgba(47, 182, 124, 0.06);
+}
+
+.timeline-event-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.timeline-relative-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  font-size: 11px;
+  color: var(--color-text);
+}
+
+.timeline-event-tx {
+  flex-shrink: 0;
 }
