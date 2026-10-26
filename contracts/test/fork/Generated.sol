@@ -6,4 +6,9 @@ library GeneratedConstants {
     address internal constant PROCESSOR = address(0);
     uint256 internal constant CIRCUIT_ID = 0;
     bytes32 internal constant NETLIST_HASH = bytes32(0);
+    address internal constant FACTORY = address(0);
+    address internal constant VAULT_IMPL = address(0);
+    address internal constant BEACON = address(0);
+    address internal constant BEACON_IMPL = address(0);
+    bytes32 internal constant BEACON_IMPL_CODEHASH = bytes32(0);
 }
