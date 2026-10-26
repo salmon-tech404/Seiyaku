@@ -4,11 +4,15 @@
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "bin": {
+    "seiyaku-agent": "./bin/seiyaku-agent.js"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run src"
   },
   "dependencies": {
+    "@seiyaku/circuit-tools": "workspace:*",
     "viem": "2.21.34",
     "zod": "3.23.8"
   }

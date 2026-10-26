@@ -8,9 +8,12 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import prettier from 'prettier';
 
-const TARGET_DIR = path.resolve('apps/web/src/chain/abi');
+const DEFAULT_TARGET_DIRS = [
+  path.resolve('apps/web/src/chain/abi'),
+  path.resolve('packages/agent-sdk/src/abi'),
+];
 
-export async function generateAbis(outDir: string = TARGET_DIR): Promise<void> {
+export async function generateAbis(outDirs: string[] = DEFAULT_TARGET_DIRS): Promise<void> {
   // 1. Build contracts with forge
   console.log('Running forge build...');
   const forgeResult = spawnSync('forge', ['build'], {
@@ -22,18 +25,8 @@ export async function generateAbis(outDir: string = TARGET_DIR): Promise<void> {
     throw new Error(`forge build failed with exit code ${forgeResult.status}`);
   }
 
-  fs.mkdirSync(outDir, { recursive: true });
-
   // Read prettier config
   const prettierConfig = (await prettier.resolveConfig(path.resolve('.prettierrc'))) || {};
-
-  async function formatAndWrite(filename: string, content: string): Promise<void> {
-    const formatted = await prettier.format(content, {
-      ...prettierConfig,
-      parser: 'typescript',
-    });
-    fs.writeFileSync(path.join(outDir, filename), formatted);
-  }
 
   // 2. Read artifacts
   const vaultArtifactPath = path.resolve('contracts/out/MandateVault.sol/MandateVault.json');
@@ -99,38 +92,83 @@ export async function generateAbis(outDir: string = TARGET_DIR): Promise<void> {
     },
   ];
 
-  // Write individual ABI files
-  await formatAndWrite(
-    'mandateVaultAbi.ts',
-    `export const mandateVaultAbi = ${JSON.stringify(vaultArtifact.abi, null, 2)} as const;\n`,
-  );
+  // QuoterV2 ABI
+  const quoterV2Abi = [
+    {
+      type: 'function',
+      name: 'quoteExactInputSingle',
+      inputs: [
+        {
+          name: 'params',
+          type: 'tuple',
+          components: [
+            { name: 'tokenIn', type: 'address' },
+            { name: 'tokenOut', type: 'address' },
+            { name: 'amountIn', type: 'uint256' },
+            { name: 'fee', type: 'uint24' },
+            { name: 'sqrtPriceLimitX96', type: 'uint160' },
+          ],
+        },
+      ],
+      outputs: [
+        { name: 'amountOut', type: 'uint256' },
+        { name: 'sqrtPriceX96After', type: 'uint160' },
+        { name: 'initializedTicksCrossed', type: 'uint32' },
+        { name: 'gasEstimate', type: 'uint256' },
+      ],
+      stateMutability: 'nonpayable',
+    },
+  ];
 
-  await formatAndWrite(
-    'mandateVaultFactoryAbi.ts',
-    `export const mandateVaultFactoryAbi = ${JSON.stringify(factoryArtifact.abi, null, 2)} as const;\n`,
-  );
+  for (const outDir of outDirs) {
+    fs.mkdirSync(outDir, { recursive: true });
 
-  await formatAndWrite(
-    'erc20Abi.ts',
-    `export const erc20Abi = ${JSON.stringify(erc20Artifact.abi, null, 2)} as const;\n`,
-  );
+    async function formatAndWrite(filename: string, content: string): Promise<void> {
+      const formatted = await prettier.format(content, {
+        ...prettierConfig,
+        parser: 'typescript',
+      });
+      fs.writeFileSync(path.join(outDir, filename), formatted);
+    }
 
-  await formatAndWrite(
-    'processorAbi.ts',
-    `export const processorAbi = ${JSON.stringify(processorAbi, null, 2)} as const;\n`,
-  );
+    // Write individual ABI files
+    await formatAndWrite(
+      'mandateVaultAbi.ts',
+      `export const mandateVaultAbi = ${JSON.stringify(vaultArtifact.abi, null, 2)} as const;\n`,
+    );
 
-  await formatAndWrite(
-    'beaconAbi.ts',
-    `export const beaconAbi = ${JSON.stringify(beaconAbi, null, 2)} as const;\n`,
-  );
+    await formatAndWrite(
+      'mandateVaultFactoryAbi.ts',
+      `export const mandateVaultFactoryAbi = ${JSON.stringify(factoryArtifact.abi, null, 2)} as const;\n`,
+    );
 
-  await formatAndWrite(
-    'index.ts',
-    `export * from './mandateVaultAbi.js';\nexport * from './mandateVaultFactoryAbi.js';\nexport * from './erc20Abi.js';\nexport * from './processorAbi.js';\nexport * from './beaconAbi.js';\n`,
-  );
+    await formatAndWrite(
+      'erc20Abi.ts',
+      `export const erc20Abi = ${JSON.stringify(erc20Artifact.abi, null, 2)} as const;\n`,
+    );
 
-  console.log(`Successfully generated ABIs to ${outDir}`);
+    await formatAndWrite(
+      'processorAbi.ts',
+      `export const processorAbi = ${JSON.stringify(processorAbi, null, 2)} as const;\n`,
+    );
+
+    await formatAndWrite(
+      'beaconAbi.ts',
+      `export const beaconAbi = ${JSON.stringify(beaconAbi, null, 2)} as const;\n`,
+    );
+
+    await formatAndWrite(
+      'quoterV2Abi.ts',
+      `export const quoterV2Abi = ${JSON.stringify(quoterV2Abi, null, 2)} as const;\n`,
+    );
+
+    await formatAndWrite(
+      'index.ts',
+      `export * from './mandateVaultAbi.js';\nexport * from './mandateVaultFactoryAbi.js';\nexport * from './erc20Abi.js';\nexport * from './processorAbi.js';\nexport * from './beaconAbi.js';\nexport * from './quoterV2Abi.js';\n`,
+    );
+
+    console.log(`Successfully generated ABIs to ${outDir}`);
+  }
 }
 
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'))) {
