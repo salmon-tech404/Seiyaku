@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { isAddress, getAddress } from 'viem';
 import { useTranslation } from '../i18n/index.js';
 import { useTheme } from '../theme/ThemeContext.js';
 import { useRouter, Link } from '../router/index.js';
 import { Button } from '../ui/Button.js';
 import { useWallet } from '../../chain/wallet.js';
-import { AddressText } from '../ui/AddressText.js';
+import { formatShortAddress } from '../formatting/address.js';
 
 export function Header() {
   const { t, lang, toggleLang } = useTranslation();
@@ -12,6 +13,49 @@ export function Header() {
   const { currentRoute } = useRouter();
   const { account, status: walletStatus, connect, disconnect, switchToXLayer } = useWallet();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const checksummedAccount = useMemo(() => {
+    if (!account) return '';
+    try {
+      return isAddress(account) ? getAddress(account) : account;
+    } catch {
+      return account;
+    }
+  }, [account]);
+
+  const shortAddress = useMemo(() => {
+    return formatShortAddress(checksummedAccount);
+  }, [checksummedAccount]);
+
+  const handleCopyAccount = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      try {
+        if (typeof navigator !== 'undefined' && navigator.clipboard) {
+          await navigator.clipboard.writeText(checksummedAccount);
+        }
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // Clipboard write failed
+      }
+    },
+    [checksummedAccount],
+  );
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
 
   const navItems = [
     { to: '#/create', labelKey: 'nav.create' as const, path: '/create' },
@@ -98,19 +142,136 @@ export function Header() {
               <span>{t('nav.switchNetwork')}</span>
             </Button>
           ) : walletStatus === 'connected' && account ? (
-            <div
-              className="wallet-connected account-pill wallet-pill"
-              aria-label={`Connected account ${account}`}
-            >
-              <AddressText address={account} />
-              <Button
-                variant="quiet"
-                onClick={disconnect}
-                aria-label={t('nav.disconnectWallet')}
-                style={{ fontSize: '11px', padding: '2px 6px', minHeight: 'auto' }}
+            <div className="wallet-pill-wrapper" ref={dropdownRef}>
+              <div
+                className="wallet-connected account-pill wallet-pill"
+                role="region"
+                aria-label={`Connected account ${checksummedAccount}`}
               >
-                <span>{'✕'}</span>
-              </Button>
+                <span className="wallet-status-dot" aria-hidden="true" />
+                <button
+                  type="button"
+                  className="wallet-address-btn"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  aria-expanded={dropdownOpen}
+                  aria-haspopup="true"
+                  title={checksummedAccount}
+                >
+                  <span>{shortAddress}</span>
+                  <svg
+                    className={`wallet-chevron ${dropdownOpen ? 'open' : ''}`}
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M2.5 4.5L6 8L9.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  className="wallet-action-btn wallet-copy-btn"
+                  onClick={handleCopyAccount}
+                  aria-label={copied ? t('nav.addressCopied') : t('nav.copyAddress')}
+                  title={copied ? t('nav.addressCopied') : t('nav.copyAddress')}
+                >
+                  {copied ? (
+                    <svg
+                      className="wallet-icon"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="var(--color-success, #10b981)"
+                      strokeWidth="2"
+                      aria-hidden="true"
+                    >
+                      <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="wallet-icon"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      aria-hidden="true"
+                    >
+                      <rect x="5.5" y="5.5" width="7" height="7" rx="1.5" />
+                      <path
+                        d="M10.5 5.5V3.5A1.5 1.5 0 0 0 9 2H3.5A1.5 1.5 0 0 0 2 3.5V9A1.5 1.5 0 0 0 3.5 10.5H5.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  )}
+                </button>
+
+                <span className="wallet-pill-divider" aria-hidden="true" />
+
+                <button
+                  type="button"
+                  className="wallet-action-btn wallet-disconnect-btn"
+                  onClick={() => disconnect()}
+                  aria-label={t('nav.disconnectWallet')}
+                  title={t('nav.disconnectWallet')}
+                >
+                  <svg
+                    className="wallet-icon"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 2H3.5A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14H6" strokeLinecap="round" />
+                    <path d="M10.5 11.5L14 8l-3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M14 8H6" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+
+              {dropdownOpen && (
+                <div className="wallet-dropdown" role="menu">
+                  <div className="wallet-dropdown-header">
+                    <span className="wallet-dropdown-status">
+                      <span className="wallet-status-dot" aria-hidden="true" />
+                      <span>{t('nav.connected')}</span>
+                    </span>
+                    <button
+                      type="button"
+                      className="wallet-action-btn"
+                      onClick={handleCopyAccount}
+                      aria-label={copied ? t('nav.addressCopied') : t('nav.copyAddress')}
+                      title={copied ? t('nav.addressCopied') : t('nav.copyAddress')}
+                    >
+                      {copied ? (
+                        <svg className="wallet-icon" viewBox="0 0 16 16" fill="none" stroke="var(--color-success, #10b981)" strokeWidth="2">
+                          <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      ) : (
+                        <svg className="wallet-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <rect x="5.5" y="5.5" width="7" height="7" rx="1.5" />
+                          <path d="M10.5 5.5V3.5A1.5 1.5 0 0 0 9 2H3.5A1.5 1.5 0 0 0 2 3.5V9A1.5 1.5 0 0 0 3.5 10.5H5.5" strokeLinecap="round" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  <div className="wallet-dropdown-address">
+                    <code>{checksummedAccount}</code>
+                  </div>
+                  <Button
+                    variant="danger"
+                    onClick={() => {
+                      disconnect();
+                      setDropdownOpen(false);
+                    }}
+                    aria-label={t('nav.disconnectWallet')}
+                    style={{ width: '100%', justifyContent: 'center' }}
+                  >
+                    <span>{t('nav.disconnectWallet')}</span>
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             <Button variant="primary" onClick={() => connect()}>

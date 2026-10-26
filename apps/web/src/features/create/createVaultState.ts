@@ -78,6 +78,65 @@ export const createVaultFormSchema = z
 
 export type CreateVaultFormValues = z.infer<typeof createVaultFormSchema>;
 
+/**
+ * Unit conversion helpers for friendly time boundaries (UI <-> Stored/Contract)
+ */
+export function minutesToSeconds(minutes: number): number {
+  return Math.max(0, Math.round(minutes * 60));
+}
+
+export function secondsToMinutes(seconds: number): number {
+  return Math.max(0, Math.round(seconds / 60));
+}
+
+export function hoursToSeconds(hours: number): number {
+  return Math.max(0, Math.round(hours * 3600));
+}
+
+export function secondsToHours(seconds: number): number {
+  return Math.max(0, Math.round(seconds / 3600));
+}
+
+export function daysToSeconds(days: number): number {
+  return Math.max(0, Math.round(days * 86400));
+}
+
+export function secondsToDays(seconds: number): number {
+  return Math.max(0, Math.round(seconds / 86400));
+}
+
+/**
+ * Friendly duration formatters for summary sentence and dialogs
+ */
+export function formatMinutesDuration(
+  seconds: number,
+  t: (key: string, params?: Record<string, string | number>) => string,
+): string {
+  if (seconds >= 60 && seconds % 60 === 0) {
+    return t('countdown.minutes', { count: Math.round(seconds / 60) });
+  }
+  if (seconds >= 60) {
+    return t('countdown.minutes', { count: Math.round(seconds / 60) });
+  }
+  return t('countdown.seconds', { count: seconds });
+}
+
+export function formatHoursDuration(
+  seconds: number,
+  t: (key: string, params?: Record<string, string | number>) => string,
+): string {
+  if (seconds >= 3600 && seconds % 3600 === 0) {
+    return t('countdown.hours', { count: Math.round(seconds / 3600) });
+  }
+  if (seconds >= 3600) {
+    return t('countdown.hours', { count: Math.round(seconds / 3600) });
+  }
+  if (seconds >= 60 && seconds % 60 === 0) {
+    return t('countdown.minutes', { count: Math.round(seconds / 60) });
+  }
+  return t('countdown.seconds', { count: seconds });
+}
+
 export interface AllowedTokenItem {
   address: `0x${string}`;
   symbol: string;

@@ -13,6 +13,12 @@ import {
   getInitialCreateVaultState,
   createVaultReducer,
   createVaultFormSchema,
+  minutesToSeconds,
+  secondsToMinutes,
+  hoursToSeconds,
+  secondsToHours,
+  formatMinutesDuration,
+  formatHoursDuration,
 } from './createVaultState.js';
 import { Button } from '../../shared/ui/Button.js';
 import { FieldRow } from '../../shared/ui/FieldRow.js';
@@ -290,15 +296,18 @@ export function CreateVaultPage() {
                 label={t('create.field.maxTrade')}
                 tooltip={t('create.field.maxTradeTooltip')}
               >
-                <input
-                  type="text"
-                  className="input-control"
-                  aria-label={t('create.field.maxTrade')}
-                  value={state.maxTradeBase}
-                  onChange={(e) =>
-                    dispatch({ type: 'SET_FIELD', field: 'maxTradeBase', value: e.target.value })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="text"
+                    className="input-control"
+                    aria-label={t('create.field.maxTrade')}
+                    value={state.maxTradeBase}
+                    onChange={(e) =>
+                      dispatch({ type: 'SET_FIELD', field: 'maxTradeBase', value: e.target.value })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.usdc')}</span>
+                </div>
               </FieldRow>
               {state.formErrors.maxTradeBase && (
                 <div className="field-error-text">{t(state.formErrors.maxTradeBase)}</div>
@@ -308,15 +317,18 @@ export function CreateVaultPage() {
                 label={t('create.field.maxDaily')}
                 tooltip={t('create.field.maxDailyTooltip')}
               >
-                <input
-                  type="text"
-                  className="input-control"
-                  aria-label={t('create.field.maxDaily')}
-                  value={state.maxDailyBase}
-                  onChange={(e) =>
-                    dispatch({ type: 'SET_FIELD', field: 'maxDailyBase', value: e.target.value })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="text"
+                    className="input-control"
+                    aria-label={t('create.field.maxDaily')}
+                    value={state.maxDailyBase}
+                    onChange={(e) =>
+                      dispatch({ type: 'SET_FIELD', field: 'maxDailyBase', value: e.target.value })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.usdc')}</span>
+                </div>
               </FieldRow>
               {state.formErrors.maxDailyBase && (
                 <div className="field-error-text">{t(state.formErrors.maxDailyBase)}</div>
@@ -326,73 +338,85 @@ export function CreateVaultPage() {
                 label={t('create.field.maxTradesPerDay')}
                 tooltip={t('create.field.maxTradesPerDayTooltip')}
               >
-                <input
-                  type="number"
-                  className="input-control"
-                  aria-label={t('create.field.maxTradesPerDay')}
-                  value={state.maxTradesPerDay}
-                  onChange={(e) =>
-                    dispatch({
-                      type: 'SET_FIELD',
-                      field: 'maxTradesPerDay',
-                      value: parseInt(e.target.value, 10) || 0,
-                    })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="number"
+                    className="input-control"
+                    aria-label={t('create.field.maxTradesPerDay')}
+                    value={state.maxTradesPerDay}
+                    onChange={(e) =>
+                      dispatch({
+                        type: 'SET_FIELD',
+                        field: 'maxTradesPerDay',
+                        value: parseInt(e.target.value, 10) || 0,
+                      })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.tradesPerDay')}</span>
+                </div>
               </FieldRow>
 
               <FieldRow
                 label={t('create.field.cooldown')}
                 tooltip={t('create.field.cooldownTooltip')}
               >
-                <input
-                  type="number"
-                  className="input-control"
-                  aria-label={t('create.field.cooldown')}
-                  value={state.cooldownSec}
-                  onChange={(e) =>
-                    dispatch({
-                      type: 'SET_FIELD',
-                      field: 'cooldownSec',
-                      value: parseInt(e.target.value, 10) || 0,
-                    })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="number"
+                    className="input-control"
+                    aria-label={t('create.field.cooldown')}
+                    value={secondsToMinutes(state.cooldownSec)}
+                    onChange={(e) =>
+                      dispatch({
+                        type: 'SET_FIELD',
+                        field: 'cooldownSec',
+                        value: minutesToSeconds(parseInt(e.target.value, 10) || 0),
+                      })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.minutes')}</span>
+                </div>
               </FieldRow>
 
               <FieldRow label={t('create.field.expiry')} tooltip={t('create.field.expiryTooltip')}>
-                <input
-                  type="number"
-                  className="input-control"
-                  aria-label={t('create.field.expiry')}
-                  value={state.expiryDays}
-                  onChange={(e) =>
-                    dispatch({
-                      type: 'SET_FIELD',
-                      field: 'expiryDays',
-                      value: parseInt(e.target.value, 10) || 0,
-                    })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="number"
+                    className="input-control"
+                    aria-label={t('create.field.expiry')}
+                    value={state.expiryDays}
+                    onChange={(e) =>
+                      dispatch({
+                        type: 'SET_FIELD',
+                        field: 'expiryDays',
+                        value: parseInt(e.target.value, 10) || 0,
+                      })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.days')}</span>
+                </div>
               </FieldRow>
 
               <FieldRow
                 label={t('create.field.withdrawDelay')}
                 tooltip={t('create.field.withdrawDelayTooltip')}
               >
-                <input
-                  type="number"
-                  className="input-control"
-                  aria-label={t('create.field.withdrawDelay')}
-                  value={state.withdrawDelaySec}
-                  onChange={(e) =>
-                    dispatch({
-                      type: 'SET_FIELD',
-                      field: 'withdrawDelaySec',
-                      value: parseInt(e.target.value, 10) || 0,
-                    })
-                  }
-                />
+                <div className="input-with-unit">
+                  <input
+                    type="number"
+                    className="input-control"
+                    aria-label={t('create.field.withdrawDelay')}
+                    value={secondsToHours(state.withdrawDelaySec)}
+                    onChange={(e) =>
+                      dispatch({
+                        type: 'SET_FIELD',
+                        field: 'withdrawDelaySec',
+                        value: hoursToSeconds(parseInt(e.target.value, 10) || 0),
+                      })
+                    }
+                  />
+                  <span className="input-unit">{t('create.unit.hours')}</span>
+                </div>
               </FieldRow>
             </div>
           </section>
@@ -511,14 +535,17 @@ export function CreateVaultPage() {
             <h2>{t('create.summary.title')}</h2>
             <div className="create-summary-body">
               {t('create.summary.text', {
-                trader: isTraderSameAsOwner ? t('create.trader.wallet') : effectiveTrader,
+                trader:
+                  state.traderOption === 'wallet' || isTraderSameAsOwner
+                    ? t('create.summary.traderYou')
+                    : effectiveTrader,
                 tokens: tokenListString,
                 maxTrade: state.maxTradeBase,
                 maxDaily: state.maxDailyBase,
                 trades: state.maxTradesPerDay,
-                cooldown: `${state.cooldownSec}s`,
-                expiry: state.expiryDays,
-                withdrawDelay: `${state.withdrawDelaySec}s`,
+                cooldown: formatMinutesDuration(state.cooldownSec, t),
+                expiry: t('countdown.days', { count: state.expiryDays }),
+                withdrawDelay: formatHoursDuration(state.withdrawDelaySec, t),
               })}
             </div>
 
@@ -572,7 +599,7 @@ export function CreateVaultPage() {
           </div>
           <div className="dialog-summary-row">
             <span>{t('create.field.withdrawDelay')}</span>
-            <strong>{state.withdrawDelaySec}s</strong>
+            <strong>{formatHoursDuration(state.withdrawDelaySec, t)}</strong>
           </div>
         </div>
 
