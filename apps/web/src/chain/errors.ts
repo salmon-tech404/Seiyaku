@@ -32,11 +32,14 @@ export function decodeAppError(err: unknown): AppError {
     anyErr.code === 'ACTION_REJECTED' ||
     (typeof anyErr.message === 'string' && anyErr.message.toLowerCase().includes('user rejected'))
   ) {
-    return {
+    const res: AppError = {
       name: 'UserRejected',
       messageKey: 'error.userRejected',
-      technicalDetails: anyErr.message,
     };
+    if (anyErr.message) {
+      res.technicalDetails = anyErr.message;
+    }
+    return res;
   }
 
   // 2. Check if viem already decoded the error
@@ -46,18 +49,24 @@ export function decodeAppError(err: unknown): AppError {
     if (!obj || typeof obj !== 'object') return null;
     const o = obj as Record<string, unknown>;
     if (typeof o.errorName === 'string') {
-      return {
+      const res: { errorName: string; args?: readonly unknown[] } = {
         errorName: o.errorName,
-        args: Array.isArray(o.args) ? (o.args as readonly unknown[]) : undefined,
       };
+      if (Array.isArray(o.args)) {
+        res.args = o.args as readonly unknown[];
+      }
+      return res;
     }
     if (o.data && typeof o.data === 'object') {
       const d = o.data as Record<string, unknown>;
       if (typeof d.errorName === 'string') {
-        return {
+        const res: { errorName: string; args?: readonly unknown[] } = {
           errorName: d.errorName,
-          args: Array.isArray(d.args) ? (d.args as readonly unknown[]) : undefined,
         };
+        if (Array.isArray(d.args)) {
+          res.args = d.args as readonly unknown[];
+        }
+        return res;
       }
     }
     if (o.cause) return checkViemDecoded(o.cause);

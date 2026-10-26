@@ -3,7 +3,7 @@ import en from '../../i18n/en.json';
 import vi from '../../i18n/vi.json';
 
 export type Language = 'en' | 'vi';
-export type TranslationKey = keyof typeof en;
+export type TranslationKey = keyof typeof en | (string & {});
 export type TranslationParams = Record<string, string | number>;
 
 interface I18nContextValue {
@@ -69,33 +69,35 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const t = useCallback(
     (key: TranslationKey, params?: TranslationParams): string => {
-      const dict = dictionaries[lang];
+      const enMap = en as Record<string, string>;
+      const dict = dictionaries[lang] || enMap;
+      const k = String(key);
       let template: string | undefined;
 
       // Handle pluralization if count parameter is provided
       if (params && params.count !== undefined && pluralRules) {
         const count = Number(params.count);
         const rule = pluralRules.select(count);
-        const pluralKey = `${key}_${rule}` as TranslationKey;
+        const pluralKey = `${k}_${rule}`;
         if (dict[pluralKey]) {
           template = dict[pluralKey];
-        } else if (en[pluralKey]) {
-          template = en[pluralKey];
+        } else if (enMap[pluralKey]) {
+          template = enMap[pluralKey];
         }
       }
 
       if (!template) {
-        template = dict[key] ?? en[key] ?? String(key);
+        template = dict[k] ?? enMap[k] ?? k;
       }
 
       // Handle interpolation: {var}
-      if (params) {
+      if (params && template) {
         for (const [pKey, pVal] of Object.entries(params)) {
           template = template.replaceAll(`{${pKey}}`, String(pVal));
         }
       }
 
-      return template;
+      return template ?? k;
     },
     [lang, pluralRules],
   );
@@ -109,15 +111,17 @@ export function useTranslation() {
   const context = useContext(I18nContext);
   if (!context) {
     // Return safe fallback for isolated components/tests
+    const enMap = en as Record<string, string>;
     const lang: Language = 'en';
     const t = (key: TranslationKey, params?: TranslationParams): string => {
-      let str = en[key] ?? String(key);
-      if (params) {
+      const k = String(key);
+      let str = enMap[k] ?? k;
+      if (params && str) {
         for (const [pKey, pVal] of Object.entries(params)) {
           str = str.replaceAll(`{${pKey}}`, String(pVal));
         }
       }
-      return str;
+      return str ?? k;
     };
     return {
       lang,

@@ -50,11 +50,15 @@ export async function runTransaction<T>({
 
   const update = (p: Partial<TxProgress>) => {
     if (onProgress) {
-      onProgress({
-        status: 'idle',
-        stepName,
-        ...p,
-      });
+      const progressObj: TxProgress = {
+        status: p.status ?? 'idle',
+      };
+      if (stepName) progressObj.stepName = stepName;
+      if (p.txHash) progressObj.txHash = p.txHash;
+      if (p.explorerUrl) progressObj.explorerUrl = p.explorerUrl;
+      if (p.receipt) progressObj.receipt = p.receipt;
+      if (p.error) progressObj.error = p.error;
+      onProgress(progressObj);
     }
   };
 
@@ -140,6 +144,6 @@ export async function ensureErc20Allowance({
     send: async (sim) => {
       return walletClient.writeContract(sim.request);
     },
-    onProgress,
+    ...(onProgress ? { onProgress } : {}),
   });
 }

@@ -80,12 +80,12 @@ export async function readFactoryConfig(
     client.readContract({
       address: factory,
       abi: mandateVaultFactoryAbi,
-      functionName: 'loosenDelay',
+      functionName: 'loosenDelaySec',
     }),
     client.readContract({
       address: factory,
       abi: mandateVaultFactoryAbi,
-      functionName: 'minWithdrawDelay',
+      functionName: 'minWithdrawDelaySec',
     }),
     client.readContract({
       address: factory,
@@ -157,7 +157,7 @@ export async function sendCreateVault({
     send: async (sim) => {
       return walletClient.writeContract(sim.request);
     },
-    onProgress,
+    ...(onProgress ? { onProgress } : {}),
   });
 
   // Parse VaultCreated event log to extract created vault address

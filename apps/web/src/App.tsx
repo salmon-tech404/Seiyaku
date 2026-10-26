@@ -3,6 +3,7 @@ import { useRouter } from './shared/router/index.js';
 import { useTranslation } from './shared/i18n/index.js';
 import { LayoutShell } from './shared/layout/LayoutShell.js';
 import { StyleguidePage } from './features/styleguide/StyleguidePage.js';
+import { CreateVaultPage } from './features/create/CreateVaultPage.js';
 import { ErrorState } from './shared/ui/ErrorState.js';
 
 export function App() {
@@ -18,6 +19,9 @@ export function App() {
             <p style={{ color: 'var(--color-muted)', marginTop: '8px' }}>{t('app.tagline')}</p>
           </div>
         );
+
+      case '/create':
+        return <CreateVaultPage />;
 
       case '/styleguide':
         return <StyleguidePage />;

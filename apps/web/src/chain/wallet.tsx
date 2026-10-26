@@ -251,7 +251,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                 symbol: 'OKB',
                 decimals: 18,
               },
-              rpcUrls: [xLayerChain.rpcUrls.default.http[0]],
+              rpcUrls: [xLayerChain.rpcUrls.default.http[0] ?? 'https://rpc.xlayer.tech'],
               blockExplorerUrls: ['https://www.oklink.com/xlayer'],
             },
           ],

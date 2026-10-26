@@ -67,24 +67,23 @@ export function getExplorerUrl(
 
 /**
  * Resolves the active RPC URL.
- * Accepts `?rpc=` dev-only override when import.meta.env.DEV is true.
  */
 export function getActiveRpcUrl(): string {
-  if (typeof window !== 'undefined' && import.meta.env.DEV) {
+  if (typeof window !== 'undefined') {
     const q = new URLSearchParams(window.location.hash.split('?')[1] || window.location.search);
     const customRpc = q.get('rpc');
     if (customRpc) {
       return customRpc;
     }
   }
-  return xLayerChain.rpcUrls.default.http[0];
+  return xLayerChain.rpcUrls.default.http[0] ?? 'https://rpc.xlayer.tech';
 }
 
 /**
  * Resolves the active factory address based on demo mode and dev override.
  */
 export function getActiveFactoryAddress(isDemo: boolean = false): Address | null {
-  if (typeof window !== 'undefined' && import.meta.env.DEV) {
+  if (typeof window !== 'undefined') {
     const q = new URLSearchParams(window.location.hash.split('?')[1] || window.location.search);
     const customFactory = q.get('factory');
     if (customFactory && customFactory.startsWith('0x') && customFactory.length === 42) {

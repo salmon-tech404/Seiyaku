@@ -22,7 +22,7 @@ export function createXLayerPublicClient(customRpc?: string): PublicClient {
   });
 }
 
-export const defaultPublicClient = createXLayerPublicClient();
+export const defaultPublicClient: PublicClient = createXLayerPublicClient();
 
 export interface FreshnessMetadata<T> {
   value: T;
@@ -45,7 +45,7 @@ export async function readAt<T>(
 
   return {
     value,
-    blockNumber: block.number,
+    blockNumber: block.number ?? 0n,
     blockTimestamp: block.timestamp,
     readAt: Math.floor(Date.now() / 1000),
   };
