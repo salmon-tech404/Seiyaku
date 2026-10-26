@@ -42,7 +42,19 @@ const steps = [
   },
   { name: 'Vitest tests', cmd: 'npx', args: ['vitest', 'run'], cwd: path.resolve('.') },
   { name: 'i18n check', cmd: 'node', args: ['scripts/check-i18n.mjs'], cwd: path.resolve('.') },
+  {
+    name: 'Color contrast check',
+    cmd: 'node',
+    args: ['scripts/check-contrast.mjs'],
+    cwd: path.resolve('.'),
+  },
   { name: 'Web build', cmd: 'npx', args: ['vite', 'build'], cwd: path.resolve('apps/web') },
+  {
+    name: 'Static build budget check',
+    cmd: 'node',
+    args: ['scripts/check-static.mjs'],
+    cwd: path.resolve('.'),
+  },
 ];
 
 console.log('=== Running Seiyaku Full Verification ===\n');

@@ -1,0 +1,144 @@
+/**
+ * apps/web/src/shared/layout/layout.css
+ */
+
+.layout-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-banner {
+  background-color: var(--color-warning-bg);
+  border-bottom: 1px solid var(--color-warning);
+  color: var(--color-warning);
+  padding: 8px 16px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.site-header {
+  height: 64px;
+  border-bottom: 1px solid var(--color-line);
+  background-color: var(--color-panel);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.brand-logo-svg {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-item {
+  font-size: 14px;
+  color: var(--color-muted);
+  transition: color 0.15s ease;
+}
+
+.nav-item:hover,
+.nav-item-active {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
+.site-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-line);
+  background-color: var(--color-panel);
+  padding: 24px 16px;
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-link {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+/* Mobile viewport adjustments */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links-mobile {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background-color: var(--color-panel);
+    border-bottom: 1px solid var(--color-line);
+    padding: 16px;
+    gap: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+}

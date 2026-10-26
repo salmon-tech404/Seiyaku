@@ -1,1 +1,1 @@
-export * from './useTranslation.js';
+export * from './I18nContext.js';
