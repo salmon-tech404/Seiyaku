@@ -10,12 +10,12 @@ export interface FieldRowProps {
 
 export function FieldRow({ label, tooltip, children, className = '' }: FieldRowProps) {
   return (
-    <div className={`ui-field-row ${className}`}>
+    <label className={`ui-field-row ${className}`}>
       <div className="ui-field-label-group">
         <span>{label}</span>
         {tooltip && <Tooltip content={tooltip} />}
       </div>
       <div className="ui-field-control">{children}</div>
-    </div>
+    </label>
   );
 }

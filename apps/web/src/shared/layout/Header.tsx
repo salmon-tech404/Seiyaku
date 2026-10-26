@@ -3,11 +3,14 @@ import { useTranslation } from '../i18n/index.js';
 import { useTheme } from '../theme/ThemeContext.js';
 import { useRouter, Link } from '../router/index.js';
 import { Button } from '../ui/Button.js';
+import { useWallet } from '../../chain/wallet.js';
+import { AddressText } from '../ui/AddressText.js';
 
 export function Header() {
   const { t, lang, toggleLang } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { currentRoute } = useRouter();
+  const { account, status: walletStatus, connect, disconnect, switchToXLayer } = useWallet();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -18,7 +21,7 @@ export function Header() {
   ];
 
   return (
-    <header className="site-header">
+    <header className="site-header app-header">
       <div className="header-container">
         {/* Brand Link with inline SVG logo (seal + NAND gate motif) */}
         <Link to="#/" className="brand-link" aria-label={t('app.title')}>
@@ -69,19 +72,51 @@ export function Header() {
         {/* Header Controls */}
         <div className="header-controls">
           {/* Language Switch */}
-          <Button variant="quiet" onClick={toggleLang} aria-label={t('nav.toggleLanguage')}>
+          <Button
+            variant="quiet"
+            className="lang-toggle"
+            data-lang={lang}
+            onClick={toggleLang}
+            aria-label={t('nav.toggleLanguage')}
+          >
             <span>{lang.toUpperCase()}</span>
           </Button>
 
           {/* Theme Switch */}
-          <Button variant="quiet" onClick={toggleTheme} aria-label={t('nav.toggleTheme')}>
+          <Button
+            variant="quiet"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={t('nav.toggleTheme')}
+          >
             <span>{theme === 'dark' ? '☀' : '☾'}</span>
           </Button>
 
-          {/* Wallet placeholder */}
-          <Button variant="primary">
-            <span>{t('nav.connectWallet')}</span>
-          </Button>
+          {/* Wallet connection / Account status */}
+          {walletStatus === 'wrong_network' ? (
+            <Button variant="danger" className="network-warning" onClick={switchToXLayer}>
+              <span>{t('nav.switchNetwork')}</span>
+            </Button>
+          ) : walletStatus === 'connected' && account ? (
+            <div
+              className="wallet-connected account-pill wallet-pill"
+              aria-label={`Connected account ${account}`}
+            >
+              <AddressText address={account} />
+              <Button
+                variant="quiet"
+                onClick={disconnect}
+                aria-label={t('nav.disconnectWallet')}
+                style={{ fontSize: '11px', padding: '2px 6px', minHeight: 'auto' }}
+              >
+                <span>{'✕'}</span>
+              </Button>
+            </div>
+          ) : (
+            <Button variant="primary" onClick={() => connect()}>
+              <span>{t('nav.connectWallet')}</span>
+            </Button>
+          )}
 
           {/* Mobile menu toggle */}
           <Button

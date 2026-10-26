@@ -54,7 +54,7 @@ export const themes = {
     muted: '#525977', // adjusted to guarantee AA >= 4.5:1 against light bg
     accent: '#b81428', // seal red with >= 4.5:1 against white/paper
     accentBg: '#d8283f',
-    success: '#177a4c',
+    success: '#0d6338',
     warning: '#8f5600',
     info: '#2d4ed8',
   },

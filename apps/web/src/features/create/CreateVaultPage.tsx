@@ -5,7 +5,7 @@ import { useWallet } from '../../chain/wallet.js';
 import { defaultPublicClient } from '../../chain/clients.js';
 import { sendCreateVault } from '../../chain/factory.js';
 import { getActiveFactoryAddress, DEFAULT_TOKENS } from '../../chain/config.js';
-import { erc20Abi } from '../../chain/abi/index.js';
+import { erc20Abi, mandateVaultFactoryAbi } from '../../chain/abi/index.js';
 import { decodeAppError } from '../../chain/errors.js';
 import { isAddress, getAddress, parseUnits } from 'viem';
 import { VAULT_TEMPLATES } from './templates.js';
@@ -167,30 +167,7 @@ export function CreateVaultPage() {
 
       await defaultPublicClient.simulateContract({
         address: factoryAddress,
-        abi: [
-          {
-            type: 'function',
-            name: 'createVault',
-            inputs: [
-              { name: 'trader', type: 'address' },
-              {
-                name: 'limits',
-                type: 'tuple',
-                components: [
-                  { name: 'maxTradeBase', type: 'uint128' },
-                  { name: 'maxDailyBase', type: 'uint128' },
-                  { name: 'maxTradesPerDay', type: 'uint32' },
-                  { name: 'cooldownSec', type: 'uint32' },
-                  { name: 'expiresAt', type: 'uint64' },
-                  { name: 'withdrawDelaySec', type: 'uint32' },
-                ],
-              },
-              { name: 'allowedTokens', type: 'address[]' },
-            ],
-            outputs: [{ name: 'vault', type: 'address' }],
-            stateMutability: 'nonpayable',
-          },
-        ],
+        abi: mandateVaultFactoryAbi,
         functionName: 'createVault',
         args: [
           getAddress(effectiveTrader),
@@ -316,6 +293,7 @@ export function CreateVaultPage() {
                 <input
                   type="text"
                   className="input-control"
+                  aria-label={t('create.field.maxTrade')}
                   value={state.maxTradeBase}
                   onChange={(e) =>
                     dispatch({ type: 'SET_FIELD', field: 'maxTradeBase', value: e.target.value })
@@ -333,6 +311,7 @@ export function CreateVaultPage() {
                 <input
                   type="text"
                   className="input-control"
+                  aria-label={t('create.field.maxDaily')}
                   value={state.maxDailyBase}
                   onChange={(e) =>
                     dispatch({ type: 'SET_FIELD', field: 'maxDailyBase', value: e.target.value })
@@ -350,6 +329,7 @@ export function CreateVaultPage() {
                 <input
                   type="number"
                   className="input-control"
+                  aria-label={t('create.field.maxTradesPerDay')}
                   value={state.maxTradesPerDay}
                   onChange={(e) =>
                     dispatch({
@@ -368,6 +348,7 @@ export function CreateVaultPage() {
                 <input
                   type="number"
                   className="input-control"
+                  aria-label={t('create.field.cooldown')}
                   value={state.cooldownSec}
                   onChange={(e) =>
                     dispatch({
@@ -383,6 +364,7 @@ export function CreateVaultPage() {
                 <input
                   type="number"
                   className="input-control"
+                  aria-label={t('create.field.expiry')}
                   value={state.expiryDays}
                   onChange={(e) =>
                     dispatch({
@@ -401,6 +383,7 @@ export function CreateVaultPage() {
                 <input
                   type="number"
                   className="input-control"
+                  aria-label={t('create.field.withdrawDelay')}
                   value={state.withdrawDelaySec}
                   onChange={(e) =>
                     dispatch({
@@ -450,7 +433,7 @@ export function CreateVaultPage() {
                   >
                     <input
                       type="text"
-                      className="input-control full-width"
+                      className="input-control full-width custom-trader-input"
                       placeholder={t('create.trader.addressPlaceholder')}
                       value={state.customTrader}
                       onChange={(e) =>

@@ -15,6 +15,8 @@ cache/
 broadcast/
 dist/
 coverage/
+playwright-report/
+test-results/
 *.tsbuildinfo
 deployments/
 .next/

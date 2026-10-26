@@ -58,8 +58,8 @@
   --color-accent-contrast: #ffffff;
 
   /* Status accents */
-  --color-success: #177a4c;
-  --color-success-bg: rgba(23, 122, 76, 0.1);
+  --color-success: #0d6338;
+  --color-success-bg: rgba(13, 99, 56, 0.1);
   --color-warning: #8f5600;
   --color-warning-bg: rgba(143, 86, 0, 0.1);
   --color-info: #2d4ed8;

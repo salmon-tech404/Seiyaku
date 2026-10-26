@@ -22,7 +22,35 @@ export function createXLayerPublicClient(customRpc?: string): PublicClient {
   });
 }
 
-export const defaultPublicClient: PublicClient = createXLayerPublicClient();
+const clientCache = new Map<string, PublicClient>();
+
+export function getPublicClient(customRpc?: string): PublicClient {
+  const rpcUrl = customRpc || getActiveRpcUrl();
+  let client = clientCache.get(rpcUrl);
+  if (!client) {
+    client = createXLayerPublicClient(rpcUrl);
+    clientCache.set(rpcUrl, client);
+  }
+  return client;
+}
+
+const baseClient = createXLayerPublicClient();
+
+export const defaultPublicClient: PublicClient = new Proxy(baseClient, {
+  get(target, prop) {
+    const targetVal = (target as unknown as Record<string | symbol, unknown>)[prop];
+    if (
+      typeof targetVal === 'function' &&
+      ((targetVal as unknown as { _isMockFunction?: boolean })._isMockFunction ||
+        (targetVal as unknown as { mock?: unknown }).mock)
+    ) {
+      return targetVal;
+    }
+    const client = getPublicClient();
+    const val = (client as unknown as Record<string | symbol, unknown>)[prop];
+    return typeof val === 'function' ? val.bind(client) : val;
+  },
+});
 
 export interface FreshnessMetadata<T> {
   value: T;

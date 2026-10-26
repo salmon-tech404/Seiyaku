@@ -103,6 +103,19 @@ export function checkStaticBuild(distDir = path.resolve('apps/web/dist')) {
     );
   }
 
+  // 5. Test wallet leak check: ensure test wallet marker never appears in dist
+  const TEST_WALLET_MARKER = '__SEIYAKU_E2E_TEST_WALLET__';
+  for (const f of files) {
+    if (f.name.endsWith('.js') || f.name.endsWith('.html')) {
+      const content = fs.readFileSync(f.fullPath, 'utf8');
+      if (content.includes(TEST_WALLET_MARKER)) {
+        errors.push(
+          `Test wallet marker "${TEST_WALLET_MARKER}" detected in production asset ${f.relPath}!`,
+        );
+      }
+    }
+  }
+
   return {
     ok: errors.length === 0,
     errors,

@@ -9,6 +9,7 @@ import { WalletProvider } from '../../chain/wallet.js';
 import * as vaultModule from '../../chain/vault.js';
 
 import * as clientsModule from '../../chain/clients.js';
+import type { Block } from 'viem';
 
 describe('VaultDashboardPage Component', () => {
   const mockVaultAddress = '0x212fdfCfCC22db97DeB3AC3260414909282BB4EE';
@@ -19,8 +20,12 @@ describe('VaultDashboardPage Component', () => {
     cleanup();
     window.location.hash = `#/vault/${mockVaultAddress}`;
 
-    // Mock getBlockNumber
+    // Mock getBlock & getBlockNumber
     vi.spyOn(clientsModule.defaultPublicClient, 'getBlockNumber').mockResolvedValue(123456n);
+    vi.spyOn(clientsModule.defaultPublicClient, 'getBlock').mockResolvedValue({
+      number: 123456n,
+      timestamp: BigInt(Math.floor(Date.now() / 1000)),
+    } as unknown as Block);
 
     // Mock readVaultState
     vi.spyOn(vaultModule, 'readVaultState').mockResolvedValue({

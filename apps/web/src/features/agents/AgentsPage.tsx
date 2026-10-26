@@ -140,7 +140,7 @@ export function AgentsPage() {
         <div className="agents-code-card">
           <div className="agents-code-header">
             <h2 className="agents-code-title">{t('agents.format.title')}</h2>
-            <CopyButton text={SAMPLE_TRADE_PARAMS_JSON} />
+            <CopyButton textToCopy={SAMPLE_TRADE_PARAMS_JSON} />
           </div>
           <p style={{ color: 'var(--color-muted)', fontSize: '13px', margin: 0 }}>
             {t('agents.format.desc')}

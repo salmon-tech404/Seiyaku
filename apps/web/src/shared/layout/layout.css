@@ -142,3 +142,22 @@
     display: inline-flex;
   }
 }
+
+.wallet-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wallet-pill:hover {
+  border-color: var(--color-accent);
+}

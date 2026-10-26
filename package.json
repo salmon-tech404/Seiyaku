@@ -32,12 +32,18 @@
     "verify:sourcify": "tsx scripts/verify-sourcify.ts",
     "deweb:publish": "tsx scripts/deweb-publish.ts",
     "vectors": "tsx scripts/generate-vectors.ts",
-    "vectors:check": "tsx scripts/check-vectors.ts"
+    "vectors:check": "tsx scripts/check-vectors.ts",
+    "e2e": "tsx scripts/run-e2e.ts",
+    "demo:prepare": "tsx scripts/demo-prepare.ts",
+    "demo:reset": "tsx scripts/demo-reset.ts"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.10.1",
     "@eslint/js": "9.13.0",
+    "@playwright/test": "1.48.2",
     "@testing-library/react": "16.3.3",
     "@types/node": "20.17.0",
+    "axe-core": "4.10.2",
     "eslint": "9.13.0",
     "happy-dom": "21.0.4",
     "prettier": "3.3.3",

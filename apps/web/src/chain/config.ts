@@ -107,6 +107,16 @@ export function getActiveFactoryAddress(isDemo: boolean = false): Address | null
         // Invalid address ignored
       }
     }
+    const stored =
+      window.localStorage.getItem(isDemo ? 'seiyaku_demo_factory' : 'seiyaku_factory') ||
+      window.localStorage.getItem('seiyaku_factory');
+    if (stored && stored.startsWith('0x') && stored.length === 42) {
+      try {
+        return getAddress(stored);
+      } catch {
+        // Invalid address ignored
+      }
+    }
   }
   return isDemo ? FACTORY_REGISTRY.demo : FACTORY_REGISTRY.public;
 }

@@ -73,7 +73,7 @@ export function Dialog({ open, onClose, title, children, footer }: DialogProps) 
         role="dialog"
         aria-modal="true"
         aria-labelledby="ui-dialog-title-id"
-        className="ui-dialog"
+        className="ui-dialog dialog-content"
       >
         <div className="ui-dialog-header">
           <h2 id="ui-dialog-title-id" className="ui-dialog-title">

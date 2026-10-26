@@ -198,11 +198,9 @@ export function VerifyPage() {
 
     setRunnerStatus('running');
     setRunnerProgress(0);
-    setRunnerMatches(0);
     setRunnerMismatches([]);
 
     let current = 0;
-    let matchCount = 0;
     const mismatches: number[] = [];
     const CHUNK_SIZE = 32;
 
@@ -214,16 +212,13 @@ export function VerifyPage() {
         // Compare against candidate 1 bit formula
         const isExit = (bits & (1 << 8)) !== 0;
         const expected = isExit ? (bits & 1) !== 0 : (bits & 0x1ff) === 0x0ff;
-        if (loc === expected) {
-          matchCount++;
-        } else {
+        if (loc !== expected) {
           mismatches.push(bits);
         }
       }
 
       current = chunkEnd;
       setRunnerProgress(current);
-      setRunnerMatches(matchCount);
       setRunnerMismatches(mismatches);
 
       if (current < 512) {
@@ -379,7 +374,7 @@ export function VerifyPage() {
                     <Chip variant={pin.match ? 'active' : 'frozen'}>
                       {pin.match ? t('verify.pins.match') : t('verify.pins.mismatch')}
                     </Chip>
-                    <CopyButton text={pin.live} />
+                    <CopyButton textToCopy={pin.live} />
                   </div>
                 </div>
               ))}

@@ -21,12 +21,27 @@ function loadArtifact(relativePath: string): ArtifactJson {
   return JSON.parse(fs.readFileSync(fullPath, 'utf8')) as ArtifactJson;
 }
 
-export async function deployOnFork(options?: { rpcUrl?: string; allowLive?: boolean }) {
+export interface DeployOptions {
+  rpcUrl?: string;
+  allowLive?: boolean;
+  demo?: boolean;
+  loosenDelaySec?: number;
+  minWithdrawDelaySec?: number;
+  outJsonPath?: string;
+}
+
+export async function deployOnFork(options?: DeployOptions) {
   const rpcUrl = options?.rpcUrl || process.env.FORK_RPC_URL || 'http://127.0.0.1:8545';
   console.log(`=== Deploy Fork: connecting to ${rpcUrl} ===`);
 
   const isLocalHost = rpcUrl.includes('127.0.0.1') || rpcUrl.includes('localhost');
   const allowLive = options?.allowLive || process.argv.includes('--allow-live');
+  const isDemo = options?.demo || process.argv.includes('--demo');
+
+  const defaultLoosen = isDemo ? 120 : 86400;
+  const defaultMinWithdraw = isDemo ? 120 : 3600;
+  const loosenDelaySec = options?.loosenDelaySec ?? defaultLoosen;
+  const minWithdrawDelaySec = options?.minWithdrawDelaySec ?? defaultMinWithdraw;
 
   const publicClient = createPublicClient({ transport: http(rpcUrl) });
   const account = privateKeyToAccount(ANVIL_DEFAULT_KEY);
@@ -82,8 +97,8 @@ export async function deployOnFork(options?: { rpcUrl?: string; allowLive?: bool
     processor: tapeoutRes.circuitsAddr,
     circuitId: tapeoutRes.circuitId,
     netlistHash: MANDATE_V1_NETLIST_HASH as Hex,
-    loosenDelaySec: 86400,
-    minWithdrawDelaySec: 3600,
+    loosenDelaySec,
+    minWithdrawDelaySec,
     maxDepositBase: 500_000_000n, // 500 USDC, per spec section 8
     beacon: tapeoutRes.beacon,
     beaconImplementation: tapeoutRes.beaconImplementation,
@@ -123,8 +138,17 @@ export async function deployOnFork(options?: { rpcUrl?: string; allowLive?: bool
     forkBlock: tapeoutRes.blockNum.toString(),
   };
 
-  fs.writeFileSync(path.join(deploymentsDir, 'factory.json'), JSON.stringify(deployData, null, 2));
-  console.log('   Saved deployment to deployments/fork/factory.json');
+  const mainOutFile =
+    options?.outJsonPath ||
+    path.join(deploymentsDir, isDemo ? 'demo-factory.json' : 'factory.json');
+  fs.writeFileSync(mainOutFile, JSON.stringify(deployData, null, 2));
+  console.log(`   Saved deployment to ${mainOutFile}`);
+  if (isDemo && !options?.outJsonPath) {
+    fs.writeFileSync(
+      path.join(deploymentsDir, 'factory.json'),
+      JSON.stringify(deployData, null, 2),
+    );
+  }
 
   // 5. Update contracts/test/fork/Generated.sol
   const genSolDir = path.resolve('contracts/test/fork');

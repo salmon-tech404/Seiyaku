@@ -58,6 +58,7 @@ export function VaultDashboardPage() {
   const [balances, setBalances] = useState<Record<string, bigint>>({});
   const [activityLogs, setActivityLogs] = useState<VaultLogEvent[]>([]);
   const [freshnessBlock, setFreshnessBlock] = useState<bigint>(0n);
+  const [chainTimeSec, setChainTimeSec] = useState<bigint>(0n);
   const [lastFetchedSec, setLastFetchedSec] = useState<number>(Math.floor(Date.now() / 1000));
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
@@ -119,13 +120,14 @@ export function VaultDashboardPage() {
       setIsRefreshing(true);
 
       try {
-        const [blockNumber, state] = await Promise.all([
-          defaultPublicClient.getBlockNumber(),
+        const [block, state] = await Promise.all([
+          defaultPublicClient.getBlock({ blockTag: 'latest' }),
           readVaultState(defaultPublicClient, validVaultAddress),
         ]);
 
         setVaultState(state);
-        setFreshnessBlock(blockNumber);
+        setFreshnessBlock(block.number ?? 0n);
+        setChainTimeSec(block.timestamp);
         setLastFetchedSec(Math.floor(Date.now() / 1000));
         setVaultError(null);
 
@@ -135,13 +137,14 @@ export function VaultDashboardPage() {
         setBalances(bals);
 
         // Fetch recent logs (bounded to last 50 blocks for performance and RPC limits)
-        const fromBlock = blockNumber > 50n ? blockNumber - 50n : blockNumber;
+        const currentBlockNum = block.number ?? 0n;
+        const fromBlock = currentBlockNum > 50n ? currentBlockNum - 50n : 0n;
         try {
           const logs = await readVaultLogs(
             defaultPublicClient,
             validVaultAddress,
             fromBlock,
-            blockNumber,
+            currentBlockNum,
           );
           setActivityLogs(logs);
         } catch {
@@ -190,6 +193,7 @@ export function VaultDashboardPage() {
 
   // Rolled day stats
   const nowSec = Math.floor(Date.now() / 1000);
+  const effectiveNowSec = chainTimeSec > 0n ? chainTimeSec : BigInt(nowSec);
   const isStale = nowSec - lastFetchedSec > 60;
   const dayStats = useMemo(() => {
     if (!vaultState) return null;
@@ -351,7 +355,7 @@ export function VaultDashboardPage() {
           maxDailyBase: parseUnits(tightenMaxDaily || '0', 6),
           maxTradesPerDay: tightenTrades,
           cooldownSec: tightenCooldown,
-          expiresAt: BigInt(Math.floor(Date.now() / 1000) + tightenExpiry * 86400),
+          expiresAt: vaultState.limits.expiresAt,
           withdrawDelaySec: tightenWithdrawDelay,
         };
 
@@ -705,7 +709,7 @@ export function VaultDashboardPage() {
                   <div className="pending-actions-row">
                     <Button
                       variant="primary"
-                      disabled={BigInt(nowSec) < vaultState.pending.eta}
+                      disabled={effectiveNowSec < vaultState.pending.eta}
                       onClick={async () => {
                         if (!walletClient) return;
                         await runTransaction({
@@ -770,7 +774,7 @@ export function VaultDashboardPage() {
                   <div className="pending-actions-row">
                     <Button
                       variant="primary"
-                      disabled={BigInt(nowSec) < vaultState.withdrawal.eta}
+                      disabled={effectiveNowSec < vaultState.withdrawal.eta}
                       onClick={async () => {
                         if (!walletClient) return;
                         await runTransaction({
@@ -935,6 +939,7 @@ export function VaultDashboardPage() {
             <FieldRow label={t('dashboard.checker.amount')}>
               <input
                 type="text"
+                data-testid="checker-amount-input"
                 className="input-control"
                 value={checkerAmount}
                 onChange={(e) => setCheckerAmount(e.target.value)}

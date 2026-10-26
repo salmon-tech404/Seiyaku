@@ -1,0 +1,152 @@
+[
+  {
+    "filename": "create-agent-safe.png",
+    "scenario": "create agent safe",
+    "viewport": "1280x800",
+    "sha256": "d7af26179772872ce2d8265d492aaf53c15239252eedffda531cbafc5f87ba99"
+  },
+  {
+    "filename": "create-balanced-en.png",
+    "scenario": "create balanced en",
+    "viewport": "1280x800",
+    "sha256": "d7af26179772872ce2d8265d492aaf53c15239252eedffda531cbafc5f87ba99"
+  },
+  {
+    "filename": "create-balanced-mobile-vi-created.png",
+    "scenario": "create balanced mobile vi created",
+    "viewport": "390x844",
+    "sha256": "84c71b601a9b9ff084a1557ef61f63164a776c2e1c57a715f0cf8edf840ad930"
+  },
+  {
+    "filename": "create-balanced-mobile-vi.png",
+    "scenario": "create balanced mobile vi",
+    "viewport": "390x844",
+    "sha256": "7729c17a27213ba84339d420941e6ac0c5e47166f81a874542967415c9172c93"
+  },
+  {
+    "filename": "create-careful.png",
+    "scenario": "create careful",
+    "viewport": "1280x800",
+    "sha256": "d7af26179772872ce2d8265d492aaf53c15239252eedffda531cbafc5f87ba99"
+  },
+  {
+    "filename": "create-vault-keyboard-walkthrough.png",
+    "scenario": "create vault keyboard walkthrough",
+    "viewport": "1280x800",
+    "sha256": "9926cfc8da3cb0ad48b1e4146dee2b05ef2d3ca5d2f033a3f749433a4e72bc96"
+  },
+  {
+    "filename": "demo-banner-active.png",
+    "scenario": "demo banner active",
+    "viewport": "1280x800",
+    "sha256": "bd25df8e0564407129036e86a392e6a9556db31f536b3ab4dcd434ac41a55d1a"
+  },
+  {
+    "filename": "trade-checker-allowed.png",
+    "scenario": "trade checker allowed",
+    "viewport": "1280x800",
+    "sha256": "77d2e43bfaca1586f39d77cc85f7f8bfc13a714d80b48d2d7c0e0e638de2bc7b"
+  },
+  {
+    "filename": "trade-checker-blocked.png",
+    "scenario": "trade checker blocked",
+    "viewport": "1280x800",
+    "sha256": "a8f9e6cb873ea86bc4da57e38bc1802ad6f027e21e152db1a1c13e71150fa48c"
+  },
+  {
+    "filename": "vault-after-deposit-100usdc.png",
+    "scenario": "vault after deposit 100usdc",
+    "viewport": "1280x800",
+    "sha256": "a9d396fba731463e68ce302048187f737d966ed13a6b33cba3365f1ab2f48023"
+  },
+  {
+    "filename": "vault-after-trader-swap.png",
+    "scenario": "vault after trader swap",
+    "viewport": "1280x800",
+    "sha256": "fe71deb84d2def6795e64c743f3da97e087c4ab6aee1d3731670279cc8ef44b3"
+  },
+  {
+    "filename": "vault-before-deposit.png",
+    "scenario": "vault before deposit",
+    "viewport": "1280x800",
+    "sha256": "0b57e2f30e4101e779b178f56540d00e9e96b104607b2f63fd74cd2feb14ff94"
+  },
+  {
+    "filename": "vault-dashboard-mobile.png",
+    "scenario": "vault dashboard mobile",
+    "viewport": "390x844",
+    "sha256": "44e4d7c043bd4f75e0117a5d8d0ddbc0e2a1fde1f45adacfb9bdc7ac1cc24370"
+  },
+  {
+    "filename": "vault-frozen-status.png",
+    "scenario": "vault frozen status",
+    "viewport": "1280x800",
+    "sha256": "8ca6727f18e9a8e3168bf41ed83ed4231d276a1da3cbd221f29df3a732dca318"
+  },
+  {
+    "filename": "vault-limits-tightened.png",
+    "scenario": "vault limits tightened",
+    "viewport": "1280x800",
+    "sha256": "15f260e4bf9967a76fe49d34a52cd266f3d7cf836eff34e601930474ee702788"
+  },
+  {
+    "filename": "vault-loosen-executed.png",
+    "scenario": "vault loosen executed",
+    "viewport": "1280x800",
+    "sha256": "e0eacfbef56adaa45d2b6d1a0ac9d0420bd4110a68d6f22aced30daa7b517372"
+  },
+  {
+    "filename": "vault-loosen-queued.png",
+    "scenario": "vault loosen queued",
+    "viewport": "1280x800",
+    "sha256": "7934ca27bf9f86782b23a514d3ee93ba9175c7d149e6d2399cfb7798d01bde42"
+  },
+  {
+    "filename": "vault-stranger-view.png",
+    "scenario": "vault stranger view",
+    "viewport": "1280x800",
+    "sha256": "f21178393fcce6a19f0fc05f0bec0ac097b84c75e4dc8314bb894cf7f4e2946f"
+  },
+  {
+    "filename": "vault-withdraw-executed.png",
+    "scenario": "vault withdraw executed",
+    "viewport": "1280x800",
+    "sha256": "f5874091ce31ed7683f62c7474d7934abb758ad17c9e20c11d8b8431c2c7dc84"
+  },
+  {
+    "filename": "vault-withdraw-queued.png",
+    "scenario": "vault withdraw queued",
+    "viewport": "1280x800",
+    "sha256": "fea2232269d79f8b4bb7b1f0becdd86d910f791c26cc02c773799e4b5c7ec4f1"
+  },
+  {
+    "filename": "verify-page-512-cases.png",
+    "scenario": "verify page 512 cases",
+    "viewport": "1280x800",
+    "sha256": "94ff88a9fcb7b611a247b73cd380fd19cd0cbea1043181710cc5cb7cfb9150e8"
+  },
+  {
+    "filename": "verify-page-mobile.png",
+    "scenario": "verify page mobile",
+    "viewport": "390x844",
+    "sha256": "9c609c2f0263c8db0eff117636e358fd5c733d83460e60dd24100597fb884d95"
+  },
+  {
+    "filename": "verify-page-pass-dag.png",
+    "scenario": "verify page pass dag",
+    "viewport": "1280x800",
+    "sha256": "b0393acdc0341a499a4153bec53817aea51b20cac4abc960f23f5dd9f056c004"
+  },
+  {
+    "filename": "wallet-rejection-handled.png",
+    "scenario": "wallet rejection handled",
+    "viewport": "1280x800",
+    "sha256": "d470bcf1dcf2a9bb640426251f7e6bd6b5f64b1236dcd788d112d0f49133099d"
+  },
+  {
+    "filename": "wrong-network-banner.png",
+    "scenario": "wrong network banner",
+    "viewport": "1280x800",
+    "sha256": "3f796057ee97355fedf93d99fb911a7aa0200515725bb4131bc0422a64f68d67"
+  }
+]
