@@ -82,7 +82,7 @@
 }
 
 .site-main {
-  flex: 1;
+  flex: 1 0 auto;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -90,10 +90,11 @@
 }
 
 .site-footer {
+  flex-shrink: 0;
+  margin-top: auto;
   border-top: 1px solid var(--color-line);
   background-color: var(--color-panel);
   padding: 24px 16px;
-  margin-top: auto;
   font-size: 13px;
   color: var(--color-muted);
 }

@@ -196,7 +196,7 @@ export function HomePage() {
       <section className="home-cta-card">
         <h2 className="home-cta-title">{t('home.cta.title')}</h2>
         <p className="home-cta-desc">{t('home.cta.desc')}</p>
-        <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+        <div className="home-cta-actions">
           <Button variant="primary" onClick={() => navigate('#/create')}>
             {t('home.hero.ctaCreate')}
           </Button>
