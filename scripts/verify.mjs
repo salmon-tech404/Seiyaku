@@ -15,6 +15,12 @@ const steps = [
     args: ['test', '--no-match-path', '"test/fork/*"'],
     cwd: path.resolve('contracts'),
   },
+  {
+    name: 'ABI check',
+    cmd: 'npx',
+    args: ['tsx', 'scripts/check-abi.ts'],
+    cwd: path.resolve('.'),
+  },
   { name: 'ESLint', cmd: 'npx', args: ['eslint', '.'], cwd: path.resolve('.') },
   {
     name: 'Prettier check',
