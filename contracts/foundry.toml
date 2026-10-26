@@ -12,7 +12,8 @@ via_ir = false
 
 fs_permissions = [
   { access = "read", path = "./deployments" },
-  { access = "read", path = "../deployments" }
+  { access = "read", path = "../deployments" },
+  { access = "read", path = "./test/vectors" }
 ]
 
 [fuzz]

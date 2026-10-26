@@ -8,6 +8,9 @@ import {Limits, TradeParams, PendingChange, PendingWithdrawal, VaultStateView} f
 import {VaultInitParams} from "./types/ConfigTypes.sol";
 import {LimitsLib, InvalidLimits, NotStricter} from "./libraries/LimitsLib.sol";
 import {IMandateVault} from "./interfaces/IMandateVault.sol";
+import {IProcessor} from "./interfaces/IProcessor.sol";
+import {IBeacon} from "./interfaces/IBeacon.sol";
+import {ISwapRouter02} from "./interfaces/ISwapRouter02.sol";
 
 error NotOwner();
 error NotTrader();
@@ -21,7 +24,6 @@ error CircuitChanged();
 error SwapMismatch();
 error TransferFailed();
 error AlreadyInitialized();
-error NotImplemented();
 
 /**
  * @title MandateVault
@@ -120,18 +122,194 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
     }
 
     /**
-     * @notice Trader trades on Uniswap V3 subject to circuit verification.
-     * @dev Core trade logic will be fully implemented in P2-T03.
+     * @notice Packs a 16-bit input word into 2 little-endian bytes for the circuit.
      */
-    function trade(TradeParams calldata) external nonReentrant onlyTrader returns (uint256) {
-        revert NotImplemented();
+    function _packInputs(uint16 bits) internal pure returns (bytes memory) {
+        bytes memory packed = new bytes(2);
+        packed[0] = bytes1(uint8(bits & 0xff));
+        packed[1] = bytes1(uint8((bits >> 8) & 0xff));
+        return packed;
+    }
+
+    /**
+     * @notice Evaluates the 9 input bits against the pinned processor circuit via staticcall.
+     * @dev Fail-closed: reverts, malformed return data, or outputs without lowest bit 1 return false.
+     */
+    function _isAllowedByCircuit(uint16 bits) internal view returns (bool) {
+        address currentImpl = IBeacon(beacon).implementation();
+        if (currentImpl != beaconImplementation || currentImpl.codehash != beaconImplementationCodehash) {
+            return false;
+        }
+
+        bytes memory packed = _packInputs(bits);
+        (bool success, bytes memory returndata) =
+            processor.staticcall(abi.encodeWithSelector(IProcessor.eval.selector, circuitId, packed));
+        if (!success || returndata.length < 64) {
+            return false;
+        }
+
+        bytes memory output = abi.decode(returndata, (bytes));
+        return output.length > 0 && (uint8(output[0]) & 1) == 1;
+    }
+
+    /**
+     * @notice Computes the 9 rule input bits per specification.
+     * @dev Read-only roll of counters is applied for preview calculations.
+     */
+    function _inputBits(TradeParams calldata p) internal view returns (uint16 bits, bool isExit) {
+        address base = baseToken;
+        bool isBuy = p.tokenIn == base && p.tokenOut != base;
+        isExit = p.tokenOut == base && p.tokenIn != base;
+
+        // Bit 0: sane
+        // block.timestamp drift tolerance: second-level deadline bounds
+        if (
+            // forge-lint: disable-next-line(block-timestamp)
+            p.amountIn > 0 && p.amountOutMin > 0 && p.deadline >= block.timestamp
+                // forge-lint: disable-next-line(block-timestamp)
+                && p.deadline <= block.timestamp + 600 && (isBuy || isExit)
+                && (p.feeTier == 500 || p.feeTier == 3000 || p.feeTier == 10000)
+                && p.amountIn <= IERC20(p.tokenIn).balanceOf(address(this))
+        ) {
+            bits |= (1 << 0);
+        }
+
+        // Bit 1: tokenAllowed
+        if (allowedTokens[isBuy ? p.tokenOut : p.tokenIn]) {
+            bits |= (1 << 1);
+        }
+
+        // Bit 2: notExpired
+        // block.timestamp drift tolerance: second-level expiration bounds
+        // forge-lint: disable-next-line(block-timestamp)
+        if (block.timestamp <= limits.expiresAt) {
+            bits |= (1 << 2);
+        }
+
+        // Bit 3: notFrozen
+        if (!frozen) {
+            bits |= (1 << 3);
+        }
+
+        // Bit 4: sizeOk
+        if (isExit || p.amountIn <= limits.maxTradeBase) {
+            bits |= (1 << 4);
+        }
+
+        // UTC day calculation
+        // block.timestamp drift tolerance: UTC day calculation (86400s) is immune to second-level drift
+        // forge-lint: disable-next-line(block-timestamp, unsafe-typecast)
+        bool sameDay = (uint64(block.timestamp / 86400) == dayIndex);
+
+        // Bit 5: dailyOk
+        if (isExit || ((sameDay ? buyVolumeTodayBase : 0) + p.amountIn <= limits.maxDailyBase)) {
+            bits |= (1 << 5);
+        }
+
+        // Bit 6: tradesOk
+        if (isExit || ((sameDay ? tradesToday : 0) < limits.maxTradesPerDay)) {
+            bits |= (1 << 6);
+        }
+
+        // Bit 7: cooldownOk
+        // block.timestamp drift tolerance: second-level cooldown comparison
+        // forge-lint: disable-next-line(block-timestamp)
+        if (isExit || lastBuyAt == 0 || block.timestamp >= lastBuyAt + limits.cooldownSec) {
+            bits |= (1 << 7);
+        }
+
+        // Bit 8: isExit
+        if (isExit) {
+            bits |= (1 << 8);
+        }
     }
 
     /**
      * @notice Previews trade rule evaluation without executing state changes.
+     * @dev Never reverts; returns (bits, false) when blocked.
      */
-    function previewTrade(TradeParams calldata) external pure returns (uint16 inputBits, bool allowed) {
-        return (0, false);
+    function previewTrade(TradeParams calldata p) external view returns (uint16 inputBits, bool allowed) {
+        (uint16 bits,) = _inputBits(p);
+        inputBits = bits;
+        allowed = _isAllowedByCircuit(bits);
+    }
+
+    /**
+     * @notice Trader trades on Uniswap V3 subject to circuit verification.
+     * @param p Trade execution parameters.
+     * @return amountOut The exact output amount received from the swap.
+     */
+    function trade(TradeParams calldata p) external nonReentrant onlyTrader returns (uint256 amountOut) {
+        // 1. Verify circuit pinning per D15
+        address currentImpl = IBeacon(beacon).implementation();
+        if (currentImpl != beaconImplementation || currentImpl.codehash != beaconImplementationCodehash) {
+            revert CircuitChanged();
+        }
+
+        // 2. Build input bits
+        (uint16 bits, bool isExit) = _inputBits(p);
+
+        // 3. Evaluate circuit per D16
+        if (!_isAllowedByCircuit(bits)) {
+            revert RuleBlocked(bits);
+        }
+
+        // 4. Effects: for buy, roll UTC day counters and record lastBuyAt
+        if (!isExit) {
+            // block.timestamp drift tolerance: UTC day calculation (86400s) is immune to second-level drift
+            // forge-lint: disable-next-line(unsafe-typecast)
+            uint64 currentDay = uint64(block.timestamp / 86400);
+            if (currentDay != dayIndex) {
+                dayIndex = currentDay;
+                tradesToday = 1;
+                // forge-lint: disable-next-line(unsafe-typecast)
+                buyVolumeTodayBase = uint128(p.amountIn);
+            } else {
+                tradesToday += 1;
+                // forge-lint: disable-next-line(unsafe-typecast)
+                buyVolumeTodayBase += uint128(p.amountIn);
+            }
+            // forge-lint: disable-next-line(unsafe-typecast)
+            lastBuyAt = uint64(block.timestamp);
+        }
+
+        // 5. Interaction: Uniswap V3 swap with exact approval and delta checks
+        uint256 balanceInBefore = IERC20(p.tokenIn).balanceOf(address(this));
+        uint256 balanceOutBefore = IERC20(p.tokenOut).balanceOf(address(this));
+
+        IERC20(p.tokenIn).forceApprove(swapRouter, p.amountIn);
+
+        ISwapRouter02.ExactInputSingleParams memory swapParams = ISwapRouter02.ExactInputSingleParams({
+            tokenIn: p.tokenIn,
+            tokenOut: p.tokenOut,
+            fee: p.feeTier,
+            recipient: address(this),
+            amountIn: p.amountIn,
+            amountOutMinimum: p.amountOutMin,
+            sqrtPriceLimitX96: 0
+        });
+
+        // forge-lint: disable-next-line(reentrancy-no-eth)
+        amountOut = ISwapRouter02(swapRouter).exactInputSingle(swapParams);
+
+        IERC20(p.tokenIn).forceApprove(swapRouter, 0);
+
+        uint256 balanceInAfter = IERC20(p.tokenIn).balanceOf(address(this));
+        uint256 balanceOutAfter = IERC20(p.tokenOut).balanceOf(address(this));
+
+        if (balanceInBefore - balanceInAfter != p.amountIn) {
+            revert SwapMismatch();
+        }
+        if (balanceOutAfter <= balanceOutBefore) {
+            revert SwapMismatch();
+        }
+        uint256 deltaOut = balanceOutAfter - balanceOutBefore;
+        if (deltaOut < p.amountOutMin || deltaOut != amountOut) {
+            revert SwapMismatch();
+        }
+
+        // forge-lint: disable-next-line(reentrancy-events)
+        emit Traded(p.tokenIn, p.tokenOut, p.amountIn, amountOut, isExit);
     }
 
     /**

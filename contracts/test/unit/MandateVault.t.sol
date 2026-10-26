@@ -15,8 +15,7 @@ import {
     TooEarly,
     DepositCapExceeded,
     TransferFailed,
-    AlreadyInitialized,
-    NotImplemented
+    AlreadyInitialized
 } from "../../src/MandateVault.sol";
 import {NotStricter, InvalidLimits} from "../../src/libraries/LimitsLib.sol";
 import {MockERC20} from "../mocks/MockERC20.sol";
@@ -295,7 +294,7 @@ contract MandateVaultTest is Test {
         vault.setTrader(address(0));
     }
 
-    function test_previewTrade_andTradeStub() public {
+    function test_previewTrade_andTradeStub() public view {
         TradeParams memory p = TradeParams({
             tokenIn: address(usdc),
             tokenOut: address(wokb),
@@ -306,12 +305,9 @@ contract MandateVaultTest is Test {
         });
 
         (uint16 bits, bool allowed) = vault.previewTrade(p);
-        assertEq(bits, 0);
+        // vault has 0 usdc balance so sane condition bit 0 is 0
+        assertEq(bits & 1, 0);
         assertFalse(allowed);
-
-        vm.prank(trader);
-        vm.expectRevert(NotImplemented.selector);
-        vault.trade(p);
     }
 
     function test_state_viewReturnsExpectedStruct() public view {
