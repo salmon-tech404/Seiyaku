@@ -173,6 +173,7 @@ Vitest test suite `packages/agent-sdk/src/mcp.test.ts` executes and passes the f
 ## Forbidden Words Audit
 
 Audited all new and changed documentation (`docs/MCP.md`, `docs/DEPENDENCIES.md`, `reports/P4-T02_report.md`):
+
 - `silicon`: 0 occurrences
 - `hardware`: 0 occurrences
 - `audited` (without "un"): 0 occurrences

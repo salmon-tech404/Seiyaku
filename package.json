@@ -38,7 +38,8 @@
     "vectors:check": "tsx scripts/check-vectors.ts",
     "e2e": "tsx scripts/run-e2e.ts",
     "demo:prepare": "tsx scripts/demo-prepare.ts",
-    "demo:reset": "tsx scripts/demo-reset.ts"
+    "demo:reset": "tsx scripts/demo-reset.ts",
+    "demo:agent": "tsx examples/demo-agent/agent.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.1",

@@ -6,9 +6,13 @@ import path from 'node:path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const cliEntry = path.resolve(__dirname, '../src/cli/main.ts');
 
-const result = spawnSync(process.execPath, ['--import', 'tsx', cliEntry, ...process.argv.slice(2)], {
-  stdio: 'inherit',
-});
+const result = spawnSync(
+  process.execPath,
+  ['--import', 'tsx', cliEntry, ...process.argv.slice(2)],
+  {
+    stdio: 'inherit',
+  },
+);
 
 if (result.error) {
   const runner = process.platform === 'win32' ? 'npx.cmd' : 'npx';

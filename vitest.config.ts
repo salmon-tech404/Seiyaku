@@ -6,6 +6,7 @@ export default defineConfig({
       'packages/**/*.{test,spec}.{ts,tsx,js,jsx}',
       'apps/**/*.{test,spec}.{ts,tsx,js,jsx}',
       'scripts/**/*.{test,spec}.{ts,tsx,js,jsx}',
+      'examples/**/*.{test,spec}.{ts,tsx,js,jsx}',
     ],
     exclude: ['**/node_modules/**', '**/dist/**', 'contracts/**', 'apps/web/e2e/**'],
   },
