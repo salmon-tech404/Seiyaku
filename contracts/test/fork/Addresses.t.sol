@@ -34,7 +34,7 @@ contract AddressesForkTest is Test {
     address internal constant TAPEOUT_PROCESSOR_FACTORY = 0x1f09DAeFA827f02CBb40967cc91b259763760761;
     address internal constant USDC_HOLDER = 0x9f73888Fb725A3409548BC8d2e42365AC063E148;
 
-    function setUp() public {
+    function setUp() public view {
         if (USDC.code.length == 0) return;
     }
 

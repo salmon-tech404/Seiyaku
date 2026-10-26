@@ -1,5 +1,8 @@
 # Gate G1 Findings & Technical Probes
 
+> [!NOTE]
+> Probe contracts (`ProbeEval.sol`, `ProbeSwap.sol`) and their spike tests were temporary artifacts for Gate G1 feasibility validation. Per decision D20 and task P2-T06, all probe contracts under `contracts/src/probes/` and `contracts/test/fork/` have been removed for production readiness. Final end-to-end integration and gas numbers live in `contracts/test/fork/VaultFlow.t.sol` and `proposal/step-by-step/reports/P2-T05_report.md`.
+
 Network: **X Layer Mainnet** (Chain ID: 196)  
 Block Gas Limit: `210,000,000` (MEASURED via RPC `https://rpc.xlayer.tech` and local fork at block 74175908 on 2026-10-25)  
 Date: 2026-10-25

@@ -194,7 +194,7 @@ npm ci
 npm run verify
 ```
 
-The verify command runs formatting, linting, type checks, unit tests, contract tests and the translation check. To work against a local copy of X Layer, set `XLAYER_RPC_URL` as shown in `.env.example` and run `npm run fork`.
+The verify command runs formatting, linting, type checks, unit tests, contract tests and the translation check. To work against a local copy of X Layer, set `XLAYER_RPC_URL` as shown in `.env.example` and run `npm run fork`. To test the end-to-end user story on the fork, run `npm run fork:flow`. To simulate the mainnet deployment plan without keys, run `npm run deploy:mainnet -- --dry-run`.
 
 Never put a private key in a file in this repository. Tests use throwaway accounts that exist only on a local fork.
 
@@ -226,7 +226,7 @@ Other TapeOut projects such as TapeGuard, OpenGate and TapeSafe also use circuit
 
 ## 11. Deployments
 
-Not deployed yet. Addresses, transaction links, the live app and the demo video will be listed here after the mainnet release.
+Not deployed to mainnet yet. Deployment instructions and scripts are in [docs/DEPLOY.md](docs/DEPLOY.md). Preview the dry-run plan with `npm run deploy:mainnet -- --dry-run`. Addresses and transaction links will be recorded here after live mainnet release.
 
 ## 12. License
 
