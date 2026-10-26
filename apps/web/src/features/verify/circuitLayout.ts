@@ -179,8 +179,9 @@ export function computeCircuitLayout(inputValues: readonly boolean[]): DiagramLa
       layer: depth,
       value: val,
     };
-    if (!layerMap.has(depth)) layerMap.set(depth, []);
-    layerMap.get(depth)!.push(n);
+    const layerNodes = layerMap.get(depth) ?? [];
+    layerNodes.push(n);
+    layerMap.set(depth, layerNodes);
     nodeMap.set(n.id, n);
   }
 

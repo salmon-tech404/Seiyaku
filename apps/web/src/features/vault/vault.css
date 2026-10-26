@@ -133,6 +133,11 @@
   background: var(--color-success);
 }
 
+.rule-status-dot.neutral {
+  background: var(--color-muted);
+  opacity: 0.6;
+}
+
 .rule-status-dot.fail {
   background: var(--color-accent);
 }

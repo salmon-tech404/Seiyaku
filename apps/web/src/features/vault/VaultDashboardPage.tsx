@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useTranslation } from '../../shared/i18n/index.js';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useTranslation, type TranslationKey } from '../../shared/i18n/index.js';
 import { useRouter } from '../../shared/router/index.js';
 import { useWallet } from '../../chain/wallet.js';
 import { defaultPublicClient } from '../../chain/clients.js';
@@ -31,12 +31,22 @@ import { Dialog } from '../../shared/ui/Dialog.js';
 import { Tooltip } from '../../shared/ui/Tooltip.js';
 import { FieldRow } from '../../shared/ui/FieldRow.js';
 import { AddressText } from '../../shared/ui/AddressText.js';
-import { CopyButton } from '../../shared/ui/CopyButton.js';
 import { AmountText } from '../../shared/ui/AmountText.js';
 import { TimeText } from '../../shared/ui/TimeText.js';
 import { Skeleton } from '../../shared/ui/Skeleton.js';
 import { ErrorState } from '../../shared/ui/ErrorState.js';
 import './vault.css';
+
+const FAIL_CODE_KEYS: Record<string, TranslationKey> = {
+  ERR_INSANE_PARAMS: 'dashboard.fail.insane',
+  ERR_TOKEN_NOT_ALLOWED: 'dashboard.fail.notAllowed',
+  ERR_MANDATE_EXPIRED: 'dashboard.fail.expired',
+  ERR_VAULT_FROZEN: 'dashboard.fail.frozen',
+  ERR_TRADE_SIZE_EXCEEDED: 'dashboard.fail.size',
+  ERR_DAILY_VOLUME_EXCEEDED: 'dashboard.fail.daily',
+  ERR_DAILY_TRADES_EXCEEDED: 'dashboard.fail.trades',
+  ERR_COOLDOWN_ACTIVE: 'dashboard.fail.cooldown',
+};
 
 export function VaultDashboardPage() {
   const { t } = useTranslation();
@@ -210,9 +220,20 @@ export function VaultDashboardPage() {
     const tokenIn = isExit ? getAddress(checkerToken) : vaultState.baseToken;
     const tokenOut = isExit ? vaultState.baseToken : getAddress(checkerToken);
     const amt = parseUnits(checkerAmount || '0', 6);
-    const deadline = BigInt(Math.floor(Date.now() / 1000) + 300);
 
     try {
+      // Use the chain's own clock, not the browser clock, so that both sides see the same time
+      const latestBlock = await defaultPublicClient.getBlock();
+      const chainNow = latestBlock.timestamp;
+      const deadline = chainNow + 300n;
+      const heldToken = isExit ? tokenIn : tokenOut;
+      const heldTokenAllowed = (await defaultPublicClient.readContract({
+        address: validVaultAddress,
+        abi: mandateVaultAbi,
+        functionName: 'allowedTokens',
+        args: [heldToken],
+      })) as boolean;
+
       // 1. Preview on-chain
       const preview = await previewVaultTrade(defaultPublicClient, validVaultAddress, {
         tokenIn,
@@ -224,7 +245,7 @@ export function VaultDashboardPage() {
       });
 
       // 2. Compute locally with @seiyaku/circuit-tools
-      const nowBig = BigInt(Math.floor(Date.now() / 1000));
+      const nowBig = chainNow;
       const localBitsRes = computeInputBits(
         {
           baseToken: vaultState.baseToken,
@@ -233,9 +254,10 @@ export function VaultDashboardPage() {
           tradesToday: vaultState.tradesToday,
           buyVolumeTodayBase: vaultState.buyVolumeTodayBase,
           lastBuyAt: vaultState.lastBuyAt,
-          allowedTokens: new Set([DEFAULT_TOKENS.wokb.address.toLowerCase()]),
+          allowedTokens: new Set(heldTokenAllowed ? [heldToken.toLowerCase()] : []),
           balances: new Map([
             [vaultState.baseToken.toLowerCase(), balances[vaultState.baseToken] ?? 0n],
+            [heldToken.toLowerCase(), balances[heldToken] ?? balances[getAddress(heldToken)] ?? 0n],
           ]),
           now: nowBig,
         },
@@ -288,12 +310,15 @@ export function VaultDashboardPage() {
     }
   }, [vaultState, validVaultAddress, checkerType, checkerToken, checkerAmount, checkerFeeTier]);
 
-  // Auto-run trade checker when vaultState is ready and checker hasn't run yet
+  // Run the trade checker when the vault state is ready, and again whenever fresh data arrives,
+  // so that the rules card and the checker never describe an older block than the rest of the page.
+  const lastCheckedBlockRef = useRef<bigint | null>(null);
   useEffect(() => {
-    if (vaultState && !checkerResult && !isCheckingTrade) {
-      void handleCheckTrade();
-    }
-  }, [vaultState, checkerResult, isCheckingTrade, handleCheckTrade]);
+    if (!vaultState || isCheckingTrade) return;
+    if (lastCheckedBlockRef.current === freshnessBlock && checkerResult) return;
+    lastCheckedBlockRef.current = freshnessBlock;
+    void handleCheckTrade();
+  }, [vaultState, freshnessBlock, checkerResult, isCheckingTrade, handleCheckTrade]);
 
   // Execute on-chain action
   const handleExecuteAction = useCallback(async () => {
@@ -548,7 +573,6 @@ export function VaultDashboardPage() {
             <div className="vault-meta-item">
               <span>{t('create.success.address')}:</span>
               <AddressText address={validVaultAddress} />
-              <CopyButton textToCopy={validVaultAddress} />
             </div>
             <div className="vault-meta-item">
               <span>{t('dashboard.role.owner')}:</span>
@@ -637,11 +661,15 @@ export function VaultDashboardPage() {
                 return (
                   <div key={rName} className="rule-row-item">
                     <div className="rule-name-group">
-                      <span className={`rule-status-dot ${bitVal ? 'pass' : 'fail'}`} />
+                      <span
+                        className={`rule-status-dot ${rName === 'isExit' ? 'neutral' : bitVal ? 'pass' : 'fail'}`}
+                      />
                       <span>{t(`dashboard.rule.${rName}`)}</span>
                       <Tooltip content={t(`dashboard.rule.${rName}Tooltip`)} />
                     </div>
-                    <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>Bit {idx}</span>
+                    <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>
+                      {t('dashboard.rule.bit', { n: idx })}
+                    </span>
                   </div>
                 );
               })}
@@ -978,7 +1006,9 @@ export function VaultDashboardPage() {
               {checkerResult.failedCodes.length > 0 && (
                 <div>
                   {t('dashboard.checker.failedRules', {
-                    codes: checkerResult.failedCodes.join(', '),
+                    codes: checkerResult.failedCodes
+                      .map((code) => t(FAIL_CODE_KEYS[code] ?? 'dashboard.fail.other'))
+                      .join(' '),
                   })}
                 </div>
               )}

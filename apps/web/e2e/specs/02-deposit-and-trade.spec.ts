@@ -44,12 +44,11 @@ test.describe('Deposit and Trade Scenarios', () => {
     await dashboard.deposit('100');
 
     // Wait for balance to show 100 USDC
-    await expect(page.locator('.rule-row-item').filter({ hasText: 'USDC' })).toContainText(
-      '100.00',
-      {
-        timeout: 15000,
-      },
-    );
+    await expect(
+      page.locator('.rule-row-item').filter({ hasText: 'USDC (Base Token)' }),
+    ).toContainText('100.00', {
+      timeout: 15000,
+    });
 
     await captureAndRecordScreenshot(
       page,
@@ -87,9 +86,7 @@ test.describe('Deposit and Trade Scenarios', () => {
     // 2. Blocked trade (500 USDC exceeds 50 USDC maxTrade limit)
     await dashboard.checkTrade('500');
     await expect(dashboard.checkerResultBox).toHaveClass(/blocked/);
-    await expect(dashboard.checkerResultBox).toContainText(
-      /ERR_TRADE_SIZE_EXCEEDED|SIZE_EXCEEDED|size/i,
-    );
+    await expect(dashboard.checkerResultBox).toContainText(/larger than the per trade limit/i);
     await captureAndRecordScreenshot(
       page,
       'trade-checker-blocked.png',
@@ -151,12 +148,11 @@ test.describe('Deposit and Trade Scenarios', () => {
       .click();
 
     // Verify USDC balance decreased (to 90.00 USDC)
-    await expect(page.locator('.rule-row-item').filter({ hasText: 'USDC' })).toContainText(
-      '90.00',
-      {
-        timeout: 10000,
-      },
-    );
+    await expect(
+      page.locator('.rule-row-item').filter({ hasText: 'USDC (Base Token)' }),
+    ).toContainText('90.00', {
+      timeout: 10000,
+    });
 
     // Verify timeline contains Traded event
     await expect(page.locator('.timeline-event-title').filter({ hasText: /Traded/i })).toBeVisible({

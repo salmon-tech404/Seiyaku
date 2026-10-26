@@ -77,6 +77,7 @@ test.describe('Create Vault Scenarios across Templates', () => {
     await createPage.goto(`factory=${factoryAddress}&rpc=http://127.0.0.1:8545`);
     await createPage.connectWallet();
 
+    await createPage.selectTemplate('careful');
     await captureAndRecordScreenshot(page, 'create-careful.png', 'Create Vault - Careful Template');
 
     const vaultAddr = await createPage.createVault({
@@ -92,6 +93,7 @@ test.describe('Create Vault Scenarios across Templates', () => {
     await createPage.goto(`factory=${factoryAddress}&rpc=http://127.0.0.1:8545`);
     await createPage.connectWallet();
 
+    await createPage.selectTemplate('agent_safe');
     await captureAndRecordScreenshot(
       page,
       'create-agent-safe.png',

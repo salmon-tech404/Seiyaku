@@ -108,7 +108,7 @@ describe('VaultDashboardPage Component', () => {
 
     expect(await screen.findByText('Vault dashboard')).not.toBeNull();
     expect(screen.getByText("Today's activity & limits")).not.toBeNull();
-    expect(screen.getByText('Silicon mandate rules')).not.toBeNull();
+    expect(screen.getByText('Mandate rules')).not.toBeNull();
     expect(screen.getByText('Vault balances')).not.toBeNull();
     expect(screen.getByText('Pending proposals & withdrawals')).not.toBeNull();
     expect(screen.getByText('Vault management actions')).not.toBeNull();
@@ -121,7 +121,7 @@ describe('VaultDashboardPage Component', () => {
 
     expect(await screen.findByText('Bảng điều khiển kho ủy thác')).not.toBeNull();
     expect(screen.getByText('Hoạt động & hạn mức hôm nay')).not.toBeNull();
-    expect(screen.getByText('Bộ quy tắc phần cứng')).not.toBeNull();
+    expect(screen.getByText('Các luật của vault')).not.toBeNull();
     expect(screen.getByText('Số dư tài sản')).not.toBeNull();
     expect(screen.getByText('Đề xuất & yêu cầu rút đang chờ')).not.toBeNull();
     expect(screen.getByText('Thao tác quản trị kho')).not.toBeNull();

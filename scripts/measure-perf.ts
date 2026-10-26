@@ -103,7 +103,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve('scripts/m
     console.log(`Load Event End:                  ${metrics.loadMs} ms`);
     console.log('----------------------------------------------------');
     console.log(
-      `Total Uncompressed Bundle:       ${(metrics.totalUncompressedBytes / 1024).toFixed(2)} KB (budget: 600.00 KB)`,
+      `Total Uncompressed Bundle:       ${(metrics.totalUncompressedBytes / 1024).toFixed(2)} KB (budget: 800.00 KB)`,
     );
     console.log(
       `Total Gzip Transferred:          ${(metrics.totalGzipBytes / 1024).toFixed(2)} KB`,

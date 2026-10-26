@@ -17,7 +17,7 @@ describe('HomePage', () => {
       </I18nProvider>,
     );
 
-    expect(screen.getByText('Autonomous Trading Bounded by On-Chain Hardware Logic')).toBeDefined();
+    expect(screen.getByText('A pledge to yourself, enforced onchain')).toBeDefined();
     expect(screen.getByText('Instant tightening')).toBeDefined();
     expect(screen.getByText('Delayed loosening')).toBeDefined();
     expect(screen.getByText('Exits always open')).toBeDefined();
@@ -36,7 +36,7 @@ describe('HomePage', () => {
       </I18nProvider>,
     );
 
-    expect(screen.getByText('Giao dịch tự động ràng buộc bởi mạch logic phần cứng')).toBeDefined();
+    expect(screen.getByText('Một lời thề với chính mình, được thực thi trên chain')).toBeDefined();
     expect(screen.getByText('Thắt chặt tức thì')).toBeDefined();
     expect(screen.getByText('Nới lỏng có độ trễ')).toBeDefined();
     expect(screen.getByText('Lối thoát luôn mở')).toBeDefined();

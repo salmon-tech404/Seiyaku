@@ -4,7 +4,7 @@
  * 1. Base './' - no absolute asset URLs (/assets/...) in HTML or CSS
  * 2. File names: ASCII only, lowercase, no spaces
  * 3. Size limits: no file > 30 KB unless it is JS or CSS
- * 4. Total uncompressed size <= 600 KB (budget)
+ * 4. Total uncompressed size <= 800 KB (budget, decision D25)
  * 5. No external runtime assets (external CDNs, fonts, third-party analytics scripts)
  */
 
@@ -46,7 +46,7 @@ export function checkStaticBuild(distDir = path.resolve('apps/web/dist')) {
   walk(distDir);
 
   let totalBytes = 0;
-  const BUDGET_TOTAL_BYTES = 600 * 1024; // 600 KB
+  const BUDGET_TOTAL_BYTES = 800 * 1024; // 800 KB (decision D25)
   const MAX_NON_JS_CSS_FILE_BYTES = 30 * 1024; // 30 KB
 
   for (const f of files) {
@@ -99,7 +99,7 @@ export function checkStaticBuild(distDir = path.resolve('apps/web/dist')) {
   // 4. Total size budget check
   if (totalBytes > BUDGET_TOTAL_BYTES) {
     errors.push(
-      `Total static build size ${(totalBytes / 1024).toFixed(1)} KB exceeds the 600.0 KB budget!`,
+      `Total static build size ${(totalBytes / 1024).toFixed(1)} KB exceeds the 800.0 KB budget!`,
     );
   }
 
@@ -133,7 +133,7 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '
   }
   console.log('----------------------------------------------------');
   console.log(
-    `  TOTAL UNCOMPRESSED:                      ${(result.totalBytes / 1024).toFixed(2).padStart(8)} KB (budget: 600.00 KB)\n`,
+    `  TOTAL UNCOMPRESSED:                      ${(result.totalBytes / 1024).toFixed(2).padStart(8)} KB (budget: 800.00 KB)\n`,
   );
 
   if (!result.ok) {

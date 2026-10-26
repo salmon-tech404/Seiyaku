@@ -128,12 +128,11 @@ test.describe('Vault Lifecycle: Freeze, Tighten, Loosen, and Withdraw', () => {
     });
 
     // Verify USDC balance decreased
-    await expect(page.locator('.rule-row-item').filter({ hasText: 'USDC' })).toContainText(
-      '80.00',
-      {
-        timeout: 10000,
-      },
-    );
+    await expect(
+      page.locator('.rule-row-item').filter({ hasText: 'USDC (Base Token)' }),
+    ).toContainText('80.00', {
+      timeout: 10000,
+    });
 
     await captureAndRecordScreenshot(
       page,

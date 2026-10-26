@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- test file: indexes are asserted just above each use */
 import { describe, it, expect } from 'vitest';
 import { computeSignalDepths, evaluateSignals, computeCircuitLayout } from './circuitLayout.js';
 import { mandateV1Netlist } from '@seiyaku/circuit-tools';

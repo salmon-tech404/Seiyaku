@@ -29,7 +29,7 @@ describe('VerifyPage', () => {
 
     expect(screen.getByRole('heading', { level: 1 })).toBeDefined();
     expect(screen.getByPlaceholderText('0x...')).toBeDefined();
-    expect(screen.getByText('Silicon NAND Gate Topology')).toBeDefined();
+    expect(screen.getByText('Rule circuit (17 NAND gates)')).toBeDefined();
     expect(screen.getByText('Live Circuit Evaluation')).toBeDefined();
   });
 

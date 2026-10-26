@@ -208,7 +208,7 @@ async function main() {
       `   FCP: ${perfMetrics.fcpMs} ms | DCL: ${perfMetrics.domContentLoadedMs} ms | Load: ${perfMetrics.loadMs} ms`,
     );
     console.log(
-      `   Total Static Bundle: ${(perfMetrics.totalUncompressedBytes / 1024).toFixed(2)} KB (budget: 600.00 KB)`,
+      `   Total Static Bundle: ${(perfMetrics.totalUncompressedBytes / 1024).toFixed(2)} KB (budget: 800.00 KB)`,
     );
 
     // 7. Run Playwright E2E tests
