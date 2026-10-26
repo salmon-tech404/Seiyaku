@@ -298,6 +298,7 @@ export function CreateVaultPage() {
               >
                 <div className="input-with-unit">
                   <input
+                    id="maxTradeBase"
                     type="text"
                     className="input-control"
                     aria-label={t('create.field.maxTrade')}
@@ -319,6 +320,7 @@ export function CreateVaultPage() {
               >
                 <div className="input-with-unit">
                   <input
+                    id="maxDailyBase"
                     type="text"
                     className="input-control"
                     aria-label={t('create.field.maxDaily')}
@@ -340,6 +342,7 @@ export function CreateVaultPage() {
               >
                 <div className="input-with-unit">
                   <input
+                    id="maxTradesPerDay"
                     type="number"
                     className="input-control"
                     aria-label={t('create.field.maxTradesPerDay')}
@@ -362,6 +365,7 @@ export function CreateVaultPage() {
               >
                 <div className="input-with-unit">
                   <input
+                    id="cooldownSec"
                     type="number"
                     className="input-control"
                     aria-label={t('create.field.cooldown')}
@@ -381,6 +385,7 @@ export function CreateVaultPage() {
               <FieldRow label={t('create.field.expiry')} tooltip={t('create.field.expiryTooltip')}>
                 <div className="input-with-unit">
                   <input
+                    id="expiresAt"
                     type="number"
                     className="input-control"
                     aria-label={t('create.field.expiry')}
@@ -403,6 +408,7 @@ export function CreateVaultPage() {
               >
                 <div className="input-with-unit">
                   <input
+                    id="withdrawDelaySec"
                     type="number"
                     className="input-control"
                     aria-label={t('create.field.withdrawDelay')}

@@ -1,0 +1,450 @@
+[
+  {
+    "filename": "home-desktop-dark-en.png",
+    "scenario": "home",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "526f2870ca662017232f3dd1cb94c283bf3789057eb439da693c00b0ef5ab858"
+  },
+  {
+    "filename": "create-default-desktop-dark-en.png",
+    "scenario": "create-default",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "ca4aea25f97ab43973261bf91c058bf5fe20b047dd584d71a13946771b943d2a"
+  },
+  {
+    "filename": "create-filled-desktop-dark-en.png",
+    "scenario": "create-filled",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "c79e5754943fa833ff3b88afaf93031c407b1a375bdaa8c11d06f11e2b9cf4b5"
+  },
+  {
+    "filename": "dashboard-fresh-desktop-dark-en.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "4dc864428f7d8fd51cdb65ffd31da95b870beb5ce138999a49e9454d39414436"
+  },
+  {
+    "filename": "dashboard-after-buy-desktop-dark-en.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "afb66c3db2d5ef4546d8807528c3edba54b797c39e3b689969e92f79eb89fa33"
+  },
+  {
+    "filename": "dashboard-pending-desktop-dark-en.png",
+    "scenario": "dashboard-pending",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "ce7f0591f2345cf8f8ce525a2426de7bcd447303582916a5e12b4122ae2ac0fc"
+  },
+  {
+    "filename": "verify-pass-diagram-desktop-dark-en.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "0224e9fd05797d3ccd10a45e65aee04423671c4eebc5e6d9922b7da35ee61c65"
+  },
+  {
+    "filename": "home-desktop-dark-vi.png",
+    "scenario": "home",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "630144573a3a477e95e2ad176e91f7787dafd836bc0a66d472ad172e0d0393a9"
+  },
+  {
+    "filename": "create-default-desktop-dark-vi.png",
+    "scenario": "create-default",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "744bcc33f78bb10e30d3130a336ade6a619f1429326af2123bdcfb0a33215796"
+  },
+  {
+    "filename": "create-filled-desktop-dark-vi.png",
+    "scenario": "create-filled",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "1b464f0581fc809a8a65472a43540e3324c9fab3d992e23e35520e2eeeb14129"
+  },
+  {
+    "filename": "dashboard-fresh-desktop-dark-vi.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "bfa901ebb00053f73cc0cbed02c4e754e5570b51c0495ab4b4a5e39e13044cff"
+  },
+  {
+    "filename": "dashboard-after-buy-desktop-dark-vi.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "5fafb45d6bfe093420b308f5a06c1b776d8a3b1c2de71e8236a92a8257845bee"
+  },
+  {
+    "filename": "dashboard-pending-desktop-dark-vi.png",
+    "scenario": "dashboard-pending",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "84344c474a204c6f57d37da08e9ede9efdf9e04738806f99948cf1f745954144"
+  },
+  {
+    "filename": "verify-pass-diagram-desktop-dark-vi.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "1280x800",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "23fd877401793bd2bdf5792a34e5ff2111d27bb6e447a7aa02e2afdc6c1ee880"
+  },
+  {
+    "filename": "home-desktop-light-en.png",
+    "scenario": "home",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "0d27c08650893de746a8f5223f71c48c617c07a2eb5031219ea7c4c985d03559"
+  },
+  {
+    "filename": "create-default-desktop-light-en.png",
+    "scenario": "create-default",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "fa17aaf1128e90d8856ac6ccdc05f242e2f878b96b30abfacbb02a8c47cb5732"
+  },
+  {
+    "filename": "create-filled-desktop-light-en.png",
+    "scenario": "create-filled",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "4e78dbb0e75898797f4b8e6c1dd7031bd1762836b235b6446170662caa4759ca"
+  },
+  {
+    "filename": "dashboard-fresh-desktop-light-en.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "b81f9ab3f6e6105c89023ce9e5a6781e0867c571ac47ddec45bacbe57bba1066"
+  },
+  {
+    "filename": "dashboard-after-buy-desktop-light-en.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "8cc07381ffb00874094ff27c1c06e75d073d00f4b2cfc56008bc7b9ccd9fcb3b"
+  },
+  {
+    "filename": "dashboard-pending-desktop-light-en.png",
+    "scenario": "dashboard-pending",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "1e950221f807f02eca6fb9e550af4dd820469c3a7c87fa96e1c4b0b08aaa1047"
+  },
+  {
+    "filename": "verify-pass-diagram-desktop-light-en.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "fb5915d82261c413894d09ac98c8f1991f10867e6751619cd359ad73b4731af8"
+  },
+  {
+    "filename": "home-desktop-light-vi.png",
+    "scenario": "home",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "ac5d87543369ded561727807664d6f8e31a3da69d7e18b397a408e3e5935c3ba"
+  },
+  {
+    "filename": "create-default-desktop-light-vi.png",
+    "scenario": "create-default",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "b24bdc83f0286ae2d281c185e11180445cc4f8d5e8323ccedf1a8a227dc3b192"
+  },
+  {
+    "filename": "create-filled-desktop-light-vi.png",
+    "scenario": "create-filled",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "9136c602ee41951ed07e9dd6d1b8516f54ebec3b9cc719e40e928bd1c43128d5"
+  },
+  {
+    "filename": "dashboard-fresh-desktop-light-vi.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "268c0f75a0b5e43cd8c98dbd8236a55de87b31a73a4b936744d8b6fc3a335ca5"
+  },
+  {
+    "filename": "dashboard-after-buy-desktop-light-vi.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "82e575648d3bf715514539d2d6cfce33a90f4d48614a18468280b2c858386de2"
+  },
+  {
+    "filename": "dashboard-pending-desktop-light-vi.png",
+    "scenario": "dashboard-pending",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "ea9707b024391a3075111e42ae1ecc5ad90f451fc7d525b2aac543b4c144370f"
+  },
+  {
+    "filename": "verify-pass-diagram-desktop-light-vi.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "1280x800",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "dbbe92c05d50533664bbcfd1e62d4309246493ec024a1a0ae040068ee65465ff"
+  },
+  {
+    "filename": "home-mobile-dark-en.png",
+    "scenario": "home",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "2beb5b1a8a70121f977b9d1520f7157414f480e85884dda51369bc3b4bec8697"
+  },
+  {
+    "filename": "create-default-mobile-dark-en.png",
+    "scenario": "create-default",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "e5b7e6947b428b9d34e7149b8497be9ddfa3e21499eed0e1fd9679c28fdbccba"
+  },
+  {
+    "filename": "create-filled-mobile-dark-en.png",
+    "scenario": "create-filled",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "af6d03bf4511f9c1cac2e16379af57b119d7e016f2b7fc43cdb26c71c4ca3ca3"
+  },
+  {
+    "filename": "dashboard-fresh-mobile-dark-en.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "a214dd08f7954dea14d3a6d3a712d04954f86c68462ebeca12a42cd4f5127efe"
+  },
+  {
+    "filename": "dashboard-after-buy-mobile-dark-en.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "cd55a2fd5f70fd991e04026e3a48f95be3ee88cb6d8ca73ae7c3911b673e27a6"
+  },
+  {
+    "filename": "dashboard-pending-mobile-dark-en.png",
+    "scenario": "dashboard-pending",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "8e419e481146e9299cbd6fbe52e3d073754798c9d0826ca3e1688e1cfab9cd5d"
+  },
+  {
+    "filename": "verify-pass-diagram-mobile-dark-en.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "en",
+    "sha256": "73abe46c44e0763171f76335236a37a2d2304b41c7fb05963b65a6dd77a5b14b"
+  },
+  {
+    "filename": "home-mobile-dark-vi.png",
+    "scenario": "home",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "6356f992fc398dbc34433eeede2df5f9cc157163fd6129b27b107da5c2ee8280"
+  },
+  {
+    "filename": "create-default-mobile-dark-vi.png",
+    "scenario": "create-default",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "618bc73a2791d6ff32e396fc01fc0cc1a8adabc91c839a091853f755209119e0"
+  },
+  {
+    "filename": "create-filled-mobile-dark-vi.png",
+    "scenario": "create-filled",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "fd0d3050da2a93ff3989a672a11e0e6466a5dd60d24be516ebd9b1ba57050936"
+  },
+  {
+    "filename": "dashboard-fresh-mobile-dark-vi.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "d70f83b63fb10a687d011b462a531aaaf9be8421daa2aa419e7be8e4346872ca"
+  },
+  {
+    "filename": "dashboard-after-buy-mobile-dark-vi.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "a99651044e467adfa3e79206e52947e9531705669dd7f7c75b1af776616ed273"
+  },
+  {
+    "filename": "dashboard-pending-mobile-dark-vi.png",
+    "scenario": "dashboard-pending",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "fd96ebaa759ee7bf665aa3234e0b327797a47aed9f2f78ed29125dc28c3ffabe"
+  },
+  {
+    "filename": "verify-pass-diagram-mobile-dark-vi.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "390x844",
+    "theme": "dark",
+    "lang": "vi",
+    "sha256": "27cdad8286d98506148f749609a0a2ea8a173ec21e89a6e30e9a75179f661784"
+  },
+  {
+    "filename": "home-mobile-light-en.png",
+    "scenario": "home",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "2c6d740d8610de3e6245161c5c5f4f1c0d23483c309253b19d6b24150d8a47ad"
+  },
+  {
+    "filename": "create-default-mobile-light-en.png",
+    "scenario": "create-default",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "384d75332e31299fae37554846ed841f8c7d9b6773466fa0d2e32f2a3b9166cb"
+  },
+  {
+    "filename": "create-filled-mobile-light-en.png",
+    "scenario": "create-filled",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "0f66d925fc86e3c22dc9d751bb2cd6888d730d3a4385f4653473c88f705c25a9"
+  },
+  {
+    "filename": "dashboard-fresh-mobile-light-en.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "982fd3a76be6e55c542dc28a2b5b3e82df5841d1a7c431f1b4cd43a4285d1d87"
+  },
+  {
+    "filename": "dashboard-after-buy-mobile-light-en.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "d73beadb00c4c85ad2ea5287974d78ecb000dbae892968929062740336f31ba0"
+  },
+  {
+    "filename": "dashboard-pending-mobile-light-en.png",
+    "scenario": "dashboard-pending",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "b596c53c629cce7dcc9d41f5a0a89c7ff84910b172148815618e976429855e2c"
+  },
+  {
+    "filename": "verify-pass-diagram-mobile-light-en.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "en",
+    "sha256": "703e7acc5e255f5ff2b064ffead8094eb47c52084b4dfb4ac88206b8efb490d6"
+  },
+  {
+    "filename": "home-mobile-light-vi.png",
+    "scenario": "home",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "7c56633e6c5cbab5a81c58bfab7c123c27a154f16c6d61c6f0442258d9e0d91f"
+  },
+  {
+    "filename": "create-default-mobile-light-vi.png",
+    "scenario": "create-default",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "ac62248fb66d536e44e80c38e674d8d68261a966d1e6144f779ab0d51b35add8"
+  },
+  {
+    "filename": "create-filled-mobile-light-vi.png",
+    "scenario": "create-filled",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "851335cacb39186242b25921a51477c3f468462e3dd543d85de9432193b4df58"
+  },
+  {
+    "filename": "dashboard-fresh-mobile-light-vi.png",
+    "scenario": "dashboard-fresh",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "09ac05a68cf737a844f18ad80d23b418fbcb9a0742445c2a53c6295967d9505d"
+  },
+  {
+    "filename": "dashboard-after-buy-mobile-light-vi.png",
+    "scenario": "dashboard-after-buy",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "90eaed3ba963351aa9225831f61553ffccf2968377c738e26850496c9cc69b24"
+  },
+  {
+    "filename": "dashboard-pending-mobile-light-vi.png",
+    "scenario": "dashboard-pending",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "cc28fd6e3b461757b046599fc0a851745aba880387f4eeb2b6d195320ebbaf7c"
+  },
+  {
+    "filename": "verify-pass-diagram-mobile-light-vi.png",
+    "scenario": "verify-pass-diagram",
+    "viewport": "390x844",
+    "theme": "light",
+    "lang": "vi",
+    "sha256": "7fd6ad0297f63e7a12aca0fcb4327434d885e25bb4aad5e7e31e122b126886a5"
+  }
+]

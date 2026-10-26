@@ -3,150 +3,150 @@
     "filename": "create-agent-safe.png",
     "scenario": "create agent safe",
     "viewport": "1280x800",
-    "sha256": "d5ec6123a5ff859a88b98899bf9a812c4b8ce9bc2e983eae342edcf772cfb6e3"
+    "sha256": "dee3221b99ac59141440023cd01b3d7380aacc0a25eab9fab28db615d4650da0"
   },
   {
     "filename": "create-balanced-en.png",
     "scenario": "create balanced en",
     "viewport": "1280x800",
-    "sha256": "93bc67c9a39b2baa2471e7b0ca6120741b3071d163a2535c2fb3b5989a763b15"
+    "sha256": "6f7040b7d9647b7bf67b9cb55ed30cb54c1b426d06c8dfae16f3c55611a5ef0d"
   },
   {
     "filename": "create-balanced-mobile-vi-created.png",
     "scenario": "create balanced mobile vi created",
     "viewport": "390x844",
-    "sha256": "0e0f36d30edbb1bd86320aedfe3fcb3aa8cc032b916b68ef398c25ac9bc1358b"
+    "sha256": "78589cfd22e084b91eb30c375ec3dc596cc4a083a71b2b28744499bb5efa1fb9"
   },
   {
     "filename": "create-balanced-mobile-vi.png",
     "scenario": "create balanced mobile vi",
     "viewport": "390x844",
-    "sha256": "9d64c516ac43a316d46adb5bd3c0e323aeaad9dc92646c2865902baef83e4904"
+    "sha256": "62b795795f03d55d0c579a522b5eb470f6730458420853a3e77c18755e7fe85c"
   },
   {
     "filename": "create-careful.png",
     "scenario": "create careful",
     "viewport": "1280x800",
-    "sha256": "69e3f92395c97f0d945aad4057c9d2874565aa65ded9b9d9f18fb42039ad4d77"
+    "sha256": "cb3f086e84777229540ef20aa1640b53fd89def983378848356a1d951ff05d15"
   },
   {
     "filename": "create-vault-keyboard-walkthrough.png",
     "scenario": "create vault keyboard walkthrough",
     "viewport": "1280x800",
-    "sha256": "4f9e09877e59e02b92cf46c6f9733d60a1582e2bcf08c44ffd10e9ec8f245ba0"
+    "sha256": "6e8eec6b74f27a25c6008b33ee08b5e939dcce47b16ad71b4a12c3a9a0bfda8d"
   },
   {
     "filename": "demo-banner-active.png",
     "scenario": "demo banner active",
     "viewport": "1280x800",
-    "sha256": "7aa2717d825d9439084d2f90e0d65a2dc996cbc39ccdfc30b8fff7994942288d"
+    "sha256": "0d27c08650893de746a8f5223f71c48c617c07a2eb5031219ea7c4c985d03559"
   },
   {
     "filename": "trade-checker-allowed.png",
     "scenario": "trade checker allowed",
     "viewport": "1280x800",
-    "sha256": "9cf13e33fa040c4089ac2dc68f14359d744502bf14997cc01ac78c460d2eb743"
+    "sha256": "d07258a8dc752a12db472dd35a69d1f3a7d63d6f367746a2a8872d3aef533b59"
   },
   {
     "filename": "trade-checker-blocked.png",
     "scenario": "trade checker blocked",
     "viewport": "1280x800",
-    "sha256": "fb53cce78882a94ce524022fe8b3b7cf447f8d0184b2f6509b6ac1b04ac205f7"
+    "sha256": "a57f9f72e19eca89b1108d3cd7833f56006c5676fdb77286f919ddba6b548258"
   },
   {
     "filename": "vault-after-deposit-100usdc.png",
     "scenario": "vault after deposit 100usdc",
     "viewport": "1280x800",
-    "sha256": "ee0d54101b3f2353556a573a2c053e437449a1c5de8f185aec86e26d3dc8697a"
+    "sha256": "5ca7614cfcef13559b3df95410b0b5f990449daa4e04953f26a9ec8603f58207"
   },
   {
     "filename": "vault-after-trader-swap.png",
     "scenario": "vault after trader swap",
     "viewport": "1280x800",
-    "sha256": "52eda80aa85a1430e188cf13d5451212f4aa51b8ea8c02f5f6d9df5f76f64149"
+    "sha256": "c52b2372448c285de560bf4f22847ba952225d0a85a3a1533be4e0a8169af990"
   },
   {
     "filename": "vault-before-deposit.png",
     "scenario": "vault before deposit",
     "viewport": "1280x800",
-    "sha256": "8e280e0371f3e58e273a8b3e8a8bd14946bd5a60ede707bbda1651fa0f4eafc8"
+    "sha256": "89d25147ae90fe620f7f9d197d0ba6c2c6568bf52cf5449ceddb29cd0340e1d2"
   },
   {
     "filename": "vault-dashboard-mobile.png",
     "scenario": "vault dashboard mobile",
     "viewport": "390x844",
-    "sha256": "dcb6223c7107c115cbfa11c1df39ec16a4385cf3b65df34cddbd263334c6c944"
+    "sha256": "5b14d81006a0faf715b4e5fc6668f57ff9ffa1f1f5036b6bc842bf14458889b0"
   },
   {
     "filename": "vault-frozen-status.png",
     "scenario": "vault frozen status",
     "viewport": "1280x800",
-    "sha256": "37d508e4f408ac815bb3a18a901ae84b1007817362c260bcf594c3e2f91a41b3"
+    "sha256": "c5d6735655419495185528985088e9d39bf572806ff0172d5fddec7db56a5ae9"
   },
   {
     "filename": "vault-limits-tightened.png",
     "scenario": "vault limits tightened",
     "viewport": "1280x800",
-    "sha256": "7d753be173e2fa5da22d0788d5f681b34006b873fdc476116048b0131714ff34"
+    "sha256": "e94aef90d7b97c6bae5b18872607c848ca096e776e013a1c9480af71cd07e078"
   },
   {
     "filename": "vault-loosen-executed.png",
     "scenario": "vault loosen executed",
     "viewport": "1280x800",
-    "sha256": "044fb87a881d8c5c95fd520530491b7227304ced770c68a73e023c3a3a578c69"
+    "sha256": "9425ba1e1025a6da5cf2fcbb37569923ec5965589c56418758d0fd7b66e35086"
   },
   {
     "filename": "vault-loosen-queued.png",
     "scenario": "vault loosen queued",
     "viewport": "1280x800",
-    "sha256": "0c27578f4e7fe3def202198f354039729e6bc7e4e7d06325a08f46a4cc8af407"
+    "sha256": "230d1f32500885d79a200b42ca72445247cc1b2f3081f47e82790edfa74b8e5a"
   },
   {
     "filename": "vault-stranger-view.png",
     "scenario": "vault stranger view",
     "viewport": "1280x800",
-    "sha256": "666fc509e7dc6dd5c04267625d275308cdf13e590c7825fde82f3c1a2460def7"
+    "sha256": "b968e4e12a94c2d5b65e7b717bd17114d98943d3c0d2fcec3b3c5a3b737e8e62"
   },
   {
     "filename": "vault-withdraw-executed.png",
     "scenario": "vault withdraw executed",
     "viewport": "1280x800",
-    "sha256": "8a94519089fbc7e53f56b8983835a5d88d8a0b933378447be6450ed6b33dc7a2"
+    "sha256": "0c242190bb48490beeb58c1bb96d7510b8483ab3721e22f47fb4873a267e1901"
   },
   {
     "filename": "vault-withdraw-queued.png",
     "scenario": "vault withdraw queued",
     "viewport": "1280x800",
-    "sha256": "51233ef9c15b4332a5f1571bf39b024a9705623c077fb03c3ea30a2221e5293f"
+    "sha256": "3497b18537b0b6677032b0b0b3c124daa04d99aa0ab733dfa96a34442a08e8bb"
   },
   {
     "filename": "verify-page-512-cases.png",
     "scenario": "verify page 512 cases",
     "viewport": "1280x800",
-    "sha256": "ec635093e805ac0371045cb135c0dc7b4f074b45522ec53db28873f306588b53"
+    "sha256": "8a1a7338a8f21c598c0a357505f420d6a5d67c0901bc0f808b34e61784ca2e61"
   },
   {
     "filename": "verify-page-mobile.png",
     "scenario": "verify page mobile",
     "viewport": "390x844",
-    "sha256": "3d57c2fd7b1104c973590aeea2175c88d333679d3b94bfcfd38ff05b4c124c91"
+    "sha256": "3bf5e8da08a3ff8d0acac0fd429a80b3ee4da6d094ad51d0fa8f2e35549f3d24"
   },
   {
     "filename": "verify-page-pass-dag.png",
     "scenario": "verify page pass dag",
     "viewport": "1280x800",
-    "sha256": "72848e132dd4d250ccc9815660f1d8f75c929a25e1dab63d2c43b9e38e21c17b"
+    "sha256": "f7b93e66bbd3d74757aa5e4157848e6c4445658d4e9fc62a55da13aea1642b29"
   },
   {
     "filename": "wallet-rejection-handled.png",
     "scenario": "wallet rejection handled",
     "viewport": "1280x800",
-    "sha256": "64f4b395ab147ecd2d37d8d041b6235d8fef66968ae2034b6a3fb3214e786772"
+    "sha256": "4c00696cbc11c8b012ce61a3a13a992dee429c7c690b8adc674b6af9cf16e56e"
   },
   {
     "filename": "wrong-network-banner.png",
     "scenario": "wrong network banner",
     "viewport": "1280x800",
-    "sha256": "6d5d95e75d4f2fef5cc63f4e311430e42e1fef2160abe6ba6c4797a40eca9b06"
+    "sha256": "73463d78154d085004c6d23aad6bc94283cf941ce0bf96c07a49c0eaaf15008b"
   }
 ]

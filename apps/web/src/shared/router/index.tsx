@@ -84,7 +84,7 @@ export function RouterProvider({ children }: { children: React.ReactNode }) {
 
   const currentRoute: RouteMatch = useMemo(() => {
     const { path, query } = parseHash(hash);
-    const isDemo = query.get('demo') === '1';
+    const isDemo = query.get('demo') === '1' || query.get('demo') === 'true';
 
     // Route table
     const knownPatterns = [
