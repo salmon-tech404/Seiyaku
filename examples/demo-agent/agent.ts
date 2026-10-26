@@ -22,7 +22,11 @@ import {
 } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createAgentClient, type AgentClient } from '../../packages/agent-sdk/src/index.js';
-import { mandateVaultAbi, erc20Abi } from '../../packages/agent-sdk/src/abi/index.js';
+import {
+  mandateVaultAbi,
+  mandateVaultFactoryAbi,
+  erc20Abi,
+} from '../../packages/agent-sdk/src/abi/index.js';
 import { XLAYER_ADDRESSES } from '../../scripts/config/xlayer.js';
 import { deployOnFork } from '../../scripts/deploy-fork.js';
 
@@ -45,6 +49,8 @@ export interface DemoAgentOptions {
   send: boolean;
   lang: 'en' | 'vi';
   autoWarp: boolean;
+  /** Reuse the vault saved by an earlier run instead of creating a fresh one (default false). */
+  reuseFixture: boolean;
 }
 
 export interface SummaryRow {
@@ -107,6 +113,7 @@ export function parseCliArgs(argv: string[]): DemoAgentOptions {
     send: true,
     lang: 'en',
     autoWarp: true,
+    reuseFixture: false,
   };
 
   for (let i = 2; i < argv.length; i++) {
@@ -133,6 +140,8 @@ export function parseCliArgs(argv: string[]): DemoAgentOptions {
       options.paceSec = Math.max(0, parseFloat(argv[++i]));
     } else if (arg === '--simulate') {
       options.send = false;
+    } else if (arg === '--reuse-fixture') {
+      options.reuseFixture = true;
     } else if (arg === '--no-warp') {
       options.autoWarp = false;
     } else if (arg === '--lang' && argv[i + 1]) {
@@ -202,7 +211,7 @@ export async function resolveOrCreateDemoVault(
 
   // Try reading deployments/fork/demo-state.json
   const statePath = path.resolve('deployments/fork/demo-state.json');
-  if (fs.existsSync(statePath)) {
+  if (options.reuseFixture && fs.existsSync(statePath)) {
     try {
       const state = JSON.parse(fs.readFileSync(statePath, 'utf8')) as { vaultAddress?: string };
       if (state.vaultAddress) {
@@ -280,30 +289,7 @@ export async function resolveOrCreateDemoVault(
 
   const createTx = await ownerWallet.writeContract({
     address: dep.factoryAddress,
-    abi: [
-      {
-        type: 'function',
-        name: 'createVault',
-        inputs: [
-          { name: 'trader', type: 'address' },
-          {
-            name: 'initialLimits',
-            type: 'tuple',
-            components: [
-              { name: 'maxTradeBase', type: 'uint128' },
-              { name: 'maxDailyBase', type: 'uint128' },
-              { name: 'maxTradesPerDay', type: 'uint32' },
-              { name: 'cooldownSec', type: 'uint32' },
-              { name: 'expiresAt', type: 'uint64' },
-              { name: 'withdrawDelaySec', type: 'uint32' },
-            ],
-          },
-          { name: 'allowedTokens', type: 'address[]' },
-        ],
-        outputs: [{ name: '', type: 'address' }],
-        stateMutability: 'nonpayable',
-      },
-    ] as const,
+    abi: mandateVaultFactoryAbi,
     functionName: 'createVault',
     args: [traderAccount.address, limits, [XLAYER_ADDRESSES.wokb]],
   });

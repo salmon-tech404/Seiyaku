@@ -241,7 +241,7 @@ export const SEIYAKU_TRADE_TOOL: McpToolDefinition = {
 export const SEIYAKU_FREEZE_TOOL: McpToolDefinition = {
   name: TOOL_NAMES.FREEZE,
   description:
-    'Emergency freeze the vault immediately, blocking all trades until unfrozen by vault owner after timelock delay. When allowSend is false, returns simulation only. When allowSend is true, broadcasts freeze on-chain.',
+    'Emergency freeze: blocks new buys immediately. Exits back to the base token stay open. Only the vault owner can unfreeze, after the loosening delay. When allowSend is false, returns simulation only. When allowSend is true, broadcasts freeze on-chain.',
   inputSchema: freezeJsonSchema,
 };
 

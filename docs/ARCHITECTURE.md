@@ -101,13 +101,13 @@ sequenceDiagram
     else Circuit Returns 1
         Circuit-->>Vault: return 1 (Trade Allowed)
     end
-    Note over Vault: 4. Record balanceInBefore & balanceOutBefore
+    Note over Vault: 4. Effects first: for a buy, update the day counters and lastBuyAt
+    Note over Vault: 5. Record balanceInBefore & balanceOutBefore
     Vault->>TokenIn: approve(Router, amountIn)
     Vault->>Router: exactInputSingle(params)
     Router->>Vault: transfer tokens
     Vault->>TokenIn: approve(Router, 0) [Reset allowance]
-    Note over Vault: 5. Verify deltaIn == amountIn && deltaOut >= amountOutMin
-    Note over Vault: 6. Update dailyState (tradesToday, buyVolume, lastBuyAt)
+    Note over Vault: 6. Verify deltaIn == amountIn && deltaOut >= amountOutMin (else revert, which also rolls back the counters)
     Vault-->>Trader: return amountOut
 ```
 
@@ -118,24 +118,26 @@ sequenceDiagram
 The `MANDATE_V1` circuit computes whether a trade is permitted. It accepts 9 boolean inputs and computes:
 $$\text{Allow} = \text{saneParams} \land (\text{isExit} \lor (\text{tradeSizeOk} \land \text{dailyVolOk} \land \text{tradeCountOk} \land \text{notFrozen} \land \text{tokenAllowed} \land \text{notExpired} \land \text{cooldownOk}))$$
 
-| Bit Index | Bit Name       |   Weight    | Evaluation Source in `MandateVault.sol`                           | Rule Condition                                               |
-| :-------: | :------------- | :---------: | :---------------------------------------------------------------- | :----------------------------------------------------------- |
-|   **0**   | `tradeSizeOk`  |  $2^0 = 1$  | `amountIn <= limits.maxTradeBase`                                 | Trade base amount does not exceed per-trade limit            |
-|   **1**   | `dailyVolOk`   |  $2^1 = 2$  | `buyVolumeTodayBase + amountIn <= limits.maxDailyBase`            | Cumulative volume today does not exceed daily limit          |
-|   **2**   | `tradeCountOk` |  $2^2 = 4$  | `tradesToday < limits.maxTradesPerDay`                            | Total trades executed today is strictly less than daily cap  |
-|   **3**   | `notFrozen`    |  $2^3 = 8$  | `!frozen`                                                         | Vault is not currently frozen by owner or trader             |
-|   **4**   | `tokenAllowed` | $2^4 = 16$  | `allowedTokens[token]`                                            | Target token is allowlisted                                  |
-|   **5**   | `notExpired`   | $2^5 = 32$  | `block.timestamp < limits.expiresAt`                              | Vault trading mandate has not expired                        |
-|   **6**   | `cooldownOk`   | $2^6 = 64$  | `block.timestamp >= lastBuyAt + limits.cooldownSec`               | Minimum cooldown between consecutive buys has elapsed        |
-|   **7**   | `saneParams`   | $2^7 = 128$ | `amountIn > 0 && amountOutMin > 0 && deadline >= block.timestamp` | Parameters are non-zero, within range, and deadline is valid |
-|   **8**   | `isExit`       | $2^8 = 256$ | `tokenOut == baseToken`                                           | Trade is a de-risking exit (selling back to base asset)      |
+| Bit | Name           | Evaluated in `MandateVault.sol` as                                                                                                            | Meaning                                        |
+| :-: | :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------- |
+|  0  | `sane`         | amount and minimum out above zero, deadline within 10 minutes, a valid buy or exit, fee tier 500, 3000 or 10000, amount not above the balance | The request is well formed                     |
+|  1  | `tokenAllowed` | `allowedTokens[token]`                                                                                                                        | The non base token is on the allowlist         |
+|  2  | `notExpired`   | `block.timestamp <= limits.expiresAt`                                                                                                         | The mandate has not expired                    |
+|  3  | `notFrozen`    | `!frozen`                                                                                                                                     | The vault is not frozen                        |
+|  4  | `sizeOk`       | buy: `amountIn <= limits.maxTradeBase` (exit: 1)                                                                                              | The buy is within the per trade limit          |
+|  5  | `dailyOk`      | buy: used volume today plus `amountIn` within `limits.maxDailyBase` (exit: 1)                                                                 | The buy is within the daily volume limit       |
+|  6  | `tradesOk`     | buy: `tradesToday < limits.maxTradesPerDay` (exit: 1)                                                                                         | The daily number of buys is not used up        |
+|  7  | `cooldownOk`   | buy: `lastBuyAt == 0` or `block.timestamp >= lastBuyAt + limits.cooldownSec` (exit: 1)                                                        | The cooldown after the last buy has passed     |
+|  8  | `isExit`       | `tokenOut == baseToken` and `tokenIn != baseToken`                                                                                            | The trade sells a token back to the base token |
+
+Bit `i` of `inputBits` has weight 2^i. The circuit output is 1 when `sane AND (isExit OR (tokenAllowed AND notExpired AND notFrozen AND sizeOk AND dailyOk AND tradesOk AND cooldownOk))`.
 
 ### Netlist Structure
 
 - **Gate Count**: 17 NAND gates.
 - **Input Bits**: 9 inputs ($I_0 \dots I_8$).
 - **Output Bits**: 1 output bit ($O_0$).
-- **Exits Rule (Property 4)**: When `isExit` ($I_8$) is 1 and `saneParams` ($I_7$) is 1, the circuit evaluates to 1 regardless of bits 0-6. Exits to base token are never blocked by cooldown, volume, trade count, expiry, or freeze.
+- **Exits rule**: when `isExit` (bit 8) is 1 and `sane` (bit 0) is 1, the circuit output is 1 whatever the other bits are. Selling a token back to the base token is never blocked by cooldown, volume, trade count, expiry, freeze or the allowlist.
 
 ---
 

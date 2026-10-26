@@ -16,8 +16,8 @@ Smart-contract mandate vaults with boolean circuit bounds for AI trading agents 
 
 ### Elevator Pitch (< 80 Words)
 
-> "Seiyaku lets capital owners delegate trading authority to autonomous AI agents without risking rugpulls or runaway losses. By executing boolean circuit logic on-chain through TapeOut processors, Seiyaku enforces per-trade caps, daily volume budgets, allowlisted tokens, and timelocked rule loosening. If market conditions deteriorate or an agent acts erratically, owners can freeze trading instantly while preservation exits back to the base token remain enforced by mathematical circuit invariants."
-> _(73 words)_
+> "Seiyaku is a vault for traders and AI agents on X Layer. You set your limits once: trade size, daily volume, number of trades and a cooldown. Every trade must then pass a small TapeOut rule circuit that anyone can call and verify. You can tighten the rules at once, but loosening them waits 24 hours, and selling back to USDC always stays open. It is an unaudited prototype with a deposit cap."
+> _(about 75 words)_
 
 ### Detailed Description & Problem Solved
 
@@ -27,12 +27,12 @@ Autonomous trading agents, LLMs, and automated algorithmic strategies require pr
 2. **Runaway Volume & Cascading Slippage**: High-frequency algorithmic loops can churn through entire vault balances in illiquid pools, suffering massive slippage before human operators notice.
 3. **Privilege Escalation**: Off-chain policy engines can be altered or bypassed by compromising the agent's hosting environment.
 
-Seiyaku solves these failure modes by enforcing strict, on-chain operational boundaries:
+Seiyaku limits the damage from these failure modes by enforcing operational boundaries on chain. It does not remove risk: the contracts are unaudited and a compromised trader key can still trade inside the limits.
 
 - **Separation of Custody and Execution**: Capital owners deposit funds into an ERC-1167 proxy clone. Traders (AI agents) only hold execution rights to invoke Uniswap V3 swaps where the output recipient is immutably pinned to the vault itself.
 - **Fail-Closed Circuit Verification**: Before any swap occurs, a 17-NAND binary circuit (`MANDATE_V1`) evaluates 9 operational conditions on-chain. If any limit is violated, the transaction reverts without moving tokens.
 - **Asymmetric Governance Timelocks**: Tightening limits or freezing trading is instantaneous. Loosening limits or allowlisting new tokens requires a mandatory timelock delay (24 hours on production, 120 seconds on demo), giving depositors ample time to detect unauthorized adjustments.
-- **Always-Open De-Risking Exits (Property 4)**: Liquidation trades that swap secondary volatile tokens back into the base token (USDC) bypass daily volume and trade count limits, ensuring agents can always de-risk portfolios during market crashes.
+- **Always open exits**: trades that sell a token back into the base token (USDC) bypass the size, volume, trade count, expiry and freeze rules, so the trader can always de-risk as long as the pool has liquidity.
 
 ---
 
