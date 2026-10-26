@@ -1,0 +1,2405 @@
+{
+  "generator": "scripts/generate-vectors.ts",
+  "totalScenarios": 60,
+  "scenarios": [
+    {
+      "id": "SC_01",
+      "description": "First buy of the day with clean counters",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_02",
+      "description": "Second buy of day after cooldown passed",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "10000000",
+        "lastBuyAt": "86403480",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_03",
+      "description": "Second buy hitting active cooldown",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "10000000",
+        "lastBuyAt": "86403570",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 127,
+        "allow": 0,
+        "failed": ["ERR_COOLDOWN_ACTIVE"]
+      }
+    },
+    {
+      "id": "SC_04",
+      "description": "Buy bringing daily volume exactly to limit",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "190000000",
+        "lastBuyAt": "86403500",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_05",
+      "description": "Buy exceeding daily volume limit by 1 wei",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "190000001",
+        "lastBuyAt": "86403500",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 223,
+        "allow": 0,
+        "failed": ["ERR_DAILY_VOLUME_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_06",
+      "description": "Trade amount exactly equal to maxTradeBase",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "50000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_07",
+      "description": "Trade amount 1 wei over maxTradeBase",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "50000001",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 239,
+        "allow": 0,
+        "failed": ["ERR_TRADE_SIZE_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_08",
+      "description": "Daily trades already reached maxTradesPerDay",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_09",
+      "description": "UTC midnight roll resets day counters on read",
+      "state": {
+        "frozen": false,
+        "dayIndex": "999",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "200000000",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86400100"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_10",
+      "description": "Mandate expired blocks buy",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "2000000001"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "2000000301"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 251,
+        "allow": 0,
+        "failed": ["ERR_MANDATE_EXPIRED"]
+      }
+    },
+    {
+      "id": "SC_11",
+      "description": "Vault frozen blocks buy",
+      "state": {
+        "frozen": true,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 247,
+        "allow": 0,
+        "failed": ["ERR_VAULT_FROZEN"]
+      }
+    },
+    {
+      "id": "SC_12",
+      "description": "Target token not on allowlist",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": [],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 253,
+        "allow": 0,
+        "failed": ["ERR_TOKEN_NOT_ALLOWED"]
+      }
+    },
+    {
+      "id": "SC_13",
+      "description": "Exit trade allowed even when vault is frozen",
+      "state": {
+        "frozen": true,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "1000000000000000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 503,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_14",
+      "description": "Exit trade allowed even when mandate expired",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "2000000001"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "1000000000000000000",
+        "amountOutMin": "1",
+        "deadline": "2000000301"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 507,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_15",
+      "description": "Exit of unlisted token allowed to recover funds to base",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": [],
+        "balances": {
+          "0x1111111111111111111111111111111111111111": "100000000",
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0x1111111111111111111111111111111111111111",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 509,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_16",
+      "description": "Trade amount exceeds tokenIn balance",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "5000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_17",
+      "description": "Deadline is before current timestamp",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403599"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_18",
+      "description": "Deadline is more than 600 seconds ahead",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86404201"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_19",
+      "description": "Both tokenIn and tokenOut are baseToken",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "invalid",
+        "bits": 252,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED"]
+      }
+    },
+    {
+      "id": "SC_20",
+      "description": "Neither token is baseToken",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000",
+          "0x1111111111111111111111111111111111111111": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0x1111111111111111111111111111111111111111",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "invalid",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_21",
+      "description": "Fee tier is not 500, 3000, or 10000",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 100,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_22",
+      "description": "amountIn is zero",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "0",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_23",
+      "description": "amountOutMin is zero",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "0",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 254,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_24",
+      "description": "Exit trade with zero amountIn",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "0",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "0",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 510,
+        "allow": 0,
+        "failed": ["ERR_INSANE_PARAMS"]
+      }
+    },
+    {
+      "id": "SC_25",
+      "description": "Parameterized scenario 25: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86402430",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86402500"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86402800"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_26",
+      "description": "Parameterized scenario 26: exit, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86402530",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86402600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "11000000",
+        "amountOutMin": "1",
+        "deadline": "86402900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_27",
+      "description": "Parameterized scenario 27: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86402630",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86402700"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "12000000",
+        "amountOutMin": "1",
+        "deadline": "86403000"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_28",
+      "description": "Parameterized scenario 28: exit, feeTier 3000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86402770",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86402800"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "13000000",
+        "amountOutMin": "1",
+        "deadline": "86403100"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_29",
+      "description": "Parameterized scenario 29: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86402830",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86402900"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "14000000",
+        "amountOutMin": "1",
+        "deadline": "86403200"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_30",
+      "description": "Parameterized scenario 30: exit, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86402930",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403000"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "5000000",
+        "amountOutMin": "1",
+        "deadline": "86403300"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_31",
+      "description": "Parameterized scenario 31: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86403030",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403100"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "6000000",
+        "amountOutMin": "1",
+        "deadline": "86403400"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_32",
+      "description": "Parameterized scenario 32: exit, feeTier 10000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86403170",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403200"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "7000000",
+        "amountOutMin": "1",
+        "deadline": "86403500"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_33",
+      "description": "Parameterized scenario 33: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86403230",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403300"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "8000000",
+        "amountOutMin": "1",
+        "deadline": "86403600"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_34",
+      "description": "Parameterized scenario 34: exit, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86403330",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403400"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "9000000",
+        "amountOutMin": "1",
+        "deadline": "86403700"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_35",
+      "description": "Parameterized scenario 35: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": true,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86403430",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403500"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86403800"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 183,
+        "allow": 0,
+        "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_36",
+      "description": "Parameterized scenario 36: exit, feeTier 500, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86403570",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "11000000",
+        "amountOutMin": "1",
+        "deadline": "86403900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_37",
+      "description": "Parameterized scenario 37: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86403630",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403700"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "12000000",
+        "amountOutMin": "1",
+        "deadline": "86404000"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_38",
+      "description": "Parameterized scenario 38: exit, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86403730",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403800"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "13000000",
+        "amountOutMin": "1",
+        "deadline": "86404100"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_39",
+      "description": "Parameterized scenario 39: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86403830",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86403900"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "14000000",
+        "amountOutMin": "1",
+        "deadline": "86404200"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_40",
+      "description": "Parameterized scenario 40: exit, feeTier 3000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86403970",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404000"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "5000000",
+        "amountOutMin": "1",
+        "deadline": "86404300"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_41",
+      "description": "Parameterized scenario 41: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86404030",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404100"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "6000000",
+        "amountOutMin": "1",
+        "deadline": "86404400"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_42",
+      "description": "Parameterized scenario 42: exit, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86404130",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404200"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "7000000",
+        "amountOutMin": "1",
+        "deadline": "86404500"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_43",
+      "description": "Parameterized scenario 43: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86404230",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404300"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "8000000",
+        "amountOutMin": "1",
+        "deadline": "86404600"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_44",
+      "description": "Parameterized scenario 44: exit, feeTier 10000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86404370",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404400"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "9000000",
+        "amountOutMin": "1",
+        "deadline": "86404700"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_45",
+      "description": "Parameterized scenario 45: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": true,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86404430",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404500"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86404800"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 247,
+        "allow": 0,
+        "failed": ["ERR_VAULT_FROZEN"]
+      }
+    },
+    {
+      "id": "SC_46",
+      "description": "Parameterized scenario 46: exit, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86404530",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "11000000",
+        "amountOutMin": "1",
+        "deadline": "86404900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_47",
+      "description": "Parameterized scenario 47: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86404630",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404700"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "12000000",
+        "amountOutMin": "1",
+        "deadline": "86405000"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_48",
+      "description": "Parameterized scenario 48: exit, feeTier 500, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86404770",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404800"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "13000000",
+        "amountOutMin": "1",
+        "deadline": "86405100"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_49",
+      "description": "Parameterized scenario 49: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86404830",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86404900"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "14000000",
+        "amountOutMin": "1",
+        "deadline": "86405200"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_50",
+      "description": "Parameterized scenario 50: exit, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86404930",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405000"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "5000000",
+        "amountOutMin": "1",
+        "deadline": "86405300"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_51",
+      "description": "Parameterized scenario 51: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86405030",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405100"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "6000000",
+        "amountOutMin": "1",
+        "deadline": "86405400"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_52",
+      "description": "Parameterized scenario 52: exit, feeTier 3000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86405170",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405200"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "7000000",
+        "amountOutMin": "1",
+        "deadline": "86405500"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_53",
+      "description": "Parameterized scenario 53: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86405230",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405300"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "8000000",
+        "amountOutMin": "1",
+        "deadline": "86405600"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_54",
+      "description": "Parameterized scenario 54: exit, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86405330",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405400"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "9000000",
+        "amountOutMin": "1",
+        "deadline": "86405700"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_55",
+      "description": "Parameterized scenario 55: buy, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 1,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86405430",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405500"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 3000,
+        "amountIn": "10000000",
+        "amountOutMin": "1",
+        "deadline": "86405800"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_56",
+      "description": "Parameterized scenario 56: exit, feeTier 10000, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 2,
+        "buyVolumeTodayBase": "40000000",
+        "lastBuyAt": "86405570",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405600"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 10000,
+        "amountIn": "11000000",
+        "amountOutMin": "1",
+        "deadline": "86405900"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_57",
+      "description": "Parameterized scenario 57: buy, feeTier 500, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 3,
+        "buyVolumeTodayBase": "80000000",
+        "lastBuyAt": "86405630",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405700"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 500,
+        "amountIn": "12000000",
+        "amountOutMin": "1",
+        "deadline": "86406000"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 255,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_58",
+      "description": "Parameterized scenario 58: exit, feeTier 3000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 4,
+        "buyVolumeTodayBase": "120000000",
+        "lastBuyAt": "86405730",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405800"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 3000,
+        "amountIn": "13000000",
+        "amountOutMin": "1",
+        "deadline": "86406100"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    },
+    {
+      "id": "SC_59",
+      "description": "Parameterized scenario 59: buy, feeTier 10000, cooldown offset 70s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 5,
+        "buyVolumeTodayBase": "160000000",
+        "lastBuyAt": "86405830",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86405900"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "tokenOut": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "feeTier": 10000,
+        "amountIn": "14000000",
+        "amountOutMin": "1",
+        "deadline": "86406200"
+      },
+      "expected": {
+        "kind": "buy",
+        "bits": 191,
+        "allow": 0,
+        "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+      }
+    },
+    {
+      "id": "SC_60",
+      "description": "Parameterized scenario 60: exit, feeTier 500, cooldown offset 30s",
+      "state": {
+        "frozen": false,
+        "dayIndex": "1000",
+        "tradesToday": 0,
+        "buyVolumeTodayBase": "0",
+        "lastBuyAt": "86405970",
+        "allowedTokens": ["0xe538905cf8410324e03a5a23c1c177a474d59b2b"],
+        "balances": {
+          "0xb6ceceab302e2e4948951ee7843fc24e92933061": "1000000000",
+          "0xe538905cf8410324e03a5a23c1c177a474d59b2b": "50000000000000000000"
+        },
+        "baseToken": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "now": "86406000"
+      },
+      "limits": {
+        "maxTradeBase": "50000000",
+        "maxDailyBase": "200000000",
+        "maxTradesPerDay": 5,
+        "cooldownSec": "60",
+        "expiresAt": "2000000000",
+        "withdrawDelaySec": "3600"
+      },
+      "request": {
+        "tokenIn": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
+        "tokenOut": "0xb6ceceab302e2e4948951ee7843fc24e92933061",
+        "feeTier": 500,
+        "amountIn": "5000000",
+        "amountOutMin": "1",
+        "deadline": "86406300"
+      },
+      "expected": {
+        "kind": "exit",
+        "bits": 511,
+        "allow": 1,
+        "failed": []
+      }
+    }
+  ]
+}

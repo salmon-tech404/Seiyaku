@@ -1,0 +1,3527 @@
+{
+  "generator": "scripts/generate-vectors.ts",
+  "circuitHash": "0xbe106fa891c4f0b430afdcf245df6a3df86508351ef76af2e1508b064dff24f5",
+  "packingRule": "two bytes, little-endian bit order",
+  "totalCombinations": 512,
+  "vectors": [
+    {
+      "inputBits": 0,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 1,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 2,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 3,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 4,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 5,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 6,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 7,
+      "allow": 0,
+      "failed": [
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 8,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 9,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 10,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 11,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 12,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 13,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 14,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 15,
+      "allow": 0,
+      "failed": [
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 16,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 17,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 18,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 19,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 20,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 21,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 22,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 23,
+      "allow": 0,
+      "failed": [
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 24,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 25,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 26,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 27,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 28,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 29,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 30,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 31,
+      "allow": 0,
+      "failed": ["ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 32,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 33,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 34,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 35,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 36,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 37,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 38,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 39,
+      "allow": 0,
+      "failed": [
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 40,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 41,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 42,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 43,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 44,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 45,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 46,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 47,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 48,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 49,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 50,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 51,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 52,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 53,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 54,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 55,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 56,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 57,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 58,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 59,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 60,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_DAILY_TRADES_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 61,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 62,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 63,
+      "allow": 0,
+      "failed": ["ERR_DAILY_TRADES_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 64,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 65,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 66,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 67,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 68,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 69,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 70,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 71,
+      "allow": 0,
+      "failed": [
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 72,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 73,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 74,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 75,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 76,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 77,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 78,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 79,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 80,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 81,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 82,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 83,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 84,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 85,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 86,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 87,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 88,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 89,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 90,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 91,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 92,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 93,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 94,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 95,
+      "allow": 0,
+      "failed": ["ERR_DAILY_VOLUME_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 96,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 97,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 98,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 99,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 100,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 101,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 102,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 103,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 104,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 105,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 106,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 107,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 108,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 109,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 110,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TRADE_SIZE_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 111,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 112,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 113,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 114,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 115,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 116,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 117,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 118,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_VAULT_FROZEN", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 119,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 120,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_COOLDOWN_ACTIVE"
+      ]
+    },
+    {
+      "inputBits": 121,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 122,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 123,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 124,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 125,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 126,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 127,
+      "allow": 0,
+      "failed": ["ERR_COOLDOWN_ACTIVE"]
+    },
+    {
+      "inputBits": 128,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 129,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 130,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 131,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 132,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 133,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 134,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 135,
+      "allow": 0,
+      "failed": [
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 136,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 137,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 138,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 139,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 140,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 141,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 142,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 143,
+      "allow": 0,
+      "failed": [
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 144,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 145,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 146,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 147,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 148,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 149,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 150,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 151,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 152,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 153,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 154,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 155,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 156,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_DAILY_VOLUME_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 157,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 158,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 159,
+      "allow": 0,
+      "failed": ["ERR_DAILY_VOLUME_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 160,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 161,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 162,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 163,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 164,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 165,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 166,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 167,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 168,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 169,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 170,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 171,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 172,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 173,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 174,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 175,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 176,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 177,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 178,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 179,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 180,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 181,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 182,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 183,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 184,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_TRADES_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 185,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 186,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 187,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 188,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 189,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 190,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 191,
+      "allow": 0,
+      "failed": ["ERR_DAILY_TRADES_EXCEEDED"]
+    },
+    {
+      "inputBits": 192,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 193,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 194,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 195,
+      "allow": 0,
+      "failed": [
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 196,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 197,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 198,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 199,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 200,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 201,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 202,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 203,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 204,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_TRADE_SIZE_EXCEEDED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 205,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 206,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 207,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 208,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 209,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 210,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 211,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 212,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 213,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 214,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 215,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 216,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_DAILY_VOLUME_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 217,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 218,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 219,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 220,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 221,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 222,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 223,
+      "allow": 0,
+      "failed": ["ERR_DAILY_VOLUME_EXCEEDED"]
+    },
+    {
+      "inputBits": 224,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 225,
+      "allow": 0,
+      "failed": [
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 226,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 227,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 228,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_VAULT_FROZEN",
+        "ERR_TRADE_SIZE_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 229,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 230,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 231,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 232,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_TRADE_SIZE_EXCEEDED"
+      ]
+    },
+    {
+      "inputBits": 233,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 234,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 235,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 236,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 237,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 238,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 239,
+      "allow": 0,
+      "failed": ["ERR_TRADE_SIZE_EXCEEDED"]
+    },
+    {
+      "inputBits": 240,
+      "allow": 0,
+      "failed": [
+        "ERR_INSANE_PARAMS",
+        "ERR_TOKEN_NOT_ALLOWED",
+        "ERR_MANDATE_EXPIRED",
+        "ERR_VAULT_FROZEN"
+      ]
+    },
+    {
+      "inputBits": 241,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 242,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 243,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 244,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 245,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 246,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 247,
+      "allow": 0,
+      "failed": ["ERR_VAULT_FROZEN"]
+    },
+    {
+      "inputBits": 248,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED"]
+    },
+    {
+      "inputBits": 249,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED", "ERR_MANDATE_EXPIRED"]
+    },
+    {
+      "inputBits": 250,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_MANDATE_EXPIRED"]
+    },
+    {
+      "inputBits": 251,
+      "allow": 0,
+      "failed": ["ERR_MANDATE_EXPIRED"]
+    },
+    {
+      "inputBits": 252,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS", "ERR_TOKEN_NOT_ALLOWED"]
+    },
+    {
+      "inputBits": 253,
+      "allow": 0,
+      "failed": ["ERR_TOKEN_NOT_ALLOWED"]
+    },
+    {
+      "inputBits": 254,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 255,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 256,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 257,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 258,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 259,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 260,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 261,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 262,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 263,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 264,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 265,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 266,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 267,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 268,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 269,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 270,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 271,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 272,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 273,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 274,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 275,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 276,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 277,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 278,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 279,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 280,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 281,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 282,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 283,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 284,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 285,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 286,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 287,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 288,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 289,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 290,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 291,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 292,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 293,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 294,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 295,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 296,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 297,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 298,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 299,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 300,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 301,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 302,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 303,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 304,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 305,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 306,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 307,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 308,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 309,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 310,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 311,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 312,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 313,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 314,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 315,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 316,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 317,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 318,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 319,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 320,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 321,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 322,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 323,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 324,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 325,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 326,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 327,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 328,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 329,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 330,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 331,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 332,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 333,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 334,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 335,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 336,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 337,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 338,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 339,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 340,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 341,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 342,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 343,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 344,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 345,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 346,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 347,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 348,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 349,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 350,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 351,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 352,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 353,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 354,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 355,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 356,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 357,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 358,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 359,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 360,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 361,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 362,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 363,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 364,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 365,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 366,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 367,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 368,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 369,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 370,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 371,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 372,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 373,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 374,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 375,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 376,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 377,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 378,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 379,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 380,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 381,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 382,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 383,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 384,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 385,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 386,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 387,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 388,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 389,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 390,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 391,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 392,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 393,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 394,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 395,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 396,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 397,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 398,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 399,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 400,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 401,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 402,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 403,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 404,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 405,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 406,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 407,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 408,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 409,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 410,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 411,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 412,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 413,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 414,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 415,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 416,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 417,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 418,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 419,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 420,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 421,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 422,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 423,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 424,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 425,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 426,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 427,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 428,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 429,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 430,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 431,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 432,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 433,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 434,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 435,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 436,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 437,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 438,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 439,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 440,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 441,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 442,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 443,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 444,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 445,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 446,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 447,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 448,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 449,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 450,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 451,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 452,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 453,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 454,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 455,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 456,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 457,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 458,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 459,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 460,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 461,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 462,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 463,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 464,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 465,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 466,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 467,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 468,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 469,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 470,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 471,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 472,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 473,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 474,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 475,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 476,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 477,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 478,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 479,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 480,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 481,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 482,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 483,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 484,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 485,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 486,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 487,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 488,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 489,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 490,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 491,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 492,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 493,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 494,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 495,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 496,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 497,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 498,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 499,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 500,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 501,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 502,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 503,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 504,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 505,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 506,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 507,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 508,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 509,
+      "allow": 1,
+      "failed": []
+    },
+    {
+      "inputBits": 510,
+      "allow": 0,
+      "failed": ["ERR_INSANE_PARAMS"]
+    },
+    {
+      "inputBits": 511,
+      "allow": 1,
+      "failed": []
+    }
+  ]
+}

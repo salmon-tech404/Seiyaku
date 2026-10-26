@@ -21,7 +21,9 @@
     "print:mandate": "tsx scripts/print-mandate-v1.ts",
     "tapeout:fork": "tsx scripts/tapeout-fork.ts",
     "fork:reset-generated": "git checkout -- contracts/test/fork/Generated.sol",
-    "deweb:publish": "tsx scripts/deweb-publish.ts"
+    "deweb:publish": "tsx scripts/deweb-publish.ts",
+    "vectors": "tsx scripts/generate-vectors.ts",
+    "vectors:check": "tsx scripts/check-vectors.ts"
   },
   "devDependencies": {
     "@eslint/js": "9.13.0",
