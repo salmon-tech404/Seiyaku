@@ -330,17 +330,22 @@ export async function readVaultLogs(
   fromBlock: bigint,
   toBlock: bigint = 'latest' as unknown as bigint,
 ): Promise<VaultLogEvent[]> {
-  const logs = await client.getContractEvents({
-    address: getAddress(vaultAddress),
-    abi: mandateVaultAbi,
-    fromBlock,
-    toBlock,
-  });
+  try {
+    const logs = await client.getContractEvents({
+      address: getAddress(vaultAddress),
+      abi: mandateVaultAbi,
+      fromBlock,
+      toBlock,
+    });
 
-  return logs.map((l) => ({
-    eventName: l.eventName,
-    blockNumber: l.blockNumber,
-    transactionHash: l.transactionHash,
-    args: (l.args || {}) as Record<string, unknown>,
-  }));
+    return logs.map((l) => ({
+      eventName: l.eventName,
+      blockNumber: l.blockNumber,
+      transactionHash: l.transactionHash,
+      args: (l.args || {}) as Record<string, unknown>,
+    }));
+  } catch (err) {
+    console.warn('readVaultLogs failed:', err);
+    return [];
+  }
 }

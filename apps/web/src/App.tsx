@@ -4,6 +4,7 @@ import { useTranslation } from './shared/i18n/index.js';
 import { LayoutShell } from './shared/layout/LayoutShell.js';
 import { StyleguidePage } from './features/styleguide/StyleguidePage.js';
 import { CreateVaultPage } from './features/create/CreateVaultPage.js';
+import { VaultDashboardPage } from './features/vault/VaultDashboardPage.js';
 import { ErrorState } from './shared/ui/ErrorState.js';
 
 export function App() {
@@ -22,6 +23,9 @@ export function App() {
 
       case '/create':
         return <CreateVaultPage />;
+
+      case '/vault/:address':
+        return <VaultDashboardPage />;
 
       case '/styleguide':
         return <StyleguidePage />;

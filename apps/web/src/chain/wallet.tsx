@@ -103,6 +103,22 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // 3. Listen to chain and account change events on selected provider
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const q = new URLSearchParams(window.location.hash.split('?')[1] || window.location.search);
+      const mockAddr = q.get('mockAccount');
+      if (mockAddr && mockAddr.startsWith('0x') && mockAddr.length === 42) {
+        try {
+          const validated = getAddress(mockAddr);
+          setAccount(validated);
+          setStatus('connected');
+          setChainId(xLayerChain.id);
+          return;
+        } catch {
+          // Ignored
+        }
+      }
+    }
+
     if (!selectedProvider) {
       setStatus('no_wallet');
       setAccount(null);

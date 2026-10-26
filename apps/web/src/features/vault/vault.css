@@ -1,0 +1,213 @@
+.vault-dashboard-page {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 16px 80px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.vault-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 24px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+.vault-header-main h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.vault-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.vault-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vault-header-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.vault-freshness-box {
+  font-size: 12px;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vault-grid-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .vault-grid-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 10px;
+}
+
+.dashboard-card-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.dashboard-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Rules list styling */
+.rules-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.rule-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.rule-name-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.rule-status-dot.pass {
+  background: var(--color-success);
+}
+
+.rule-status-dot.fail {
+  background: var(--color-accent);
+}
+
+/* Actions buttons grid */
+.actions-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+/* Pending items */
+.pending-proposal-box {
+  padding: 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.pending-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Trade checker */
+.checker-result-box {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.checker-result-box.allowed {
+  background: rgba(47, 182, 124, 0.08);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+
+.checker-result-box.blocked {
+  background: rgba(216, 40, 63, 0.08);
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Activity timeline */
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-event-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.timeline-event-title {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.timeline-event-time {
+  color: var(--color-muted);
+  font-size: 12px;
+}
