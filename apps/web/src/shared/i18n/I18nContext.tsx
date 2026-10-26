@@ -25,7 +25,9 @@ const STORAGE_KEY = 'seiyaku_lang';
 function getStoredLang(): Language {
   try {
     if (typeof window !== 'undefined') {
-      const q = new URLSearchParams(window.location.hash.split('?')[1] || '');
+      const q = new URLSearchParams(
+        window.location.hash.split('?')[1] || window.location.search || '',
+      );
       const paramLang = q.get('lang');
       if (paramLang === 'en' || paramLang === 'vi') return paramLang;
     }
@@ -40,8 +42,14 @@ function getStoredLang(): Language {
   return 'en';
 }
 
-export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>(getStoredLang);
+export function I18nProvider({
+  children,
+  initialLocale,
+}: {
+  children: React.ReactNode;
+  initialLocale?: Language;
+}) {
+  const [lang, setLangState] = useState<Language>(() => initialLocale || getStoredLang());
 
   const setLang = useCallback((newLang: Language) => {
     setLangState(newLang);

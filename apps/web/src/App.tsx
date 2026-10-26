@@ -2,6 +2,9 @@ import React from 'react';
 import { useRouter } from './shared/router/index.js';
 import { useTranslation } from './shared/i18n/index.js';
 import { LayoutShell } from './shared/layout/LayoutShell.js';
+import { HomePage } from './features/home/HomePage.js';
+import { AboutPage } from './features/about/AboutPage.js';
+import { AgentsPage } from './features/agents/AgentsPage.js';
 import { StyleguidePage } from './features/styleguide/StyleguidePage.js';
 import { CreateVaultPage } from './features/create/CreateVaultPage.js';
 import { VaultDashboardPage } from './features/vault/VaultDashboardPage.js';
@@ -15,12 +18,7 @@ export function App() {
   const renderContent = () => {
     switch (currentRoute.pattern) {
       case '/':
-        return (
-          <div style={{ textAlign: 'center', padding: '48px 0' }}>
-            <h1 tabIndex={-1}>{t('app.title')}</h1>
-            <p style={{ color: 'var(--color-muted)', marginTop: '8px' }}>{t('app.tagline')}</p>
-          </div>
-        );
+        return <HomePage />;
 
       case '/create':
         return <CreateVaultPage />;
@@ -31,6 +29,12 @@ export function App() {
       case '/verify':
       case '/verify/:address':
         return <VerifyPage />;
+
+      case '/about':
+        return <AboutPage />;
+
+      case '/agents':
+        return <AgentsPage />;
 
       case '/styleguide':
         return <StyleguidePage />;

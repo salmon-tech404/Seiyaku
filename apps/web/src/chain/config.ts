@@ -46,6 +46,20 @@ export const DEFAULT_TOKENS = {
   },
 } as const satisfies Record<string, TokenConfig>;
 
+/**
+ * Protocol limits and constants.
+ */
+export const PROTOCOL_CONSTANTS = {
+  depositCapUsdc: 500,
+  minWithdrawDelaySec: 86400, // 24 hours
+  minLoosenDelaySec: 86400, // 24 hours
+  demoWithdrawDelaySec: 120, // 2 minutes
+  demoLoosenDelaySec: 120, // 2 minutes
+  maxDeadlineDeltaSec: 600, // 10 minutes
+  githubUrl: 'https://github.com/seiyaku-vault/tapeOut',
+  docsUrl: 'https://github.com/seiyaku-vault/tapeOut#readme',
+} as const;
+
 export interface FactoryRegistry {
   public: Address | null;
   demo: Address | null;

@@ -7,6 +7,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    target: 'es2022',
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         hashCharacters: 'hex',
@@ -15,5 +17,9 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
+  },
+  esbuild: {
+    legalComments: 'none',
+    drop: ['console', 'debugger'],
   },
 });

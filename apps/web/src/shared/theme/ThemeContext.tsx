@@ -20,7 +20,9 @@ function getSystemTheme(): Theme {
 function getStoredTheme(): Theme {
   try {
     if (typeof window !== 'undefined') {
-      const q = new URLSearchParams(window.location.hash.split('?')[1] || '');
+      const q = new URLSearchParams(
+        window.location.hash.split('?')[1] || window.location.search || '',
+      );
       const paramTheme = q.get('theme');
       if (paramTheme === 'light' || paramTheme === 'dark') return paramTheme;
     }
