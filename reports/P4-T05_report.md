@@ -5,6 +5,7 @@
 Task P4-T05 implemented the production deployment and hosting package, enabling zero-configuration deployments to **Cloudflare Pages** and verified mirror publishing to the decentralized on-chain **DeWEB** (SiteRegistry on X Layer).
 
 1. **Cloudflare Security Headers (`apps/web/public/_headers`)**:
+
    - Deployed strict HTTP response headers:
      - `Content-Security-Policy`: Restricts scripts to `'self'` and the inline hash `'sha256-iXNLC8DGEBERXHccD+XUWudkF6vaJw/IFXjWLCRnE6s='` (theme bootstrapping), styles to `'self' 'unsafe-inline'`, connections to `'self'`, configured RPC endpoints (`https://rpc.xlayer.tech`, `https://xlayerrpc.okx.com`), block explorer (`https://www.oklink.com`), and local Anvil/preview endpoints (`http://127.0.0.1:*`, `http://localhost:*`), with `frame-ancestors 'none'`, `base-uri 'self'`, and `upgrade-insecure-requests`.
      - `X-Content-Type-Options: nosniff`
@@ -14,17 +15,20 @@ Task P4-T05 implemented the production deployment and hosting package, enabling 
    - Created `scripts/check-headers.ts` to statically verify parity between `apps/web/src/chain/config.ts` (RPC endpoints and explorer origin) and `_headers`.
 
 2. **Root & Subpath Base Path Verification (`scripts/test-base-path.ts`)**:
+
    - Automated dual-server Playwright testing of `dist/` across both root base path (`/`) and deeply nested subpath (`/some/sub/path/`).
    - Navigated across all routes (`#/`, `#/create`, `#/verify`, `#/agents`, `#/about`, `#/styleguide`) with real security headers applied.
    - Verified that all lazy chunks load successfully with zero 404 HTTP errors and zero browser console errors.
 
 3. **On-Chain DeWEB Publication & Verification on Fork (`scripts/deweb-publish.ts`, `scripts/verify-deweb.ts`)**:
+
    - Deployed circuit 1 container (`0xb43202318e21964262803433c95Cc15a22EAaBA0`) via `ContainerOpener` on the X Layer Anvil fork.
    - Executed dry-run cost estimation and live publishing of all 13 production files (666,725 total payload bytes in 36 chunks/transactions).
    - Validated bytecode storage against `SiteRegistry` (`0xd6efb7adcc9c83dc4924ad56f6a8e4e969b9adb6`).
    - Ran `scripts/verify-deweb.ts` reading back every file from the contract, verifying byte counts and SHA-256 hashes against local build files with 100% parity.
 
 4. **Build Leak Detection & Compliance (`scripts/check-static.mjs`)**:
+
    - Extended `check:static` with:
      - Leaked private key detection (flags unmasked 32-byte test keys).
      - Local filesystem path leakage detection (e.g. `D:\18-hackathon`, `C:\Users\...\AppData`).
@@ -43,6 +47,7 @@ Task P4-T05 implemented the production deployment and hosting package, enabling 
 ## 2. Command Transcripts & Measured Metrics
 
 ### `npm run hosting:check`
+
 ```
 $ npm run hosting:check
 
@@ -111,6 +116,7 @@ PASSED: Base path test verified on both root ("/") and subpath ("/some/sub/path/
 ```
 
 ### DeWEB Live Publication & On-Chain Hash Verification on Fork
+
 ```
 $ npx tsx scripts/deweb-publish.ts 0xb43202318e21964262803433c95Cc15a22EAaBA0 --live
 === DeWEB Site Publisher ===
@@ -166,6 +172,7 @@ PASSED: All 13 files verified against on-chain SiteRegistry state!
 ```
 
 ### Full Repository Verification
+
 ```
 $ npm run verify
 PASSED: forge fmt --check
@@ -185,6 +192,7 @@ PASSED: Static build budget check
 ---
 
 ## 3. Invariants & Commitments
+
 - One commit for P4-T05 on branch `build/auto-p4`.
 - Never pushed to remote.
 - No real keys or funds used (only public Anvil test key for rehearsal).

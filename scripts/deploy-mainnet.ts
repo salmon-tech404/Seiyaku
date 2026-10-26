@@ -6,6 +6,7 @@ import {
   formatEther,
   keccak256,
   slice,
+  toHex,
   type Address,
   type Hex,
   type Abi,
@@ -213,15 +214,35 @@ export async function deployMainnet() {
       address: circuitsAddr,
       abi: circuitsAbi,
       functionName: 'tapeout',
-      args: [MANDATE_V1_BYTES as unknown as Hex, 9, 1],
+      args: [toHex(MANDATE_V1_BYTES), 9, 1],
       value: tapeoutFee,
     });
     await publicClient.waitForTransactionReceipt({ hash: tapeoutTx });
-    circuitId = await publicClient.readContract({
-      address: circuitsAddr,
-      abi: circuitsAbi,
-      functionName: 'circuitCount',
-    });
+    try {
+      circuitId = await publicClient.readContract({
+        address: circuitsAddr,
+        abi: circuitsAbi,
+        functionName: 'circuitCount',
+      });
+    } catch {
+      circuitId = 1n;
+      for (let id = 1n; id <= 100n; id++) {
+        try {
+          const nl = await publicClient.readContract({
+            address: circuitsAddr,
+            abi: circuitsAbi,
+            functionName: 'netlist',
+            args: [id],
+          });
+          if (nl === toHex(MANDATE_V1_BYTES)) {
+            circuitId = id;
+            break;
+          }
+        } catch {
+          break;
+        }
+      }
+    }
   } else {
     // Dry-run estimation
     circuitsAddr = DRY_RUN_PLACEHOLDER;

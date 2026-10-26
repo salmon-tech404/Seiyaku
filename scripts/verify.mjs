@@ -49,6 +49,12 @@ const steps = [
   { name: 'Vitest tests', cmd: 'npx', args: ['vitest', 'run'], cwd: path.resolve('.') },
   { name: 'i18n check', cmd: 'node', args: ['scripts/check-i18n.mjs'], cwd: path.resolve('.') },
   {
+    name: 'Documentation honesty check',
+    cmd: 'npx',
+    args: ['tsx', 'scripts/check-docs.ts'],
+    cwd: path.resolve('.'),
+  },
+  {
     name: 'Color contrast check',
     cmd: 'node',
     args: ['scripts/check-contrast.mjs'],

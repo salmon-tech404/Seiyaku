@@ -6,7 +6,7 @@
 
 ## 1. Overview & Trust Model
 
-Seiyaku is a non-custodial smart-contract mandate vault deployed on **X Layer** (Chain ID: `196`). It separates asset custody from delegated trading permissions by enforcing automated trading rules on-chain via custom Silicon logic (TapeOut processor circuits).
+Seiyaku is a non-custodial smart-contract mandate vault deployed on **X Layer** (Chain ID: `196`). It separates asset custody from delegated trading permissions by enforcing automated trading rules on-chain via compiled boolean netlist logic (TapeOut processor circuits).
 
 ### Roles & Responsibilities
 
@@ -68,3 +68,27 @@ Seiyaku is a non-custodial smart-contract mandate vault deployed on **X Layer** 
    bytes memory out = abi.decode(data, (bytes));
    if (out.length == 0 || (uint8(out[0]) & 1) != 1) return false;
    ```
+
+---
+
+## 5. Agent SDK & MCP Safety Defaults
+
+The `@seiyaku/agent-sdk` library and Model Context Protocol (MCP) server implement layered defensive defaults:
+
+1. **Pre-flight Simulation Before Broadcast**:
+   - `AgentClient.trade()` runs `AgentClient.check()` prior to sending any transaction. If the circuit evaluation or on-chain `previewTrade` rejects the parameters, the SDK returns a structured explanation and refuses to spend gas.
+   - Dual validation: The SDK checks both the local circuit model and the on-chain preview contract. If the two disagree, the trade is fail-closed and treated as blocked.
+2. **Explicit Confirmation on Mutating Actions**:
+   - In the MCP server, read-only tools (`seiyaku_get_state`, `seiyaku_check_trade`, `seiyaku_explain_rule`) operate without private keys or gas expenditures.
+   - Mutating tools (`seiyaku_execute_trade`, `seiyaku_freeze_vault`, `seiyaku_tighten_limits`) require explicit `confirm: true` parameter flags to prevent accidental broadcasts by LLM planning loops.
+3. **No Private Key Ingestion via Prompts**:
+   - The MCP server loads keys exclusively from local environment variables (`TRADER_PRIVATE_KEY`), never via chat tool input arguments or LLM completions.
+4. **Gas Budgets & Re-Quoting**:
+   - All swaps re-fetch an on-chain quote immediately before broadcasting to guard against mempool price movement or stale quotes exceeding slippage limits.
+   - First buy of the day consumes ~310,927 gas, exits consume ~237,298 gas, comfortably below the 400,000 gas execution limit on X Layer.
+
+---
+
+## 6. Prototype Status
+
+This software is an experimental prototype prepared for a hackathon. It is **unaudited**. Independent third-party review has not been performed. Deployers and testers must only risk capital they are willing to lose completely.
