@@ -103,16 +103,66 @@ export function checkStaticBuild(distDir = path.resolve('apps/web/dist')) {
     );
   }
 
-  // 5. Test wallet leak check: ensure test wallet marker never appears in dist
+  // 5. Leak and security check on build assets
   const TEST_WALLET_MARKER = '__SEIYAKU_E2E_TEST_WALLET__';
+  // Check for test private keys from hardhat/anvil/test files
+  const KNOWN_TEST_KEYS = [
+    '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
+    '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d',
+    '0x5de4111afa1a4b94908f83103eb2f954b0a473774953a3ed85c2b0056900a2db',
+    '0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6',
+  ];
+
   for (const f of files) {
-    if (f.name.endsWith('.js') || f.name.endsWith('.html')) {
+    if (f.name.endsWith('.js') || f.name.endsWith('.html') || f.name.endsWith('.css')) {
       const content = fs.readFileSync(f.fullPath, 'utf8');
+
       if (content.includes(TEST_WALLET_MARKER)) {
         errors.push(
           `Test wallet marker "${TEST_WALLET_MARKER}" detected in production asset ${f.relPath}!`,
         );
       }
+
+      // Check for absolute local repository paths (e.g. D:\18-hackathon or tapeOut or C:\Users\...)
+      const localRepoPathMatches = content.match(
+        /(?:[a-zA-Z]:\\(?:18-hackathon|Users\\[^\\]+\\AppData)|[\\/]18-hackathon[\\/]tapeOut)/gi,
+      );
+      if (localRepoPathMatches) {
+        for (const lp of localRepoPathMatches) {
+          errors.push(`Local repository filesystem path leaked in ${f.relPath}: ${lp}`);
+        }
+      }
+
+      // Check for known test private keys
+      for (const tk of KNOWN_TEST_KEYS) {
+        if (content.toLowerCase().includes(tk.toLowerCase())) {
+          errors.push(`Test private key leaked in ${f.relPath}: ${tk}`);
+        }
+      }
+
+      // Check for RPC keys or API key query params
+      const apiKeyMatches = content.match(
+        /(?:alchemy\.com\/v2\/[a-zA-Z0-9_-]{20,}|infura\.io\/v3\/[a-zA-Z0-9]{20,})/gi,
+      );
+      if (apiKeyMatches) {
+        for (const ak of apiKeyMatches) {
+          errors.push(`RPC provider API key leaked in ${f.relPath}: ${ak}`);
+        }
+      }
+    }
+  }
+
+  // 6. Check LICENSE file for valid year and owner placeholder
+  const licensePath = path.resolve('LICENSE');
+  if (!fs.existsSync(licensePath)) {
+    errors.push('LICENSE file is missing at repository root.');
+  } else {
+    const lic = fs.readFileSync(licensePath, 'utf8');
+    if (!lic.includes('2026')) {
+      errors.push('LICENSE does not contain required copyright year 2026.');
+    }
+    if (!lic.includes('<OWNER NAME>') && !lic.includes('Seiyaku')) {
+      errors.push('LICENSE missing valid copyright owner or <OWNER NAME> placeholder.');
     }
   }
 

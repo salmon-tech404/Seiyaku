@@ -5,6 +5,7 @@
 Task P4-T04 focused on web performance optimization, mobile polish, chain clock synchronization, gate diagram readability, and replacing the temporary Agents placeholder with live SDK documentation and copyable snippets.
 
 1. **Agents Page Replacement (`apps/web/src/features/agents/AgentsPage.tsx`)**:
+
    - Extracted typed documentation structures (`CLI_COMMAND_DOCS`, `CLI_EXIT_CODES_DOCS`, `MCP_TOOLS_DOCS`) to a clean sub-export `@seiyaku/agent-sdk/docs`.
    - Replaced "arrives in next release" banner with complete CLI command reference for all 8 commands (`state`, `check`, `trade`, `freeze`, `tighten`, `wait`, `explain`, `mcp`), complete with usage lines, option tables, and one-click copy buttons.
    - Added CLI exit code table (`0` OK, `1` BLOCKED, `2` TX_FAILED, `3` FROZEN, `4` USAGE_OR_RPC, `5` CANARY_TRIGGERED, `6` TIMEOUT).
@@ -14,6 +15,7 @@ Task P4-T04 focused on web performance optimization, mobile polish, chain clock 
    - Full English and Vietnamese i18n parity verified via `check:i18n`.
 
 2. **Web Performance & Code Splitting (`apps/web/src/App.tsx`, `apps/web/vite.config.ts`)**:
+
    - Introduced route-level `React.lazy()` and `Suspense` for heavy auxiliary pages: `VerifyPage`, `AboutPage`, `AgentsPage`, and `StyleguidePage`.
    - Configured manual vendor chunks for `vendor-react` and `vendor-viem` to maximize browser caching.
    - Enforced lowercase ASCII asset filenames to satisfy static deployment checks.
@@ -21,6 +23,7 @@ Task P4-T04 focused on web performance optimization, mobile polish, chain clock 
    - Main entry point reduced from ~590 KB to 241 KB. Total static build across all chunks: **650.51 KB**, strictly below the 800 KB budget.
 
 3. **Performance Measurement (`scripts/measure-perf.ts`)**:
+
    - Instrumented headless Chrome with early `PerformanceObserver` injection via `page.addInitScript`.
    - Tested under realistic 4G network emulation (1.6 Mbps download, 750 Kbps upload, 150 ms RTT) and 4x CPU slowdown.
    - Real measured metrics:
@@ -32,12 +35,14 @@ Task P4-T04 focused on web performance optimization, mobile polish, chain clock 
      - Total gzip transferred: **184.14 KB**
 
 4. **Chain Clock Synchronization (`apps/web/src/shared/hooks/useChainClock.ts`)**:
+
    - Implemented `useChainClock` hook to avoid skew between the user's system clock and block timestamps on X Layer testnets or local forks.
    - Anchor block timestamp is fetched upon vault state read, and projected forward continuously every second using high-precision performance timers.
    - Updated `Countdown.tsx` with optional `currentTimestampSec` to eliminate negative drifts or jumpy timers.
    - Integrated into `VaultDashboardPage.tsx` for cooldown timers, daily UTC midnight rollovers, and pending timelock execution countdowns.
 
 5. **Gate Diagram Readability & Controls (`apps/web/src/features/verify/GateDiagram.tsx`)**:
+
    - Added toolbar controls: "Fit", "100%", "Zoom In (+)", "Zoom Out (-)".
    - Added mouse wheel zoom support (`Ctrl` / `Cmd` + wheel) and click-and-drag panning.
    - Added sticky legend header, mobile horizontal scroll indicator pill, and halo strokes around text labels to prevent wire overlaps.
@@ -53,6 +58,7 @@ Task P4-T04 focused on web performance optimization, mobile polish, chain clock 
 ## 2. Test Execution & Verification
 
 ### Unit & Integration Tests
+
 ```
 $ npm test
 Test Files  32 passed (32)
@@ -61,6 +67,7 @@ Duration    4.48s
 ```
 
 ### Static Build & Budget Check
+
 ```
 $ npm run check:static
 === Static Build Output Report ===
@@ -83,6 +90,7 @@ PASSED: check:static verified successfully.
 ```
 
 ### Throttled Mobile Performance
+
 ```
 $ npx tsx scripts/measure-perf.ts
 === Throttled Mobile Performance Report ===
@@ -97,6 +105,7 @@ Total Gzip Transferred:          184.14 KB
 ```
 
 ### Full Repository Verification
+
 ```
 $ npm run verify
 PASSED: forge fmt --check
@@ -114,6 +123,7 @@ PASSED: Static build budget check
 ```
 
 ### Forbidden Words Grep
+
 ```
 $ git grep -i -E "silicon|hardware|battle-tested|guaranteed" -- apps/ packages/ examples/
 [NO MATCHES - EXIT CODE 1]
@@ -137,6 +147,7 @@ $ git grep -i -E "silicon|hardware|battle-tested|guaranteed" -- apps/ packages/ 
 ---
 
 ## 4. Invariants & Commitments
+
 - One commit for P4-T04 on branch `build/auto-p4`.
 - Never pushed to remote.
 - No real keys or funds used.
