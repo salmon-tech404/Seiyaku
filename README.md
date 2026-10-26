@@ -171,10 +171,10 @@ flowchart LR
   <img alt="OpenZeppelin" src="https://img.shields.io/badge/OpenZeppelin-Contracts-4E5EE4?style=for-the-badge">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
   <img alt="React" src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black">
-  <img alt="wagmi" src="https://img.shields.io/badge/wagmi-viem-1C1C1C?style=for-the-badge">
+  <img alt="viem" src="https://img.shields.io/badge/viem-Wallet%20layer-1C1C1C?style=for-the-badge">
 </p>
 
-Contracts and tests in Solidity with Foundry. Tools and SDK in TypeScript with viem and zod. A static React app with wagmi, available in English and Vietnamese. Runs on X Layer (chain id 196) with TapeOut and Uniswap V3.
+Contracts and tests in Solidity with Foundry. Tools and SDK in TypeScript with viem and zod. A static React app with viem and a lightweight wallet layer, available in English and Vietnamese. Runs on X Layer (chain id 196) with TapeOut and Uniswap V3.
 
 ```
 contracts/                 Foundry project
