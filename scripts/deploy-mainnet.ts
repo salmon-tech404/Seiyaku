@@ -28,11 +28,29 @@ import {
 } from './lib/tapeout.js';
 import { XLAYER_ADDRESSES } from './config/xlayer.js';
 
+/** Marker used only in dry runs where an address cannot be known before broadcast. */
+const DRY_RUN_PLACEHOLDER = '0x0000000000000000000000000000000000000000' as Address;
+
 const ALLOWED_RPC_HOSTS = ['rpc.xlayer.tech', 'xlayerrpc.okx.com'];
 
 interface ArtifactJson {
   abi: unknown[];
   bytecode: { object: Hex };
+  deployedBytecode: { object: Hex };
+}
+
+/**
+ * ESTIMATE from a formula, not a simulation: base transaction and create cost, calldata cost of the
+ * init code, code deposit cost, plus a fixed allowance for constructor execution.
+ */
+function estimateCreateGas(artifact: ArtifactJson, constructorAllowance: bigint): bigint {
+  const init = artifact.bytecode.object.slice(2);
+  let calldataGas = 0n;
+  for (let i = 0; i < init.length; i += 2) {
+    calldataGas += init.slice(i, i + 2) === '00' ? 4n : 16n;
+  }
+  const deployedBytes = BigInt(artifact.deployedBytecode.object.slice(2).length / 2);
+  return 21_000n + 32_000n + calldataGas + 200n * deployedBytes + constructorAllowance;
 }
 
 function loadArtifact(relativePath: string): ArtifactJson {
@@ -206,12 +224,16 @@ export async function deployMainnet() {
     });
   } else {
     // Dry-run estimation
-    circuitsAddr = '0xdd7F8983f80B77AE3a49FA94f0096B9c6baa6398' as Address;
-    console.log(`[DRY-RUN] Planned Processor: ${circuitsAddr}`);
-    console.log('Estimated Processor creation cost: ~0.00726 OKB (deployFee + protocolFee)');
-    console.log(`Estimated Transistor minting cost (17 NAND): ~0.000677 OKB`);
-    console.log('Estimated Tapeout fee: 0.0013 OKB');
-    totalEstimatedGas += 650_000n;
+    circuitsAddr = DRY_RUN_PLACEHOLDER;
+    console.log(
+      '[DRY-RUN] Processor address is assigned at broadcast time (not known in advance).',
+    );
+    console.log(
+      'ESTIMATE: processor creation about 0.00726 OKB (deployFee + protocolFee measured on 2026-10-25)',
+    );
+    console.log('ESTIMATE: transistor minting (17 NAND) about 0.000677 OKB');
+    console.log('ESTIMATE: tapeout fee about 0.0013 OKB');
+    totalEstimatedGas += 650_000n; // allowance for createCPU, mint and tapeout transactions (ESTIMATE)
   }
 
   // Pin verification values
@@ -265,8 +287,11 @@ export async function deployMainnet() {
   console.log('--- Phase 2: MandateVault Master Implementation ---');
   const vaultArtifact = loadArtifact('contracts/out/MandateVault.sol/MandateVault.json');
   const vaultAbi = vaultArtifact.abi as Abi;
-  console.log('Estimated deployment gas for MandateVault: ~1,500,000 gas');
-  totalEstimatedGas += 1_500_000n;
+  const vaultGasEstimate = estimateCreateGas(vaultArtifact, 50_000n);
+  console.log(
+    `Estimated deployment gas for MandateVault: ~${vaultGasEstimate.toLocaleString()} gas (ESTIMATE by formula)`,
+  );
+  totalEstimatedGas += vaultGasEstimate;
 
   let vaultImplAddress: Address;
   if (!isDryRun && deployerAccount) {
@@ -286,8 +311,10 @@ export async function deployMainnet() {
     vaultImplAddress = getAddress(receipt.contractAddress);
     console.log(`MandateVault deployed at: ${vaultImplAddress}`);
   } else {
-    vaultImplAddress = '0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf' as Address;
-    console.log(`[DRY-RUN] Planned MandateVault: ${vaultImplAddress}`);
+    vaultImplAddress = DRY_RUN_PLACEHOLDER;
+    console.log(
+      '[DRY-RUN] MandateVault address is assigned at broadcast time (not known in advance).',
+    );
   }
 
   // Step 3: MandateVaultFactory (Production: 24h delay, Demo: 120s delay)
@@ -296,8 +323,11 @@ export async function deployMainnet() {
     'contracts/out/MandateVaultFactory.sol/MandateVaultFactory.json',
   );
   const factoryAbi = factoryArtifact.abi as Abi;
-  console.log('Estimated deployment gas per Factory: ~1,800,000 gas');
-  totalEstimatedGas += 3_600_000n;
+  const factoryGasEstimate = estimateCreateGas(factoryArtifact, 250_000n);
+  console.log(
+    `Estimated deployment gas per Factory: ~${factoryGasEstimate.toLocaleString()} gas (ESTIMATE by formula)`,
+  );
+  totalEstimatedGas += 2n * factoryGasEstimate;
 
   const baseConfig = {
     implementation: vaultImplAddress,
@@ -306,8 +336,8 @@ export async function deployMainnet() {
     processor: circuitsAddr,
     circuitId,
     netlistHash: MANDATE_V1_NETLIST_HASH as Hex,
-    minWithdrawDelaySec: 86400,
-    maxDepositBase: 1_000_000_000_000n, // 1,000,000 USDC
+    minWithdrawDelaySec: 3600, // 1 hour, per spec section 8
+    maxDepositBase: 500_000_000n, // 500 USDC (6 decimals), per spec section 8, prototype deposit cap
     beacon,
     beaconImplementation,
     beaconImplementationCodehash,
@@ -403,10 +433,17 @@ export async function deployMainnet() {
     );
     console.log('Saved records to deployments/mainnet/factory-prod.json and factory-demo.json');
   } else {
-    prodFactoryAddress = '0x0E801D84Fa97b50751Dbf25036d067dCf18858bF' as Address;
-    demoFactoryAddress = '0x1234567890123456789012345678901234567890' as Address;
-    console.log(`[DRY-RUN] Planned Production Factory: ${prodFactoryAddress}`);
-    console.log(`[DRY-RUN] Planned Demo Factory:       ${demoFactoryAddress}`);
+    prodFactoryAddress = DRY_RUN_PLACEHOLDER;
+    demoFactoryAddress = DRY_RUN_PLACEHOLDER;
+    console.log(
+      '[DRY-RUN] Factory addresses are assigned at broadcast time (not known in advance).',
+    );
+    console.log(
+      `[DRY-RUN] Production config: loosen delay 86400 s, min withdraw delay ${baseConfig.minWithdrawDelaySec} s, deposit cap ${baseConfig.maxDepositBase} (6 decimals)`,
+    );
+    console.log(
+      `[DRY-RUN] Demo config:       loosen delay 120 s (demo only, never present it as the public factory)`,
+    );
   }
 
   // Cost estimation summary

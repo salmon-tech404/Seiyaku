@@ -44,5 +44,40 @@ This document records the design limitations and trade-offs discovered during de
 
 - **Severity**: Low / Guardrail
 - **Status**: Accepted by design
-- **Description**: Each vault enforces a strict deposit cap (`maxDepositBase`) on `deposit()`. An owner cannot deposit more base tokens than the cap permits.
-- **Mitigation**: Designed to limit financial exposure on unaudited hackathon contracts.
+- **Description**: Each vault checks, on `deposit()`, that the vault's current base token balance plus the new amount does not exceed the cap (`maxDepositBase`). The check reads the real balance. It is not a lifetime limit: after the trader buys other tokens the base balance falls, and the owner can deposit again. Tokens sent directly to the vault bypass the check as well. The cap therefore limits how much base token sits in the vault at one moment, not the total value at risk.
+- **Mitigation**: Designed to limit exposure on an unaudited prototype. The public deployment uses a cap of 500 USDC. Do not describe the cap as a total loss limit.
+
+---
+
+### 6. A compromised trader key can disable buying
+
+- **Severity**: Medium (availability, not funds)
+- **Status**: Accepted
+- **Description**: The trader key may call `tighten` and `freeze`. A malicious or compromised trader key can therefore make the rules so strict, or freeze the vault, that buying stops. Loosening again needs the owner and the loosening delay (24 hours on the public factory). Exits and withdrawals are not affected.
+- **Mitigation**: Use a trader key you can replace (`setTrader`). Owner can always exit and withdraw.
+
+---
+
+### 7. A queued loosening is applied as written
+
+- **Severity**: Low
+- **Status**: Accepted, documented
+- **Description**: `queueLoosen` stores a complete proposed limit set. If the owner or the trader tightens the limits after that, `executeLoosen` still applies the older proposal as written, which can undo the tightening. Only the owner can execute and either party can cancel. The proposal is validated when queued, so an expiry date that has already passed by the time of execution is possible and only hurts the owner (buying stops).
+- **Mitigation**: Cancel and re queue after tightening.
+
+---
+
+### 8. Exits are not blocked by the daily limits, but need a readable balance
+
+- **Severity**: Low
+- **Status**: Accepted
+- **Description**: An exit needs sane parameters and a token whose balance can be read. A token that reverts on `balanceOf` cannot be exited through the vault and can only be withdrawn with the delayed owner withdrawal.
+- **Mitigation**: Allowlist only standard ERC20 tokens.
+
+---
+
+### 9. Gas cost of a trade
+
+- **Severity**: Informational
+- **Status**: Measured
+- **Description**: On a fork of X Layer the first buy of a day costs about 353,000 gas (cold storage writes and external reads), an exit about 284,000 gas. The target was below 400,000. Margins are not large, so avoid adding more checks to the trade path.

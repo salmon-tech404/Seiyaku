@@ -83,8 +83,8 @@ export async function deployOnFork(options?: { rpcUrl?: string; allowLive?: bool
     circuitId: tapeoutRes.circuitId,
     netlistHash: MANDATE_V1_NETLIST_HASH as Hex,
     loosenDelaySec: 86400,
-    minWithdrawDelaySec: 86400,
-    maxDepositBase: 1_000_000_000_000n, // 1,000,000 USDC
+    minWithdrawDelaySec: 3600,
+    maxDepositBase: 500_000_000n, // 500 USDC, per spec section 8
     beacon: tapeoutRes.beacon,
     beaconImplementation: tapeoutRes.beaconImplementation,
     beaconImplementationCodehash: tapeoutRes.beaconImplementationCodehash,

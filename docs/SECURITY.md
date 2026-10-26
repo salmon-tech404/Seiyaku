@@ -34,7 +34,7 @@ Seiyaku is a non-custodial smart-contract mandate vault deployed on **X Layer** 
 - **Trading Losses / Slippage**: While maximum trade size, daily volume, and slippage tolerances (`amountOutMin`) are enforced, valid swaps executed at market rates are subject to pool price dynamics.
 - **Off-chain Key Compromise of Owner**: An attacker obtaining the Owner's private key can queue withdrawals. The timelock delay (`withdrawDelaySec >= 24h`) gives the owner time to observe the pending withdrawal and take action if multisig/monitoring is configured.
 - **Trader Griefing (`freeze` / `cancelLoosen`)**: A rogue trader can spam `freeze()` or cancel a pending loosening. The owner can mitigate this immediately by calling `setTrader()` to replace the rogue trader.
-- **Untracked Direct ERC20 Transfers**: If tokens are transferred directly to the vault without invoking `deposit()`, the vault holds the balance, but deposit caps are computed only based on formal `deposit()` accounting.
+- **Untracked Direct ERC20 Transfers**: If tokens are transferred directly to the vault without invoking `deposit()`, the vault holds the balance. The deposit cap is checked against the vault's real base token balance at the time of `deposit()`, so direct transfers are not blocked by it (see known limitations).
 
 ---
 

@@ -10,7 +10,7 @@ contract MandateVaultHarness is MandateVault {
     }
 
     function exposedIsAllowedByCircuit(uint16 bits) external view returns (bool) {
-        return _isAllowedByCircuit(bits);
+        return _pinOk() && _circuitAllows(bits);
     }
 
     function exposedPackInputs(uint16 bits) external pure returns (bytes memory) {

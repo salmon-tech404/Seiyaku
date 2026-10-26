@@ -9,7 +9,7 @@ interface IMandateVault {
     );
     event Frozen(address indexed caller);
     event Tightened(address indexed caller, Limits next);
-    event LoosenQueued(address indexed owner, Limits next, uint64 eta, bool unfreeze);
+    event LoosenQueued(address indexed owner, Limits next, address[] addTokens, uint64 eta, bool unfreeze);
     event LoosenExecuted(address indexed owner, Limits applied);
     event LoosenCancelled(address indexed caller);
     event WithdrawRequested(address indexed owner, address indexed token, uint256 amount, uint64 eta);

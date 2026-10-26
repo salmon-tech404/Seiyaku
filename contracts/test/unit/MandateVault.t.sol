@@ -40,7 +40,7 @@ contract MandateVaultTest is Test {
 
     event Frozen(address indexed caller);
     event Tightened(address indexed caller, Limits next);
-    event LoosenQueued(address indexed owner, Limits next, uint64 eta, bool unfreeze);
+    event LoosenQueued(address indexed owner, Limits next, address[] addTokens, uint64 eta, bool unfreeze);
     event LoosenExecuted(address indexed owner, Limits applied);
     event LoosenCancelled(address indexed caller);
     event WithdrawRequested(address indexed owner, address indexed token, uint256 amount, uint64 eta);
@@ -316,5 +316,96 @@ contract MandateVaultTest is Test {
         assertEq(s.trader, trader);
         assertEq(s.limits.maxTradeBase, 50e6);
         assertFalse(s.frozen);
+    }
+
+    // ---- Review fix: tokens added through loosening ----
+
+    function test_queueLoosen_addTokens_notAllowedBeforeDelay_allowedAfter() public {
+        MockERC20 extra = new MockERC20("Extra", "EXT", 18);
+        address[] memory add = new address[](1);
+        add[0] = address(extra);
+
+        vm.prank(owner);
+        vault.queueLoosen(defaultLimits, add, false);
+
+        assertFalse(vault.allowedTokens(address(extra)), "must not be allowed while pending");
+        assertEq(vault.state().pending.addTokens.length, 1);
+        assertEq(vault.state().pending.addTokens[0], address(extra));
+
+        vm.prank(owner);
+        vm.expectRevert();
+        vault.executeLoosen();
+        assertFalse(vault.allowedTokens(address(extra)), "must not be allowed before eta");
+
+        vm.warp(block.timestamp + 121);
+        vm.prank(owner);
+        vault.executeLoosen();
+        assertTrue(vault.allowedTokens(address(extra)), "must be allowed after execute");
+        assertEq(vault.state().pending.addTokens.length, 0, "pending cleared");
+    }
+
+    function test_queueLoosen_addTokens_cancelledNeverApplies() public {
+        MockERC20 extra = new MockERC20("Extra", "EXT", 18);
+        address[] memory add = new address[](1);
+        add[0] = address(extra);
+
+        vm.prank(owner);
+        vault.queueLoosen(defaultLimits, add, false);
+        vm.prank(trader);
+        vault.cancelLoosen();
+
+        vm.warp(block.timestamp + 1000);
+        vm.prank(owner);
+        vm.expectRevert(NothingPending.selector);
+        vault.executeLoosen();
+        assertFalse(vault.allowedTokens(address(extra)));
+    }
+
+    function test_queueLoosen_addTokens_rejectsZeroBaseAndTooMany() public {
+        address[] memory zero = new address[](1);
+        zero[0] = address(0);
+        vm.prank(owner);
+        vm.expectRevert(InvalidLimits.selector);
+        vault.queueLoosen(defaultLimits, zero, false);
+
+        address[] memory base = new address[](1);
+        base[0] = address(usdc);
+        vm.prank(owner);
+        vm.expectRevert(InvalidLimits.selector);
+        vault.queueLoosen(defaultLimits, base, false);
+
+        address[] memory many = new address[](21);
+        for (uint256 i = 0; i < 21; i++) {
+            many[i] = address(uint160(0x1000 + i));
+        }
+        vm.prank(owner);
+        vm.expectRevert(InvalidLimits.selector);
+        vault.queueLoosen(defaultLimits, many, false);
+    }
+
+    function test_queueLoosen_replacesPendingTokensAndRestartsClock() public {
+        MockERC20 a = new MockERC20("A", "A", 18);
+        MockERC20 b = new MockERC20("B", "B", 18);
+        address[] memory addA = new address[](1);
+        addA[0] = address(a);
+        address[] memory addB = new address[](1);
+        addB[0] = address(b);
+
+        vm.prank(owner);
+        vault.queueLoosen(defaultLimits, addA, false);
+        vm.warp(block.timestamp + 100);
+        vm.prank(owner);
+        vault.queueLoosen(defaultLimits, addB, false);
+
+        vm.warp(block.timestamp + 50); // first eta passed, second not yet
+        vm.prank(owner);
+        vm.expectRevert();
+        vault.executeLoosen();
+
+        vm.warp(block.timestamp + 100);
+        vm.prank(owner);
+        vault.executeLoosen();
+        assertFalse(vault.allowedTokens(address(a)), "replaced proposal must not apply");
+        assertTrue(vault.allowedTokens(address(b)));
     }
 }

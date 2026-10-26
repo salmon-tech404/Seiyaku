@@ -324,4 +324,34 @@ contract PropertyTests is Test {
         vm.expectRevert();
         vault.trade(p);
     }
+
+    // Property 1b (review addition): token additions and unfreezing are never instant either
+    function testFuzz_p1b_tokenAdditionAndUnfreezeNeverInstant(uint32 advanceSec) public {
+        advanceSec = uint32(bound(advanceSec, 0, LOOSEN_DELAY - 1));
+
+        vm.prank(owner);
+        vault.freeze();
+        assertTrue(vault.frozen());
+        assertFalse(vault.allowedTokens(address(unlisted)));
+
+        address[] memory add = new address[](1);
+        add[0] = address(unlisted);
+        vm.prank(owner);
+        vault.queueLoosen(baseLimits, add, true);
+
+        vm.warp(block.timestamp + advanceSec);
+        vm.prank(owner);
+        vm.expectRevert();
+        vault.executeLoosen();
+
+        assertTrue(vault.frozen(), "must stay frozen before the delay");
+        assertFalse(vault.allowedTokens(address(unlisted)), "token must not be allowed before the delay");
+
+        // after the delay both take effect
+        vm.warp(block.timestamp + LOOSEN_DELAY);
+        vm.prank(owner);
+        vault.executeLoosen();
+        assertFalse(vault.frozen());
+        assertTrue(vault.allowedTokens(address(unlisted)));
+    }
 }

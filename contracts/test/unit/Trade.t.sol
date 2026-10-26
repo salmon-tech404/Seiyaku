@@ -537,4 +537,38 @@ contract TradeTest is Test {
         vm.expectRevert(); // ReentrancyGuard: reentrant call
         vault.trade(p);
     }
+
+    // ---- Review fix: previewTrade must never revert ----
+
+    function test_previewTrade_neverReverts_whenTokenInIsNotAContract() public view {
+        TradeParams memory p = TradeParams({
+            tokenIn: address(0x1234),
+            tokenOut: address(usdc),
+            feeTier: 500,
+            amountIn: 1e6,
+            amountOutMin: 1,
+            deadline: uint64(block.timestamp + 100)
+        });
+        (uint16 bits, bool allowed) = vault.previewTrade(p);
+        assertFalse(allowed);
+        assertEq(bits & 1, 0, "sane bit must be 0 when balance cannot be read");
+    }
+
+    function test_previewTrade_neverReverts_whenAmountInIsMaxAndVolumeUsed() public {
+        // use some daily volume first so an unchecked addition would overflow
+        vm.prank(trader);
+        vault.trade(_validBuyParams());
+
+        TradeParams memory p = _validBuyParams();
+        p.amountIn = type(uint256).max;
+        (uint16 bits, bool allowed) = vault.previewTrade(p);
+        assertFalse(allowed);
+        assertEq((bits >> 5) & 1, 0, "dailyOk must be 0 for an absurd amount");
+    }
+
+    function test_previewTrade_neverReverts_whenBeaconReverts() public {
+        vm.mockCallRevert(address(beacon), abi.encodeWithSignature("implementation()"), "boom");
+        (, bool allowed) = vault.previewTrade(_validBuyParams());
+        assertFalse(allowed);
+    }
 }

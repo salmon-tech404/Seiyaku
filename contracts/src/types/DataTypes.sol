@@ -21,6 +21,7 @@ struct TradeParams {
 
 struct PendingChange {
     Limits limits;
+    address[] addTokens;
     uint64 eta;
     bool exists;
     bool unfreeze;

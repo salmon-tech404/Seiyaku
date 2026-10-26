@@ -62,6 +62,8 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
     PendingChange public pendingLoosen;
     PendingWithdrawal public pendingWithdrawal;
 
+    uint256 private constant MAX_ALLOWED_TOKENS = 20;
+
     bool private _initialized;
 
     modifier onlyOwner() {
@@ -132,15 +134,22 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
     }
 
     /**
+     * @notice Checks that the pinned TapeOut circuit implementation has not changed (decision D15).
+     * @dev Never reverts: any failure to read the beacon counts as a changed circuit.
+     */
+    function _pinOk() internal view returns (bool) {
+        try IBeacon(beacon).implementation() returns (address currentImpl) {
+            return currentImpl == beaconImplementation && currentImpl.codehash == beaconImplementationCodehash;
+        } catch {
+            return false;
+        }
+    }
+
+    /**
      * @notice Evaluates the 9 input bits against the pinned processor circuit via staticcall.
      * @dev Fail-closed: reverts, malformed return data, or outputs without lowest bit 1 return false.
      */
-    function _isAllowedByCircuit(uint16 bits) internal view returns (bool) {
-        address currentImpl = IBeacon(beacon).implementation();
-        if (currentImpl != beaconImplementation || currentImpl.codehash != beaconImplementationCodehash) {
-            return false;
-        }
-
+    function _circuitAllows(uint16 bits) internal view returns (bool) {
         bytes memory packed = _packInputs(bits);
         (bool success, bytes memory returndata) =
             processor.staticcall(abi.encodeWithSelector(IProcessor.eval.selector, circuitId, packed));
@@ -150,6 +159,19 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
 
         bytes memory output = abi.decode(returndata, (bytes));
         return output.length > 0 && (uint8(output[0]) & 1) == 1;
+    }
+
+    /**
+     * @notice Reads a token balance of this vault without ever reverting.
+     * @dev A token that is not a contract, reverts, or returns malformed data counts as balance zero.
+     */
+    function _safeBalanceOf(address token) internal view returns (uint256) {
+        (bool success, bytes memory data) =
+            token.staticcall(abi.encodeWithSelector(IERC20.balanceOf.selector, address(this)));
+        if (!success || data.length < 32) {
+            return 0;
+        }
+        return abi.decode(data, (uint256));
     }
 
     /**
@@ -169,7 +191,7 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
                 // forge-lint: disable-next-line(block-timestamp)
                 && p.deadline <= block.timestamp + 600 && (isBuy || isExit)
                 && (p.feeTier == 500 || p.feeTier == 3000 || p.feeTier == 10000)
-                && p.amountIn <= IERC20(p.tokenIn).balanceOf(address(this))
+                && p.amountIn <= _safeBalanceOf(p.tokenIn)
         ) {
             bits |= (1 << 0);
         }
@@ -202,7 +224,8 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
         bool sameDay = (uint64(block.timestamp / 86400) == dayIndex);
 
         // Bit 5: dailyOk
-        if (isExit || ((sameDay ? buyVolumeTodayBase : 0) + p.amountIn <= limits.maxDailyBase)) {
+        uint256 usedToday = sameDay ? buyVolumeTodayBase : 0;
+        if (isExit || (usedToday <= limits.maxDailyBase && p.amountIn <= limits.maxDailyBase - usedToday)) {
             bits |= (1 << 5);
         }
 
@@ -231,7 +254,7 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
     function previewTrade(TradeParams calldata p) external view returns (uint16 inputBits, bool allowed) {
         (uint16 bits,) = _inputBits(p);
         inputBits = bits;
-        allowed = _isAllowedByCircuit(bits);
+        allowed = _pinOk() && _circuitAllows(bits);
     }
 
     /**
@@ -241,8 +264,7 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
      */
     function trade(TradeParams calldata p) external nonReentrant onlyTrader returns (uint256 amountOut) {
         // 1. Verify circuit pinning per D15
-        address currentImpl = IBeacon(beacon).implementation();
-        if (currentImpl != beaconImplementation || currentImpl.codehash != beaconImplementationCodehash) {
+        if (!_pinOk()) {
             revert CircuitChanged();
         }
 
@@ -250,7 +272,7 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
         (uint16 bits, bool isExit) = _inputBits(p);
 
         // 3. Evaluate circuit per D16
-        if (!_isAllowedByCircuit(bits)) {
+        if (!_circuitAllows(bits)) {
             revert RuleBlocked(bits);
         }
 
@@ -348,19 +370,18 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
      */
     function queueLoosen(Limits calldata next, address[] calldata addTokens, bool unfreeze) external onlyOwner {
         LimitsLib.validate(next, minWithdrawDelaySec);
+        if (addTokens.length > MAX_ALLOWED_TOKENS) revert InvalidLimits();
+        for (uint256 i = 0; i < addTokens.length; i++) {
+            // forge-lint: disable-next-line(require-revert-in-loop)
+            if (addTokens[i] == address(0) || addTokens[i] == baseToken) revert InvalidLimits();
+        }
 
         // block.timestamp drift tolerance: second-level timelock precision is safe
         // forge-lint: disable-next-line(unsafe-typecast)
         uint64 eta = uint64(block.timestamp + loosenDelaySec);
-        pendingLoosen = PendingChange({limits: next, eta: eta, exists: true, unfreeze: unfreeze});
+        pendingLoosen = PendingChange({limits: next, addTokens: addTokens, eta: eta, exists: true, unfreeze: unfreeze});
 
-        // Add tokens now or in pending? Add tokens are applied at execution time in executeLoosen
-        // To keep storage minimal, addTokens are emitted in event and applied in execution
-        for (uint256 i = 0; i < addTokens.length; i++) {
-            // Checked during executeLoosen
-        }
-
-        emit LoosenQueued(owner, next, eta, unfreeze);
+        emit LoosenQueued(owner, next, addTokens, eta, unfreeze);
     }
 
     /**
@@ -374,6 +395,9 @@ contract MandateVault is IMandateVault, ReentrancyGuard {
         if (block.timestamp < p.eta) revert TooEarly(p.eta);
 
         limits = p.limits;
+        for (uint256 i = 0; i < p.addTokens.length; i++) {
+            allowedTokens[p.addTokens[i]] = true;
+        }
         if (p.unfreeze) {
             frozen = false;
         }
