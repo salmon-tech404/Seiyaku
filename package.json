@@ -21,6 +21,7 @@
     "web:smoke": "tsx scripts/web-chain-smoke.ts",
     "check:static": "node scripts/check-static.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:i18n": "vitest run apps/web/src/shared/i18n/i18n.test.ts",
     "fork": "node scripts/fork.mjs",
     "fork:check": "node scripts/fork-check.mjs",
     "print:mandate": "tsx scripts/print-mandate-v1.ts",

@@ -33,6 +33,40 @@ describe('VerifyPage', () => {
     expect(screen.getByText('Live Circuit Evaluation')).toBeDefined();
   });
 
+  it('provides zoom in, zoom out, and reset zoom controls for the gate diagram', () => {
+    render(
+      <I18nProvider initialLocale="en">
+        <RouterProvider>
+          <VerifyPage />
+        </RouterProvider>
+      </I18nProvider>,
+    );
+
+    const zoomInBtn = screen.getByRole('button', { name: 'Zoom In (+)' });
+    const zoomOutBtn = screen.getByRole('button', { name: 'Zoom Out (-)' });
+    const zoomResetBtn = screen.getByRole('button', { name: 'Reset Zoom (1:1 / Fit)' });
+
+    expect(zoomInBtn).toBeDefined();
+    expect(zoomOutBtn).toBeDefined();
+    expect(zoomResetBtn).toBeDefined();
+
+    // Default state: Fit
+    expect(screen.getByText('Fit')).toBeDefined();
+
+    // Click Zoom In: zoom increases to 125%
+    fireEvent.click(zoomInBtn);
+    expect(screen.getByText('125%')).toBeDefined();
+
+    // Click Reset Zoom: resets to Fit
+    fireEvent.click(zoomResetBtn);
+    expect(screen.queryByText('125%')).toBeNull();
+    expect(screen.getByText('Fit')).toBeDefined();
+
+    // Click Zoom Out: zoom decreases to 75%
+    fireEvent.click(zoomOutBtn);
+    expect(screen.getByText('75%')).toBeDefined();
+  });
+
   it('updates local evaluation when toggling exit bit', () => {
     render(
       <I18nProvider initialLocale="en">
@@ -54,7 +88,7 @@ describe('VerifyPage', () => {
     expect(screen.getAllByText('BLOCK (0)').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('renders security pins and PASS status when report resolves', async () => {
+  it('renders security pins, MATCH badges with check icon, and PASS status when report resolves', async () => {
     const mockAddr = getAddress('0x212fdfCfCC22db97DeB3AC3260414909282BB4EE');
     vi.spyOn(verifyHelpers, 'resolveContractType').mockResolvedValue('vault');
     vi.spyOn(verifyHelpers, 'fetchVerificationReport').mockResolvedValue({
@@ -93,6 +127,8 @@ describe('VerifyPage', () => {
     await waitFor(() => {
       expect(screen.getByText('PASS — All Security Pins Verified')).toBeDefined();
       expect(screen.getByText('TapeOut Circuit & Security Pins')).toBeDefined();
+      const matchBadges = screen.getAllByText('MATCH');
+      expect(matchBadges.length).toBeGreaterThanOrEqual(1);
     });
   });
 });

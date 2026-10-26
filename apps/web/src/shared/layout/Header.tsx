@@ -186,7 +186,11 @@ export function Header() {
                       strokeWidth="2"
                       aria-hidden="true"
                     >
-                      <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d="M3.5 8.5L6.5 11.5L12.5 4.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   ) : (
                     <svg
@@ -223,8 +227,15 @@ export function Header() {
                     strokeWidth="1.5"
                     aria-hidden="true"
                   >
-                    <path d="M6 2H3.5A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14H6" strokeLinecap="round" />
-                    <path d="M10.5 11.5L14 8l-3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                      d="M6 2H3.5A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14H6"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M10.5 11.5L14 8l-3.5-3.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                     <path d="M14 8H6" strokeLinecap="round" />
                   </svg>
                 </button>
@@ -245,13 +256,32 @@ export function Header() {
                       title={copied ? t('nav.addressCopied') : t('nav.copyAddress')}
                     >
                       {copied ? (
-                        <svg className="wallet-icon" viewBox="0 0 16 16" fill="none" stroke="var(--color-success, #10b981)" strokeWidth="2">
-                          <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                          className="wallet-icon"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          stroke="var(--color-success, #10b981)"
+                          strokeWidth="2"
+                        >
+                          <path
+                            d="M3.5 8.5L6.5 11.5L12.5 4.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                       ) : (
-                        <svg className="wallet-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg
+                          className="wallet-icon"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        >
                           <rect x="5.5" y="5.5" width="7" height="7" rx="1.5" />
-                          <path d="M10.5 5.5V3.5A1.5 1.5 0 0 0 9 2H3.5A1.5 1.5 0 0 0 2 3.5V9A1.5 1.5 0 0 0 3.5 10.5H5.5" strokeLinecap="round" />
+                          <path
+                            d="M10.5 5.5V3.5A1.5 1.5 0 0 0 9 2H3.5A1.5 1.5 0 0 0 2 3.5V9A1.5 1.5 0 0 0 3.5 10.5H5.5"
+                            strokeLinecap="round"
+                          />
                         </svg>
                       )}
                     </button>

@@ -341,8 +341,45 @@ export function VerifyPage() {
                 <Chip variant={report.contractType === 'vault' ? 'active' : 'info'}>
                   {t(`verify.type.${report.contractType}`)}
                 </Chip>
-                <Chip variant={report.allMatch ? 'active' : 'frozen'}>
-                  {report.allMatch ? t('verify.pins.match') : t('verify.pins.mismatch')}
+                <Chip variant={report.allMatch ? 'success' : 'danger'} className="pin-match-badge">
+                  {report.allMatch ? (
+                    <>
+                      <svg
+                        className="badge-icon"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{t('verify.pins.match')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        className="badge-icon"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                      <span>{t('verify.pins.mismatch')}</span>
+                    </>
+                  )}
                 </Chip>
               </div>
             </div>
@@ -352,7 +389,7 @@ export function VerifyPage() {
                 <div key={pin.nameKey} className="pin-row">
                   <div className="pin-label">{t(pin.nameKey)}</div>
                   <div className="pin-value-box">
-                    <div>
+                    <div className="pin-live-value">
                       {pin.explorerType === 'address' && isAddress(pin.live) ? (
                         <a
                           href={getExplorerUrl('address', pin.live)}
@@ -367,12 +404,51 @@ export function VerifyPage() {
                       )}
                     </div>
                     {pin.expected !== pin.live && (
-                      <div style={{ color: 'var(--color-accent)' }}>Expected: {pin.expected}</div>
+                      <div className="pin-expected-value">
+                        {t('verify.pins.expected', { expected: pin.expected })}
+                      </div>
                     )}
                   </div>
                   <div className="pin-status-box">
-                    <Chip variant={pin.match ? 'active' : 'frozen'}>
-                      {pin.match ? t('verify.pins.match') : t('verify.pins.mismatch')}
+                    <Chip variant={pin.match ? 'success' : 'danger'} className="pin-match-badge">
+                      {pin.match ? (
+                        <>
+                          <svg
+                            className="badge-icon"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{t('verify.pins.match')}</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg
+                            className="badge-icon"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                          <span>{t('verify.pins.mismatch')}</span>
+                        </>
+                      )}
                     </Chip>
                     <CopyButton textToCopy={pin.live} />
                   </div>
@@ -383,7 +459,7 @@ export function VerifyPage() {
         </>
       )}
 
-      {/* 3. Silicon NAND Gate Topology Diagram */}
+      {/* 3. MANDATE_V1 NAND Gate Topology Diagram */}
       <section className="gate-diagram-card">
         <div className="gate-diagram-card-header">
           <h2>{t('verify.diagram.title')}</h2>

@@ -1117,7 +1117,7 @@ export function VaultDashboardPage() {
                   <input
                     type="text"
                     className="input-control"
-                    placeholder="0x..."
+                    placeholder={t('dashboard.checker.tokenPlaceholder')}
                     value={checkerToken}
                     onChange={(e) => setCheckerToken(e.target.value)}
                   />

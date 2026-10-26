@@ -73,4 +73,61 @@ describe('circuitLayout', () => {
       }
     }
   });
+
+  it('layers gates tightly placing isExit inverter (NAND_12) in layer 13 alongside NAND_13', () => {
+    const inputValues = [true, true, true, true, true, true, true, true, false];
+    const layout = computeCircuitLayout(inputValues);
+
+    const nand12 = layout.nodes.find((n) => n.label === 'NAND_12');
+    const nand13 = layout.nodes.find((n) => n.label === 'NAND_13');
+    const nand14 = layout.nodes.find((n) => n.label === 'NAND_14');
+
+    expect(nand12).toBeDefined();
+    expect(nand13).toBeDefined();
+    expect(nand14).toBeDefined();
+
+    // NAND_12 and NAND_13 should both be at layer 13 right before NAND_14 (layer 14)
+    expect(nand12!.layer).toBe(13);
+    expect(nand13!.layer).toBe(13);
+    expect(nand14!.layer).toBe(14);
+
+    // In layer 13, their X positions should be equal and Y positions non-overlapping
+    expect(nand12!.x).toBe(nand13!.x);
+    expect(Math.abs(nand12!.y - nand13!.y)).toBeGreaterThanOrEqual(30);
+  });
+
+  it('routes multi-layer and adjacent edges with clean cubic bezier paths and pin offsets', () => {
+    const inputValues = [true, true, true, true, true, true, true, true, false];
+    const layout = computeCircuitLayout(inputValues);
+
+    // Gates have 2 inputs: pin a (top) and pin b (bottom)
+    const gate11Edges = layout.edges.filter((e) => e.target === 'sig_11');
+    expect(gate11Edges.length).toBe(2);
+
+    const edgeA = gate11Edges.find((e) => e.id.endsWith('_a'));
+    const edgeB = gate11Edges.find((e) => e.id.endsWith('_b'));
+    expect(edgeA).toBeDefined();
+    expect(edgeB).toBeDefined();
+
+    // Edge A should target a lower Y (top pin) than Edge B (bottom pin)
+    const matchA = edgeA!.pathD.match(/C [\d.]+ [\d.]+, [\d.]+ [\d.]+, ([\d.]+) ([\d.]+)$/);
+    const matchB = edgeB!.pathD.match(/C [\d.]+ [\d.]+, [\d.]+ [\d.]+, ([\d.]+) ([\d.]+)$/);
+    expect(matchA).not.toBeNull();
+    expect(matchB).not.toBeNull();
+
+    const yA = parseFloat(matchA![2]!);
+    const yB = parseFloat(matchB![2]!);
+    expect(yA).toBeLessThan(yB);
+  });
+
+  it('computes layout dimensions dynamically from node bounding box', () => {
+    const inputValues = [true, true, true, true, true, true, true, true, false];
+    const layout = computeCircuitLayout(inputValues);
+
+    const rightmostNode = Math.max(...layout.nodes.map((n) => n.x + n.width / 2));
+    const bottommostNode = Math.max(...layout.nodes.map((n) => n.y + n.height / 2));
+
+    expect(layout.width).toBeGreaterThanOrEqual(rightmostNode);
+    expect(layout.height).toBeGreaterThanOrEqual(bottommostNode);
+  });
 });
