@@ -3,6 +3,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { parseCliArgs } from './args.js';
 import { createAgentClient, AgentClient } from '../client.js';
 import { explainInputBits } from '../messages.js';
+import { runMcpServer } from '../mcp/cli.js';
 
 export const CLI_EXIT_CODES = {
   SUCCESS: 0,
@@ -104,11 +105,15 @@ Global options:
     return CLI_EXIT_CODES.SUCCESS;
   }
 
-  // Handle mcp command placeholder (real server implemented in P4-T02)
+  // Handle mcp command
   if (args.command === 'mcp') {
-    print('Starting Seiyaku MCP server on stdio...');
-    // Real MCP stdio server will be launched here in T02
-    return CLI_EXIT_CODES.SUCCESS;
+    try {
+      await runMcpServer(argv);
+      return CLI_EXIT_CODES.SUCCESS;
+    } catch (err) {
+      printError(err instanceof Error ? err.message : String(err));
+      return CLI_EXIT_CODES.INVALID_INPUT;
+    }
   }
 
   // All other commands require --vault

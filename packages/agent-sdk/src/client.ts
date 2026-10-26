@@ -380,8 +380,11 @@ export class AgentClient {
   /**
    * Executes a trade if permitted by the rule circuit, or simulates if send is false.
    */
-  public async trade(request: CheckRequest, options?: { send?: boolean }): Promise<TradeOutcome> {
-    const outcome = await this.check(request);
+  public async trade(
+    request: CheckRequest,
+    options?: { send?: boolean; lang?: 'en' | 'vi' },
+  ): Promise<TradeOutcome> {
+    const outcome = await this.check(request, options?.lang);
     if (!outcome.allowed || !outcome.tradeParams || !outcome.quote) {
       return {
         status: 'blocked',

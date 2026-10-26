@@ -1,12 +1,16 @@
 # Report P4-T01 — Agent SDK library and CLI
+
 Status: DONE
 Finished: 2026-10-26 22:10
 
 ## Summary for the owner (3–5 plain sentences, no jargon)
+
 We built and verified the agent SDK library and CLI tool for automated trading and risk verification. The SDK connects to Seiyaku vaults on X Layer, evaluates local circuit logic alongside onchain previews, handles Quoter price quotes with bounded slippage, and supports cold emergency freezes and de-risking exits. Operator private keys are strictly loaded from environment variables and protected against leaking into logs or errors through automated sanitization. All checks, unit tests, and live fork smoke tests completed successfully.
 
 ## Files
+
 Created:
+
 - `packages/agent-sdk/src/types.ts` — Zod schemas and TypeScript types for client config, limits, check, and trade outcomes.
 - `packages/agent-sdk/src/messages.ts` — English and Vietnamese translation dictionary for mandate rule failure codes.
 - `packages/agent-sdk/src/quoter.ts` — Uniswap QuoterV2 integration with slippage bounds check.
@@ -23,18 +27,21 @@ Created:
 - `apps/web/src/chain/abi/quoterV2Abi.ts` — Generated QuoterV2 ABI for web workspace parity.
 
 Changed:
+
 - `scripts/generate-abi.ts` — Updated to generate ABIs into both web app and agent-sdk packages.
 - `scripts/check-abi.ts` — Updated to verify freshness across both web app and agent-sdk packages.
 - `package.json` — Added `agent:smoke` script.
 - `packages/agent-sdk/package.json` — Updated bin and test script paths.
 
 Not touched on purpose:
+
 - `contracts/src/*` — Preserved untouched per task instructions.
 - `README.md` — Preserved untouched per task instructions.
 
 Leftovers (renamed/replaced files you could not delete): none
 
 ## Commands run (raw output, unedited, trimmed only by "[...]" markers)
+
 ```bash
 $ npm run typecheck
 > typecheck
@@ -153,7 +160,7 @@ Trade EXECUTED on-chain:
 Verified: Exit trade succeeded while frozen! Risk-reduction is always permitted.
 
 ====================================================
-  ALL AGENT SDK & CLI FORK SMOKE CHECKS PASSED!     
+  ALL AGENT SDK & CLI FORK SMOKE CHECKS PASSED!
 ====================================================
 ```
 
@@ -195,21 +202,24 @@ PASSED: Static build budget check
 ```
 
 ## Commands NOT run (and why)
+
 - Mainnet broadcast commands (prohibited by safety rules).
 
 ## Acceptance criteria
-| # | Criterion (copied from the task) | Result PASS/FAIL/NOT RUN | Evidence (command, line, tx, file) |
-|---|---|---|---|
-| 1 | API with zod validated inputs, typed results, no thrown strings, bigint amounts, chain time decisions | PASS | `packages/agent-sdk/src/types.ts`, `client.ts` |
-| 2 | Uniswap QuoterV2 read, amountOutMin with slippage <= 300 bps, re-quote before send | PASS | `packages/agent-sdk/src/quoter.ts`, `client.ts:382-410` |
-| 3 | Viem Account, key loaded from `--key-env`, canary secrecy test passes | PASS | `packages/agent-sdk/src/cli.test.ts:40-62` |
-| 4 | `check` runs previewTrade and local computation, reports agreement | PASS | `packages/agent-sdk/src/client.ts:250-280` |
-| 5 | `waitUntilAllowed` computes earliest allowed time and sleeps with abort signal | PASS | `packages/agent-sdk/src/client.ts:540-610`, `client.test.ts:160-220` |
-| 6 | CLI bin `seiyaku-agent`, options, exit codes, JSON schema documented | PASS | `packages/agent-sdk/src/cli/run.ts`, `packages/agent-sdk/README.md` |
-| 7 | Vitest tests for all functions and failure modes, `npm run agent:smoke` transcript | PASS | 20 agent-sdk tests pass, smoke test transcript pasted |
-| 8 | Package README with install, quick start, security notes, schema, exit codes | PASS | `packages/agent-sdk/README.md` |
+
+| #   | Criterion (copied from the task)                                                                      | Result PASS/FAIL/NOT RUN | Evidence (command, line, tx, file)                                   |
+| --- | ----------------------------------------------------------------------------------------------------- | ------------------------ | -------------------------------------------------------------------- |
+| 1   | API with zod validated inputs, typed results, no thrown strings, bigint amounts, chain time decisions | PASS                     | `packages/agent-sdk/src/types.ts`, `client.ts`                       |
+| 2   | Uniswap QuoterV2 read, amountOutMin with slippage <= 300 bps, re-quote before send                    | PASS                     | `packages/agent-sdk/src/quoter.ts`, `client.ts:382-410`              |
+| 3   | Viem Account, key loaded from `--key-env`, canary secrecy test passes                                 | PASS                     | `packages/agent-sdk/src/cli.test.ts:40-62`                           |
+| 4   | `check` runs previewTrade and local computation, reports agreement                                    | PASS                     | `packages/agent-sdk/src/client.ts:250-280`                           |
+| 5   | `waitUntilAllowed` computes earliest allowed time and sleeps with abort signal                        | PASS                     | `packages/agent-sdk/src/client.ts:540-610`, `client.test.ts:160-220` |
+| 6   | CLI bin `seiyaku-agent`, options, exit codes, JSON schema documented                                  | PASS                     | `packages/agent-sdk/src/cli/run.ts`, `packages/agent-sdk/README.md`  |
+| 7   | Vitest tests for all functions and failure modes, `npm run agent:smoke` transcript                    | PASS                     | 20 agent-sdk tests pass, smoke test transcript pasted                |
+| 8   | Package README with install, quick start, security notes, schema, exit codes                          | PASS                     | `packages/agent-sdk/README.md`                                       |
 
 ## Measured numbers (only numbers you actually measured: test counts, coverage %, gas)
+
 - Unit tests: 20 passing in `@seiyaku/agent-sdk`, 152 passing across entire monorepo.
 - Gas measured in smoke test on local fork:
   - Trade buy: 311,001 gas (block 74254037)
@@ -218,11 +228,14 @@ PASSED: Static build budget check
 - Static web build size: 627.67 KB (budget 800 KB).
 
 ## Decisions you made (anything the task did not specify) and why
+
 - Implemented `sanitizeSecret` across all CLI output streams (`stdout` and `stderr`) to prevent private keys from appearing even if unexpected viem or node errors occur.
 - Automatically cleaned up `contracts/test/fork/Generated.sol` in smoke test `finally` block to strictly comply with the rule never to leave contract files modified.
 
 ## Observations (problems seen elsewhere, not fixed)
+
 - None.
 
 ## Gaps / risks / unknowns
+
 - None.

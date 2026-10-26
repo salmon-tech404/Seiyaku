@@ -20,6 +20,7 @@
     "abi:check": "tsx scripts/check-abi.ts",
     "web:smoke": "tsx scripts/web-chain-smoke.ts",
     "agent:smoke": "tsx scripts/agent-smoke.ts",
+    "mcp:smoke": "tsx scripts/mcp-smoke.ts",
     "check:static": "node scripts/check-static.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:i18n": "vitest run apps/web/src/shared/i18n/i18n.test.ts",
