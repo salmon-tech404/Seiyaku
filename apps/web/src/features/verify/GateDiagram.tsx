@@ -9,39 +9,68 @@ export interface GateDiagramProps {
 export function GateDiagram({ inputValues }: GateDiagramProps) {
   const { t } = useTranslation();
   const layout = useMemo(() => computeCircuitLayout(inputValues), [inputValues]);
+  const [zoomMode, setZoomMode] = useState<'fit' | '100' | 'custom'>('fit');
   const [zoom, setZoom] = useState<number>(1);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState<boolean>(false);
   const [dragStartX, setDragStartX] = useState<number>(0);
+  const [dragStartY, setDragStartY] = useState<number>(0);
   const [scrollStartLeft, setScrollStartLeft] = useState<number>(0);
+  const [scrollStartTop, setScrollStartTop] = useState<number>(0);
 
   const handleZoomIn = () => {
+    setZoomMode('custom');
     setZoom((prev) => Math.min(3, Number((prev + 0.25).toFixed(2))));
   };
 
   const handleZoomOut = () => {
+    setZoomMode('custom');
     setZoom((prev) => Math.max(0.5, Number((prev - 0.25).toFixed(2))));
   };
 
-  const handleResetZoom = () => {
+  const handleFit = () => {
+    setZoomMode('fit');
     setZoom(1);
     if (scrollRef.current) {
       scrollRef.current.scrollLeft = 0;
+      scrollRef.current.scrollTop = 0;
+    }
+  };
+
+  const handle100Percent = () => {
+    setZoomMode('100');
+    setZoom(1);
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+      scrollRef.current.scrollTop = 0;
+    }
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      setZoomMode('custom');
+      const delta = e.deltaY < 0 ? 0.15 : -0.15;
+      setZoom((prev) => Math.min(3, Math.max(0.5, Number((prev + delta).toFixed(2)))));
     }
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (zoom <= 1 || !scrollRef.current) return;
+    if (!scrollRef.current) return;
     setIsPanning(true);
     setDragStartX(e.clientX);
+    setDragStartY(e.clientY);
     setScrollStartLeft(scrollRef.current.scrollLeft);
+    setScrollStartTop(scrollRef.current.scrollTop);
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isPanning || !scrollRef.current) return;
     e.preventDefault();
     const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
     scrollRef.current.scrollLeft = scrollStartLeft - dx;
+    scrollRef.current.scrollTop = scrollStartTop - dy;
   };
 
   const handleMouseUpOrLeave = () => {
@@ -50,9 +79,17 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
     }
   };
 
+  // Determine rendered width style based on zoom mode
+  let svgWidthStyle = '100%';
+  if (zoomMode === '100') {
+    svgWidthStyle = `${layout.width}px`;
+  } else if (zoomMode === 'custom') {
+    svgWidthStyle = `${Math.round(layout.width * zoom)}px`;
+  }
+
   return (
     <div className="gate-diagram-container">
-      {/* Top Header: Legend on left, Zoom controls on top-right */}
+      {/* Top Header: Sticky Legend on left, Zoom controls on top-right */}
       <div className="gate-diagram-header-toolbar">
         <div className="gate-diagram-legend">
           <div className="legend-item">
@@ -76,11 +113,31 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
         >
           <button
             type="button"
+            className={`diagram-zoom-btn ${zoomMode === 'fit' ? 'active' : ''}`}
+            onClick={handleFit}
+            aria-label={t('verify.diagram.zoomFit')}
+            title={t('verify.diagram.zoomFit')}
+          >
+            <span>{t('verify.diagram.zoomFit')}</span>
+          </button>
+
+          <button
+            type="button"
+            className={`diagram-zoom-btn ${zoomMode === '100' ? 'active' : ''}`}
+            onClick={handle100Percent}
+            aria-label={t('verify.diagram.zoom100')}
+            title={t('verify.diagram.zoom100')}
+          >
+            <span>{'100%'}</span>
+          </button>
+
+          <button
+            type="button"
             className="diagram-zoom-btn"
             onClick={handleZoomOut}
             aria-label={t('verify.diagram.zoomOut')}
             title={t('verify.diagram.zoomOut')}
-            disabled={zoom <= 0.5}
+            disabled={zoom <= 0.5 && zoomMode === 'custom'}
           >
             <svg
               width="14"
@@ -95,25 +152,14 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
           </button>
-          <button
-            type="button"
-            className="diagram-zoom-btn diagram-zoom-reset"
-            onClick={handleResetZoom}
-            aria-label={t('verify.diagram.zoomReset')}
-            title={t('verify.diagram.zoomReset')}
-          >
-            <span>{t('verify.diagram.zoomFit')}</span>
-            {zoom !== 1 && (
-              <span className="zoom-percent-badge">{`${Math.round(zoom * 100)}%`}</span>
-            )}
-          </button>
+
           <button
             type="button"
             className="diagram-zoom-btn"
             onClick={handleZoomIn}
             aria-label={t('verify.diagram.zoomIn')}
             title={t('verify.diagram.zoomIn')}
-            disabled={zoom >= 3}
+            disabled={zoom >= 3 && zoomMode === 'custom'}
           >
             <svg
               width="14"
@@ -132,6 +178,23 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
         </div>
       </div>
 
+      {/* Mobile horizontal scroll hint */}
+      <div className="mobile-scroll-hint" aria-hidden="true">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M18 8L22 12L18 16" />
+          <path d="M6 8L2 12L6 16" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+        </svg>
+        <span>{t('verify.diagram.scrollHint')}</span>
+      </div>
+
       {/* SVG Canvas with dynamic viewBox and responsive fit */}
       <div
         ref={scrollRef}
@@ -142,8 +205,11 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUpOrLeave}
         onMouseLeave={handleMouseUpOrLeave}
+        onWheel={handleWheel}
         style={{
-          cursor: isPanning ? 'grabbing' : zoom > 1 ? 'grab' : 'default',
+          cursor: isPanning ? 'grabbing' : 'grab',
+          overflowX: 'auto',
+          overflowY: 'auto',
         }}
       >
         <svg
@@ -151,9 +217,10 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
           preserveAspectRatio="xMidYMid meet"
           className="circuit-svg"
           style={{
-            width: zoom === 1 ? '100%' : `${zoom * 100}%`,
-            minWidth: zoom === 1 ? '100%' : undefined,
+            width: svgWidthStyle,
+            minWidth: zoomMode === '100' ? `${layout.width}px` : undefined,
             height: 'auto',
+            display: 'block',
           }}
           role="img"
           aria-label={t('verify.diagram.desc')}
@@ -190,7 +257,13 @@ export function GateDiagram({ inputValues }: GateDiagramProps) {
                   transform={`translate(${node.x - node.width / 2}, ${node.y - node.height / 2})`}
                   className={nodeClass}
                 >
-                  <rect width={node.width} height={node.height} rx={rx} className="node-rect" />
+                  <rect
+                    width={node.width}
+                    height={node.height}
+                    rx={rx}
+                    className="node-rect"
+                    fill="var(--color-panel)"
+                  />
                   <text
                     x={node.width / 2}
                     y={node.height / 2 + 4}

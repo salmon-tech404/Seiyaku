@@ -1,21 +1,29 @@
 import React from 'react';
-import { useTranslation } from '../../shared/i18n/index.js';
+import { useTranslation, type TranslationKey } from '../../shared/i18n/index.js';
 import { usePageMeta } from '../../shared/hooks/usePageMeta.js';
 import { CopyButton } from '../../shared/ui/CopyButton.js';
 import { RULE_FAILURE_CODES } from '@seiyaku/circuit-tools';
+import { CLI_COMMAND_DOCS, CLI_EXIT_CODES_DOCS, MCP_TOOLS_DOCS } from '@seiyaku/agent-sdk/docs';
 import './agents.css';
 
-/**
- * Concrete typed example of TradeParams in JSON format.
- */
-export const SAMPLE_TRADE_PARAMS_JSON = JSON.stringify(
+export const SAMPLE_MCP_CLIENT_CONFIG_JSON = JSON.stringify(
   {
-    tokenIn: '0xB6CEceAB302E2E4948951eE7843FC24E92933061', // USDC
-    tokenOut: '0xe538905cf8410324e03a5a23c1c177a474d59b2b', // WOKB
-    feeTier: 500, // 0.05%
-    amountIn: '25000000', // 25 USDC (6 decimals)
-    amountOutMin: '120000000000000000', // min expected WOKB (18 decimals)
-    deadline: 1774000000, // Unix timestamp in seconds (must be <= block.timestamp + 600)
+    mcpServers: {
+      seiyaku: {
+        command: 'npx',
+        args: [
+          '@seiyaku/agent-sdk',
+          'mcp',
+          '--vault',
+          '0x0165878A594ca255338adfa4d48449f69242Eb8F',
+          '--rpc',
+          'https://rpc.xlayer.tech',
+        ],
+        env: {
+          SEIYAKU_TRADER_KEY: '0x...',
+        },
+      },
+    },
   },
   null,
   2,
@@ -45,30 +53,174 @@ export function AgentsPage() {
         <p className="agents-subtitle">{t('agents.header.subtitle')}</p>
       </header>
 
-      {/* 2. Notice: SDK arrives in the next release */}
-      <div className="agents-sdk-notice">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          style={{ flexShrink: 0, marginTop: '2px' }}
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-        <div>
-          <strong>{t('agents.notice.tag')}</strong>: {t('agents.notice.desc')}
-        </div>
-      </div>
+      {/* 2. CLI & SDK Commands Reference */}
+      <section className="agents-section">
+        <h2 className="agents-section-title">{t('agents.cli.title')}</h2>
+        <p style={{ color: 'var(--color-muted)', fontSize: '14px', margin: '0 0 16px' }}>
+          {t('agents.cli.subtitle')}
+        </p>
 
-      {/* 3. What an Agent Can and Cannot Do (Permissions Table) */}
+        {/* Quickstart installation card */}
+        <div className="agents-code-card" style={{ marginBottom: '24px' }}>
+          <div className="agents-code-header">
+            <span style={{ fontWeight: 600, fontSize: '14px' }}>{t('agents.cli.install')}</span>
+            <CopyButton textToCopy={'npm install @seiyaku/agent-sdk'} />
+          </div>
+          <pre className="agents-code-pre">
+            <code>{'npm install @seiyaku/agent-sdk'}</code>
+          </pre>
+        </div>
+
+        {/* Commands List */}
+        <div className="agents-commands-grid">
+          {CLI_COMMAND_DOCS.map((cmd) => (
+            <div key={cmd.name} className="agents-command-card" data-command={cmd.name}>
+              <div className="agents-command-header">
+                <div>
+                  <code className="agents-command-name">seiyaku-agent {cmd.name}</code>
+                  <p className="agents-command-summary">{t(cmd.summaryKey as TranslationKey)}</p>
+                </div>
+                <CopyButton textToCopy={cmd.example} />
+              </div>
+
+              <div className="agents-command-usage">
+                <span className="agents-command-label">{t('agents.cli.usageLabel')}</span>
+                <code className="agents-usage-code">{cmd.usage}</code>
+              </div>
+
+              <div className="agents-command-example">
+                <span className="agents-command-label">{t('agents.cli.exampleLabel')}</span>
+                <pre className="agents-example-pre">{cmd.example}</pre>
+              </div>
+
+              {cmd.options.length > 0 && (
+                <div className="agents-options-list">
+                  {cmd.options.map((opt) => (
+                    <div key={opt.flag} className="agents-option-row">
+                      <code className="agents-option-flag">{opt.flag}</code>
+                      <span className="agents-option-desc">{opt.description}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. Exit Codes */}
+      <section className="agents-section">
+        <h2 className="agents-section-title">{t('agents.exitCodes.title')}</h2>
+        <div className="agents-table-card">
+          <table className="agents-table">
+            <thead>
+              <tr>
+                <th style={{ width: '80px' }}>{t('agents.cli.codeHeader')}</th>
+                <th style={{ width: '180px' }}>{t('agents.cli.identifierHeader')}</th>
+                <th>{t('agents.cli.meaningHeader')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {CLI_EXIT_CODES_DOCS.map((ec) => (
+                <tr key={ec.code}>
+                  <td>
+                    <code>{ec.code}</code>
+                  </td>
+                  <td>
+                    <strong>{ec.name}</strong>
+                  </td>
+                  <td>{t(ec.meaningKey as TranslationKey)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* 4. Model Context Protocol (MCP) Server */}
+      <section className="agents-section">
+        <h2 className="agents-section-title">{t('agents.mcp.title')}</h2>
+        <p style={{ color: 'var(--color-muted)', fontSize: '14px', margin: '0 0 16px' }}>
+          {t('agents.mcp.subtitle')}
+        </p>
+
+        {/* MCP Tools Table */}
+        <div className="agents-table-card" style={{ marginBottom: '20px' }}>
+          <table className="agents-table">
+            <thead>
+              <tr>
+                <th style={{ width: '220px' }}>{t('agents.mcp.toolNameHeader')}</th>
+                <th style={{ width: '110px' }}>{t('agents.mcp.modeHeader')}</th>
+                <th>{t('agents.mcp.descHeader')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {MCP_TOOLS_DOCS.map((tool) => (
+                <tr key={tool.name}>
+                  <td>
+                    <code>{tool.name}</code>
+                  </td>
+                  <td>
+                    <span
+                      style={{
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        background: tool.readOnly
+                          ? 'rgba(77, 137, 255, 0.15)'
+                          : 'rgba(255, 179, 71, 0.15)',
+                        color: tool.readOnly ? 'var(--color-info)' : 'var(--color-warning)',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {tool.readOnly ? 'READ ONLY' : 'SIM / SEND'}
+                    </span>
+                  </td>
+                  <td>{t(tool.summaryKey as TranslationKey)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Claude / Cursor Config Snippet */}
+        <div className="agents-code-card">
+          <div className="agents-code-header">
+            <span style={{ fontWeight: 600, fontSize: '14px' }}>{t('agents.mcp.configTitle')}</span>
+            <CopyButton textToCopy={SAMPLE_MCP_CLIENT_CONFIG_JSON} />
+          </div>
+          <pre className="agents-code-pre">
+            <code>{SAMPLE_MCP_CLIENT_CONFIG_JSON}</code>
+          </pre>
+        </div>
+      </section>
+
+      {/* 5. Security & Invariant Boundaries */}
+      <section className="agents-section">
+        <h2 className="agents-section-title">{t('agents.invariants.title')}</h2>
+        <div className="agents-invariants-grid">
+          <div className="agents-invariant-card enforced">
+            <h3 className="agents-invariant-title">{t('agents.invariants.enforcedTitle')}</h3>
+            <ul className="agents-invariant-list">
+              <li>{t('agents.invariants.inv1')}</li>
+              <li>{t('agents.invariants.inv2')}</li>
+              <li>{t('agents.invariants.inv3')}</li>
+              <li>{t('agents.invariants.inv4')}</li>
+              <li>{t('agents.invariants.inv5')}</li>
+            </ul>
+          </div>
+
+          <div className="agents-invariant-card operator">
+            <h3 className="agents-invariant-title">{t('agents.invariants.unprotectedTitle')}</h3>
+            <ul className="agents-invariant-list">
+              <li>{t('agents.invariants.unp1')}</li>
+              <li>{t('agents.invariants.unp2')}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Permissions Table */}
       <section className="agents-section">
         <h2 className="agents-section-title">{t('agents.permissions.title')}</h2>
         <div className="agents-table-card">
@@ -135,21 +287,7 @@ export function AgentsPage() {
         </div>
       </section>
 
-      {/* 4. Trade Request Format (TradeParams JSON) */}
-      <section className="agents-section">
-        <div className="agents-code-card">
-          <div className="agents-code-header">
-            <h2 className="agents-code-title">{t('agents.format.title')}</h2>
-            <CopyButton textToCopy={SAMPLE_TRADE_PARAMS_JSON} />
-          </div>
-          <p style={{ color: 'var(--color-muted)', fontSize: '13px', margin: 0 }}>
-            {t('agents.format.desc')}
-          </p>
-          <pre className="agents-code-pre">{SAMPLE_TRADE_PARAMS_JSON}</pre>
-        </div>
-      </section>
-
-      {/* 5. Block Reasons List (from explainBlock) */}
+      {/* 7. Block Reasons List */}
       <section className="agents-section">
         <h2 className="agents-section-title">{t('agents.reasons.title')}</h2>
         <p style={{ color: 'var(--color-muted)', fontSize: '14px', margin: 0 }}>
@@ -159,7 +297,7 @@ export function AgentsPage() {
           {BLOCK_REASONS.map((reason) => (
             <div key={reason.code} className="agents-reason-item">
               <span className="agents-reason-code">{reason.code}</span>
-              <p className="agents-reason-desc">{t(reason.descKey)}</p>
+              <p className="agents-reason-desc">{t(reason.descKey as TranslationKey)}</p>
             </div>
           ))}
         </div>

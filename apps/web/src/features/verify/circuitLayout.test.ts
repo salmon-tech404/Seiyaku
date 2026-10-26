@@ -130,4 +130,48 @@ describe('circuitLayout', () => {
     expect(layout.width).toBeGreaterThanOrEqual(rightmostNode);
     expect(layout.height).toBeGreaterThanOrEqual(bottommostNode);
   });
+
+  it('guarantees zero bounding box overlap between any pair of nodes', () => {
+    const inputValues = [true, true, true, true, true, true, true, true, false];
+    const layout = computeCircuitLayout(inputValues);
+
+    for (let i = 0; i < layout.nodes.length; i++) {
+      const a = layout.nodes[i]!;
+      const aLeft = a.x - a.width / 2;
+      const aRight = a.x + a.width / 2;
+      const aTop = a.y - a.height / 2;
+      const aBottom = a.y + a.height / 2;
+
+      for (let j = i + 1; j < layout.nodes.length; j++) {
+        const b = layout.nodes[j]!;
+        const bLeft = b.x - b.width / 2;
+        const bRight = b.x + b.width / 2;
+        const bTop = b.y - b.height / 2;
+        const bBottom = b.y + b.height / 2;
+
+        const overlapsX = aLeft < bRight && aRight > bLeft;
+        const overlapsY = aTop < bBottom && aBottom > bTop;
+        const overlaps = overlapsX && overlapsY;
+
+        expect(overlaps).toBe(false);
+      }
+    }
+  });
+
+  it('generates completely deterministic output across repeated executions', () => {
+    const inputValues = [true, false, true, true, false, true, false, true, false];
+    const layout1 = computeCircuitLayout(inputValues);
+    const layout2 = computeCircuitLayout(inputValues);
+
+    expect(layout1.width).toBe(layout2.width);
+    expect(layout1.height).toBe(layout2.height);
+    expect(layout1.nodes.length).toBe(layout2.nodes.length);
+    expect(layout1.edges.length).toBe(layout2.edges.length);
+
+    for (let i = 0; i < layout1.nodes.length; i++) {
+      expect(layout1.nodes[i]!.x).toBe(layout2.nodes[i]!.x);
+      expect(layout1.nodes[i]!.y).toBe(layout2.nodes[i]!.y);
+      expect(layout1.nodes[i]!.value).toBe(layout2.nodes[i]!.value);
+    }
+  });
 });

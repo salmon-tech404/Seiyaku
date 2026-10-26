@@ -8,3 +8,4 @@ export * from './abi/index.js';
 export * from './cli/args.js';
 export * from './cli/run.js';
 export * from './mcp/index.js';
+export * from './docs.js';

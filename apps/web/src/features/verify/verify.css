@@ -263,11 +263,16 @@
 }
 
 .gate-diagram-header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-panel);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 4px 0 8px;
 }
 
 .gate-diagram-legend {
@@ -408,6 +413,29 @@
   stroke-width: 1px;
 }
 
+.diagram-zoom-btn.active {
+  background: var(--color-accent-bg);
+  color: #ffffff;
+  border-color: var(--color-accent-bg);
+}
+
+.mobile-scroll-hint {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--color-muted);
+    padding: 4px;
+    margin-bottom: 4px;
+  }
+}
+
 .node-text {
   font-family:
     system-ui,
@@ -416,6 +444,10 @@
   font-size: 11px;
   fill: var(--color-text);
   user-select: none;
+  paint-order: stroke fill;
+  stroke: var(--color-panel);
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 
 .node-input-high .node-rect {

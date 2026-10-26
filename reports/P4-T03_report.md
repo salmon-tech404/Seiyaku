@@ -60,7 +60,7 @@ $ npm run demo:agent -- --mode careful --count 2
 [EXEC]    Exit trade confirmed in tx 0x97a8fdd474c2073fa3b781a0d42d5b01446fde97e54d69935d167606faa709ad
 
 ================================================================================
-                          DEMO AGENT EXECUTION SUMMARY                          
+                          DEMO AGENT EXECUTION SUMMARY
 ================================================================================
 ATTEMPT / STEP                   | OUTCOME    | INVARIANT ENFORCEMENT / REASON
 ---------------------------------+------------+---------------------------------
@@ -118,7 +118,7 @@ $ npm run demo:agent -- --mode reckless
 [EXEC]    Exit trade broadcast confirmed in tx 0x025dc8317e11df6920848628e10a5ff2e5805eb0b512fc710a3a641f0838f913
 
 ================================================================================
-                          DEMO AGENT EXECUTION SUMMARY                          
+                          DEMO AGENT EXECUTION SUMMARY
 ================================================================================
 ATTEMPT / STEP                   | OUTCOME    | INVARIANT ENFORCEMENT / REASON
 ---------------------------------+------------+---------------------------------
@@ -194,19 +194,20 @@ PASSED: Static build budget check
 
 ## Acceptance Criteria Verification
 
-| # | Criterion | Result | Evidence |
-|---|---|---|---|
-| 1 | `examples/demo-agent/` with `agent.ts` (run with tsx), using only public SDK API | PASS | `examples/demo-agent/agent.ts:24-25` |
-| 2 | Careful mode buys fixed amount, checks allowance, waits with waitUntilAllowed, exits after M buys | PASS | `examples/demo-agent/agent.ts:335-470`, transcript pasted |
-| 3 | Reckless mode tries all 7 violations and exits while frozen, prints summary table | PASS | `examples/demo-agent/agent.ts:475-650`, transcript pasted |
-| 4 | Output designed for recording: short lines, consistent prefixes, colour only on TTY, `--pace` option | PASS | `examples/demo-agent/agent.ts:55-90` |
-| 5 | `npm run demo:agent` (fork only; refuses non-196 chain ID and non-local RPC) | PASS | `examples/demo-agent/agent.ts:180-205` |
-| 6 | `examples/demo-agent/README.md` (~10 lines, no trading strategy claims) | PASS | `examples/demo-agent/README.md` |
-| 7 | Tests assert every attempt blocked/reverted and exit succeeds | PASS | `examples/demo-agent/agent.test.ts` (10 tests pass) |
+| #   | Criterion                                                                                            | Result | Evidence                                                  |
+| --- | ---------------------------------------------------------------------------------------------------- | ------ | --------------------------------------------------------- |
+| 1   | `examples/demo-agent/` with `agent.ts` (run with tsx), using only public SDK API                     | PASS   | `examples/demo-agent/agent.ts:24-25`                      |
+| 2   | Careful mode buys fixed amount, checks allowance, waits with waitUntilAllowed, exits after M buys    | PASS   | `examples/demo-agent/agent.ts:335-470`, transcript pasted |
+| 3   | Reckless mode tries all 7 violations and exits while frozen, prints summary table                    | PASS   | `examples/demo-agent/agent.ts:475-650`, transcript pasted |
+| 4   | Output designed for recording: short lines, consistent prefixes, colour only on TTY, `--pace` option | PASS   | `examples/demo-agent/agent.ts:55-90`                      |
+| 5   | `npm run demo:agent` (fork only; refuses non-196 chain ID and non-local RPC)                         | PASS   | `examples/demo-agent/agent.ts:180-205`                    |
+| 6   | `examples/demo-agent/README.md` (~10 lines, no trading strategy claims)                              | PASS   | `examples/demo-agent/README.md`                           |
+| 7   | Tests assert every attempt blocked/reverted and exit succeeds                                        | PASS   | `examples/demo-agent/agent.test.ts` (10 tests pass)       |
 
 ## Forbidden Words Audit
 
 Audited all new and changed documentation (`examples/demo-agent/README.md`, `examples/demo-agent/agent.ts`, `reports/P4-T03_report.md`):
+
 - `silicon`: 0 occurrences
 - `hardware`: 0 occurrences
 - `audited` (without "un"): 0 occurrences

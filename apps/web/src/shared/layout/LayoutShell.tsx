@@ -12,7 +12,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
     <div className="layout-shell">
       {currentRoute.isDemo && (
         <div className="demo-banner" role="banner">
-          <span>{t('common.demoBanner')}</span>
+          <span>{t('common.demoBanner', { delay: 120 })}</span>
         </div>
       )}
       <Header />

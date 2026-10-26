@@ -29,24 +29,6 @@
   line-height: 1.5;
 }
 
-/* Notice Banner */
-.agents-sdk-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--space-5);
-  border-radius: var(--radius-md);
-  background: rgba(111, 134, 255, 0.08);
-  border: 1px solid rgba(111, 134, 255, 0.25);
-  color: var(--color-info);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.agents-sdk-notice strong {
-  color: var(--color-text);
-}
-
 /* Section */
 .agents-section {
   display: flex;
@@ -61,9 +43,163 @@
   color: var(--color-text);
 }
 
+/* Commands Grid */
+.agents-commands-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .agents-commands-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.agents-command-card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.agents-command-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.agents-command-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.agents-command-summary {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+.agents-command-usage,
+.agents-command-example {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.agents-command-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.agents-usage-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--color-text);
+  overflow-x: auto;
+}
+
+.agents-example-pre {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  padding: 6px 8px;
+  border-radius: 4px;
+  color: var(--color-text);
+  margin: 0;
+  overflow-x: auto;
+}
+
+.agents-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--color-line);
+  padding-top: 8px;
+}
+
+.agents-option-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.agents-option-flag {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-info);
+  white-space: nowrap;
+}
+
+.agents-option-desc {
+  color: var(--color-muted);
+}
+
+/* Invariants Grid */
+.agents-invariants-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .agents-invariants-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.agents-invariant-card {
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: 1px solid;
+}
+
+.agents-invariant-card.enforced {
+  background: rgba(47, 182, 124, 0.05);
+  border-color: rgba(47, 182, 124, 0.3);
+}
+
+.agents-invariant-card.operator {
+  background: rgba(255, 179, 71, 0.05);
+  border-color: rgba(255, 179, 71, 0.3);
+}
+
+.agents-invariant-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.agents-invariant-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
 /* Table */
 .agents-table-card {
-  padding: var(--space-6);
+  padding: var(--space-4);
   border-radius: var(--radius-md);
   background: var(--color-panel);
   border: 1px solid var(--color-line);
@@ -86,7 +222,7 @@
 }
 
 .agents-table td {
-  padding: 12px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--color-line);
   color: var(--color-muted);
   vertical-align: top;
@@ -108,7 +244,7 @@
 
 /* JSON / Code Block */
 .agents-code-card {
-  padding: var(--space-6);
+  padding: var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-panel);
   border: 1px solid var(--color-line);
@@ -121,12 +257,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.agents-code-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0;
 }
 
 .agents-code-pre {

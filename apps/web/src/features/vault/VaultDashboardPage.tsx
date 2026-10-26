@@ -38,6 +38,7 @@ import { AddressText } from '../../shared/ui/AddressText.js';
 import { AmountText } from '../../shared/ui/AmountText.js';
 import { Skeleton } from '../../shared/ui/Skeleton.js';
 import { ErrorState } from '../../shared/ui/ErrorState.js';
+import { useChainClock } from '../../shared/hooks/useChainClock.js';
 import './vault.css';
 
 const FAIL_CODE_KEYS: Record<string, TranslationKey> = {
@@ -193,9 +194,12 @@ export function VaultDashboardPage() {
   }, [account, vaultState]);
 
   // Derived Vault Status
+  const estimatedChainNowSec = useChainClock(chainTimeSec);
+  const effectiveNowSec = BigInt(estimatedChainNowSec);
+
   const statusInfo = useMemo(() => {
     if (!vaultState) return { status: 'active', label: t('dashboard.status.active') };
-    const now = BigInt(Math.floor(Date.now() / 1000));
+    const now = BigInt(estimatedChainNowSec);
     if (vaultState.frozen) {
       return { status: 'frozen', label: t('dashboard.status.frozen') };
     }
@@ -203,16 +207,15 @@ export function VaultDashboardPage() {
       return { status: 'expired', label: t('dashboard.status.expired') };
     }
     return { status: 'active', label: t('dashboard.status.active') };
-  }, [vaultState, t]);
+  }, [vaultState, estimatedChainNowSec, t]);
 
-  // Rolled day stats
+  // Rolled day stats based on estimated chain clock
   const nowSec = Math.floor(Date.now() / 1000);
-  const effectiveNowSec = chainTimeSec > 0n ? chainTimeSec : BigInt(nowSec);
   const isStale = nowSec - lastFetchedSec > 60;
   const dayStats = useMemo(() => {
     if (!vaultState) return null;
-    return getRolledDayStats(vaultState, nowSec);
-  }, [vaultState, nowSec]);
+    return getRolledDayStats(vaultState, estimatedChainNowSec);
+  }, [vaultState, estimatedChainNowSec]);
 
   // Trade Checker Runner
   const handleCheckTrade = useCallback(async () => {
@@ -663,6 +666,36 @@ export function VaultDashboardPage() {
           <div className="dashboard-card-body">
             {dayStats && (
               <>
+                {/* Vault Status row */}
+                <FieldRow label={t('dashboard.today.vaultStatus')}>
+                  <Chip
+                    variant={
+                      statusInfo.status === 'active'
+                        ? 'active'
+                        : statusInfo.status === 'frozen'
+                          ? 'frozen'
+                          : 'expired'
+                    }
+                  >
+                    {statusInfo.label}
+                  </Chip>
+                </FieldRow>
+
+                {/* Last buy row */}
+                <FieldRow label={t('dashboard.today.lastBuy')}>
+                  {vaultState.lastBuyAt > 0n ? (
+                    <span style={{ fontSize: '13px' }}>
+                      {new Date(Number(vaultState.lastBuyAt) * 1000)
+                        .toISOString()
+                        .replace('.000Z', 'Z')}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: '13px', color: 'var(--color-muted)' }}>
+                      {t('dashboard.today.noTradesYet')}
+                    </span>
+                  )}
+                </FieldRow>
+
                 {/* Cooldown */}
                 <FieldRow label={t('dashboard.today.cooldown')}>
                   {(() => {
@@ -671,7 +704,10 @@ export function VaultDashboardPage() {
                     const isCooldownActive =
                       vaultState.lastBuyAt > 0n && cooldownEndSec > Number(effectiveNowSec);
                     return isCooldownActive ? (
-                      <Countdown targetTimestampSec={cooldownEndSec} />
+                      <Countdown
+                        targetTimestampSec={cooldownEndSec}
+                        currentTimestampSec={Number(effectiveNowSec)}
+                      />
                     ) : (
                       <span className="today-ready-pill">{t('dashboard.today.ready')}</span>
                     );
@@ -727,6 +763,7 @@ export function VaultDashboardPage() {
                 <FieldRow label={t('dashboard.today.rollover')}>
                   <Countdown
                     targetTimestampSec={Number(effectiveNowSec) + dayStats.secondsUntilMidnight}
+                    currentTimestampSec={Number(effectiveNowSec)}
                   />
                 </FieldRow>
 
@@ -760,7 +797,10 @@ export function VaultDashboardPage() {
                     return (
                       <div className="pending-event-countdown">
                         <span>{label} in </span>
-                        <Countdown targetTimestampSec={summary.eta} />
+                        <Countdown
+                          targetTimestampSec={summary.eta}
+                          currentTimestampSec={Number(effectiveNowSec)}
+                        />
                       </div>
                     );
                   })()}
@@ -874,7 +914,10 @@ export function VaultDashboardPage() {
                   {t('dashboard.pending.loosenTitle')}
                 </div>
                 <FieldRow label={t('dashboard.pending.loosenEta')}>
-                  <Countdown targetTimestampSec={vaultState.pending.eta} />
+                  <Countdown
+                    targetTimestampSec={vaultState.pending.eta}
+                    currentTimestampSec={Number(effectiveNowSec)}
+                  />
                 </FieldRow>
                 {role === 'owner' && (
                   <div className="pending-actions-row">
@@ -939,7 +982,10 @@ export function VaultDashboardPage() {
                   <AmountText amount={vaultState.withdrawal.amount} decimals={6} unit="USDC" />
                 </div>
                 <FieldRow label={t('dashboard.pending.withdrawEta')}>
-                  <Countdown targetTimestampSec={vaultState.withdrawal.eta} />
+                  <Countdown
+                    targetTimestampSec={vaultState.withdrawal.eta}
+                    currentTimestampSec={Number(effectiveNowSec)}
+                  />
                 </FieldRow>
                 {role === 'owner' && (
                   <div className="pending-actions-row">

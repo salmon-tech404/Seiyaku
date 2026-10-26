@@ -3,20 +3,38 @@ import { useTranslation } from '../i18n/index.js';
 
 export interface CountdownProps {
   targetTimestampSec: number | bigint;
+  currentTimestampSec?: number | bigint;
   onComplete?: () => void;
   className?: string;
 }
 
-export function Countdown({ targetTimestampSec, onComplete, className = '' }: CountdownProps) {
+export function Countdown({
+  targetTimestampSec,
+  currentTimestampSec,
+  onComplete,
+  className = '',
+}: CountdownProps) {
   const { t } = useTranslation();
   const targetSec = Number(targetTimestampSec);
 
   const [remaining, setRemaining] = useState<number>(() => {
-    const now = Math.floor(Date.now() / 1000);
+    const now =
+      currentTimestampSec !== undefined
+        ? Number(currentTimestampSec)
+        : Math.floor(Date.now() / 1000);
     return Math.max(0, targetSec - now);
   });
 
   useEffect(() => {
+    if (currentTimestampSec !== undefined) {
+      const rem = Math.max(0, targetSec - Number(currentTimestampSec));
+      setRemaining(rem);
+      if (rem === 0 && onComplete) {
+        onComplete();
+      }
+      return;
+    }
+
     const update = () => {
       const now = Math.floor(Date.now() / 1000);
       const rem = Math.max(0, targetSec - now);
@@ -29,7 +47,7 @@ export function Countdown({ targetTimestampSec, onComplete, className = '' }: Co
     update();
     const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
-  }, [targetSec, onComplete]);
+  }, [targetSec, currentTimestampSec, onComplete]);
 
   if (remaining <= 0) {
     return (

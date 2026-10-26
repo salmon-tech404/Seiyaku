@@ -33,7 +33,7 @@ describe('VerifyPage', () => {
     expect(screen.getByText('Live Circuit Evaluation')).toBeDefined();
   });
 
-  it('provides zoom in, zoom out, and reset zoom controls for the gate diagram', () => {
+  it('provides zoom in, zoom out, fit, and 100% controls for the gate diagram', () => {
     render(
       <I18nProvider initialLocale="en">
         <RouterProvider>
@@ -44,27 +44,29 @@ describe('VerifyPage', () => {
 
     const zoomInBtn = screen.getByRole('button', { name: 'Zoom In (+)' });
     const zoomOutBtn = screen.getByRole('button', { name: 'Zoom Out (-)' });
-    const zoomResetBtn = screen.getByRole('button', { name: 'Reset Zoom (1:1 / Fit)' });
+    const fitBtn = screen.getByRole('button', { name: 'Fit' });
+    const percentBtn = screen.getByRole('button', { name: '100%' });
 
     expect(zoomInBtn).toBeDefined();
     expect(zoomOutBtn).toBeDefined();
-    expect(zoomResetBtn).toBeDefined();
+    expect(fitBtn).toBeDefined();
+    expect(percentBtn).toBeDefined();
 
-    // Default state: Fit
-    expect(screen.getByText('Fit')).toBeDefined();
+    // Default state: Fit is active
+    expect(fitBtn.className).toContain('active');
 
-    // Click Zoom In: zoom increases to 125%
+    // Click 100%
+    fireEvent.click(percentBtn);
+    expect(percentBtn.className).toContain('active');
+    expect(fitBtn.className).not.toContain('active');
+
+    // Click Zoom In
     fireEvent.click(zoomInBtn);
-    expect(screen.getByText('125%')).toBeDefined();
+    expect(percentBtn.className).not.toContain('active');
 
-    // Click Reset Zoom: resets to Fit
-    fireEvent.click(zoomResetBtn);
-    expect(screen.queryByText('125%')).toBeNull();
-    expect(screen.getByText('Fit')).toBeDefined();
-
-    // Click Zoom Out: zoom decreases to 75%
-    fireEvent.click(zoomOutBtn);
-    expect(screen.getByText('75%')).toBeDefined();
+    // Click Fit: resets to Fit
+    fireEvent.click(fitBtn);
+    expect(fitBtn.className).toContain('active');
   });
 
   it('updates local evaluation when toggling exit bit', () => {

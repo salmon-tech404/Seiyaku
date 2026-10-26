@@ -141,8 +141,8 @@
 .today-stat-subtext {
   font-size: 12px;
   color: var(--color-muted);
-  margin-top: -6px;
-  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 6px;
 }
 
 .today-ready-pill {
