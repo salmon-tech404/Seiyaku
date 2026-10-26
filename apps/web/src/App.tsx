@@ -5,6 +5,7 @@ import { LayoutShell } from './shared/layout/LayoutShell.js';
 import { StyleguidePage } from './features/styleguide/StyleguidePage.js';
 import { CreateVaultPage } from './features/create/CreateVaultPage.js';
 import { VaultDashboardPage } from './features/vault/VaultDashboardPage.js';
+import { VerifyPage } from './features/verify/VerifyPage.js';
 import { ErrorState } from './shared/ui/ErrorState.js';
 
 export function App() {
@@ -26,6 +27,10 @@ export function App() {
 
       case '/vault/:address':
         return <VaultDashboardPage />;
+
+      case '/verify':
+      case '/verify/:address':
+        return <VerifyPage />;
 
       case '/styleguide':
         return <StyleguidePage />;
