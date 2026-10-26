@@ -95,6 +95,7 @@ export function VaultDashboardPage() {
     agreement: boolean;
   } | null>(null);
   const [isCheckingTrade, setIsCheckingTrade] = useState<boolean>(false);
+  const checkSeqRef = useRef(0);
 
   // Action Dialogs
   const [activeDialog, setActiveDialog] = useState<
@@ -216,8 +217,8 @@ export function VaultDashboardPage() {
   // Trade Checker Runner
   const handleCheckTrade = useCallback(async () => {
     if (!vaultState || !validVaultAddress || !isAddress(checkerToken)) return;
+    const seq = ++checkSeqRef.current;
     setIsCheckingTrade(true);
-    setCheckerResult(null);
 
     const isExit = checkerType === 'exit';
     const tokenIn = isExit ? getAddress(checkerToken) : vaultState.baseToken;
@@ -290,6 +291,7 @@ export function VaultDashboardPage() {
       const failedCodes = explainBlock(preview.inputBits);
       const agreement = preview.allowed === localAllowed && preview.inputBits === localBitsRes.bits;
 
+      if (seq !== checkSeqRef.current) return;
       setCheckerResult({
         allowed: preview.allowed,
         inputBits: preview.inputBits,
@@ -299,6 +301,7 @@ export function VaultDashboardPage() {
         agreement,
       });
     } catch (err: unknown) {
+      if (seq !== checkSeqRef.current) return;
       const decoded = decodeAppError(err);
       setCheckerResult({
         allowed: false,
@@ -309,19 +312,30 @@ export function VaultDashboardPage() {
         agreement: false,
       });
     } finally {
-      setIsCheckingTrade(false);
+      if (seq === checkSeqRef.current) setIsCheckingTrade(false);
     }
-  }, [vaultState, validVaultAddress, checkerType, checkerToken, checkerAmount, checkerFeeTier]);
+  }, [
+    vaultState,
+    balances,
+    validVaultAddress,
+    checkerType,
+    checkerToken,
+    checkerAmount,
+    checkerFeeTier,
+  ]);
 
-  // Run the trade checker when the vault state is ready, and again whenever fresh data arrives,
-  // so that the rules card and the checker never describe an older block than the rest of the page.
-  const lastCheckedBlockRef = useRef<bigint | null>(null);
+  // Forget the previous result when another vault is opened, so one vault never shows another one's check.
   useEffect(() => {
-    if (!vaultState || isCheckingTrade) return;
-    if (lastCheckedBlockRef.current === freshnessBlock && checkerResult) return;
-    lastCheckedBlockRef.current = freshnessBlock;
+    checkSeqRef.current += 1;
+    setCheckerResult(null);
+  }, [validVaultAddress]);
+
+  // Run the trade checker whenever fresh vault data arrives (a new state object is created on every fetch),
+  // so that the rules card and the checker always describe the same data as the rest of the page.
+  useEffect(() => {
+    if (!vaultState) return;
     void handleCheckTrade();
-  }, [vaultState, freshnessBlock, checkerResult, isCheckingTrade, handleCheckTrade]);
+  }, [vaultState, balances, handleCheckTrade]);
 
   // Execute on-chain action
   const handleExecuteAction = useCallback(async () => {

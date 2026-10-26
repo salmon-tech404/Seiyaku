@@ -3,31 +3,31 @@
     "filename": "create-agent-safe.png",
     "scenario": "create agent safe",
     "viewport": "1280x800",
-    "sha256": "dee3221b99ac59141440023cd01b3d7380aacc0a25eab9fab28db615d4650da0"
+    "sha256": "7bec5963914c62798b0b19122ec9c245596b81dd2ab116d52b1f0d0e90b11b85"
   },
   {
     "filename": "create-balanced-en.png",
     "scenario": "create balanced en",
     "viewport": "1280x800",
-    "sha256": "6f7040b7d9647b7bf67b9cb55ed30cb54c1b426d06c8dfae16f3c55611a5ef0d"
+    "sha256": "32dce01cd191a3f06ef67fc5c02eeaec65877a6d6c2fd4b8c2fd71a617de4ef9"
   },
   {
     "filename": "create-balanced-mobile-vi-created.png",
     "scenario": "create balanced mobile vi created",
     "viewport": "390x844",
-    "sha256": "78589cfd22e084b91eb30c375ec3dc596cc4a083a71b2b28744499bb5efa1fb9"
+    "sha256": "1c18b7460a703f19c35fbcc640409013d80a9418710650572774a0da250d8339"
   },
   {
     "filename": "create-balanced-mobile-vi.png",
     "scenario": "create balanced mobile vi",
     "viewport": "390x844",
-    "sha256": "62b795795f03d55d0c579a522b5eb470f6730458420853a3e77c18755e7fe85c"
+    "sha256": "8335f886264c055ab5a99654785e0729028e53311ee343bdac23ed7b06a4bf04"
   },
   {
     "filename": "create-careful.png",
     "scenario": "create careful",
     "viewport": "1280x800",
-    "sha256": "cb3f086e84777229540ef20aa1640b53fd89def983378848356a1d951ff05d15"
+    "sha256": "c0dddd6a5cac2b326a2bcbdb542059c74cc94b623126d69c8712519b55f19277"
   },
   {
     "filename": "create-vault-keyboard-walkthrough.png",
@@ -39,91 +39,91 @@
     "filename": "demo-banner-active.png",
     "scenario": "demo banner active",
     "viewport": "1280x800",
-    "sha256": "0d27c08650893de746a8f5223f71c48c617c07a2eb5031219ea7c4c985d03559"
+    "sha256": "0152f9fc45a346851d653f2735828b6bf5ce1499e7fb7ff58357a6d83dcb7a82"
   },
   {
     "filename": "trade-checker-allowed.png",
     "scenario": "trade checker allowed",
     "viewport": "1280x800",
-    "sha256": "d07258a8dc752a12db472dd35a69d1f3a7d63d6f367746a2a8872d3aef533b59"
+    "sha256": "86cff6566e72bebec3b68b8464ffd4283c676d0ea38e8ab4f8db952f35fd14c2"
   },
   {
     "filename": "trade-checker-blocked.png",
     "scenario": "trade checker blocked",
     "viewport": "1280x800",
-    "sha256": "a57f9f72e19eca89b1108d3cd7833f56006c5676fdb77286f919ddba6b548258"
+    "sha256": "7bb1374b83948e8a3d18eb4e6c105f9af2675fad4de31dffeeb8d00d5fb826ab"
   },
   {
     "filename": "vault-after-deposit-100usdc.png",
     "scenario": "vault after deposit 100usdc",
     "viewport": "1280x800",
-    "sha256": "5ca7614cfcef13559b3df95410b0b5f990449daa4e04953f26a9ec8603f58207"
+    "sha256": "e6e3905936f75d669319b702628375b1fe8bce7e71d7ca2a4a90d04acb31f5fa"
   },
   {
     "filename": "vault-after-trader-swap.png",
     "scenario": "vault after trader swap",
     "viewport": "1280x800",
-    "sha256": "c52b2372448c285de560bf4f22847ba952225d0a85a3a1533be4e0a8169af990"
+    "sha256": "ad20eef075cf17f5fc804eadbb35526bc76ff1c3065ac655faad02c5bad32a49"
   },
   {
     "filename": "vault-before-deposit.png",
     "scenario": "vault before deposit",
     "viewport": "1280x800",
-    "sha256": "89d25147ae90fe620f7f9d197d0ba6c2c6568bf52cf5449ceddb29cd0340e1d2"
+    "sha256": "aeb73639cb5e682b741267feb75575a11347ffe708449f0656b73629f7c7d949"
   },
   {
     "filename": "vault-dashboard-mobile.png",
     "scenario": "vault dashboard mobile",
     "viewport": "390x844",
-    "sha256": "5b14d81006a0faf715b4e5fc6668f57ff9ffa1f1f5036b6bc842bf14458889b0"
+    "sha256": "74fb95efa92a41bea90db502ee34b812ec60cff20660a4507b383f79d627cb06"
   },
   {
     "filename": "vault-frozen-status.png",
     "scenario": "vault frozen status",
     "viewport": "1280x800",
-    "sha256": "c5d6735655419495185528985088e9d39bf572806ff0172d5fddec7db56a5ae9"
+    "sha256": "a1afc613b89fb8103d43bc78a6ecba86e63dfc38cc41371fa0299d8e93a0b6dc"
   },
   {
     "filename": "vault-limits-tightened.png",
     "scenario": "vault limits tightened",
     "viewport": "1280x800",
-    "sha256": "e94aef90d7b97c6bae5b18872607c848ca096e776e013a1c9480af71cd07e078"
+    "sha256": "d25bc319e377db6d78053811120539b983a384704b13da7a1f59a5e9e66863ad"
   },
   {
     "filename": "vault-loosen-executed.png",
     "scenario": "vault loosen executed",
     "viewport": "1280x800",
-    "sha256": "9425ba1e1025a6da5cf2fcbb37569923ec5965589c56418758d0fd7b66e35086"
+    "sha256": "5f45ffd501dfafc8d95b186f6b6dc5f7c716b66a48cb631cbf1a513b2363e256"
   },
   {
     "filename": "vault-loosen-queued.png",
     "scenario": "vault loosen queued",
     "viewport": "1280x800",
-    "sha256": "230d1f32500885d79a200b42ca72445247cc1b2f3081f47e82790edfa74b8e5a"
+    "sha256": "a5df137d44a0f4f5192e09426c3827d1f35dcb7d6e9b07ab1aedff8f42453925"
   },
   {
     "filename": "vault-stranger-view.png",
     "scenario": "vault stranger view",
     "viewport": "1280x800",
-    "sha256": "b968e4e12a94c2d5b65e7b717bd17114d98943d3c0d2fcec3b3c5a3b737e8e62"
+    "sha256": "fc09f4e3ae2d8b0dc39819b800ca6010563d1f9df8b7da467f80f393e1b177e0"
   },
   {
     "filename": "vault-withdraw-executed.png",
     "scenario": "vault withdraw executed",
     "viewport": "1280x800",
-    "sha256": "0c242190bb48490beeb58c1bb96d7510b8483ab3721e22f47fb4873a267e1901"
+    "sha256": "20cca9b25a8bdfca63a9731f34a38cbf9bff59c62b3665cec43a50d26cd113f9"
   },
   {
     "filename": "vault-withdraw-queued.png",
     "scenario": "vault withdraw queued",
     "viewport": "1280x800",
-    "sha256": "3497b18537b0b6677032b0b0b3c124daa04d99aa0ab733dfa96a34442a08e8bb"
+    "sha256": "ddfe21b4c1a6c8e4ee0942d4c6390a830a7c3df8bccb87b7a48196ceb0ccacb8"
   },
   {
     "filename": "verify-page-512-cases.png",
     "scenario": "verify page 512 cases",
     "viewport": "1280x800",
-    "sha256": "8a1a7338a8f21c598c0a357505f420d6a5d67c0901bc0f808b34e61784ca2e61"
+    "sha256": "e7e9e508afe0e8a95319d217ed9e07e165619abf02fe21f20f4301ea4b756624"
   },
   {
     "filename": "verify-page-mobile.png",
@@ -141,7 +141,7 @@
     "filename": "wallet-rejection-handled.png",
     "scenario": "wallet rejection handled",
     "viewport": "1280x800",
-    "sha256": "4c00696cbc11c8b012ce61a3a13a992dee429c7c690b8adc674b6af9cf16e56e"
+    "sha256": "bd5ece0fe54dc6a5efdeb6fa344bc48a5494aa9cf52a7b7f4ae0ba7893509352"
   },
   {
     "filename": "wrong-network-banner.png",
