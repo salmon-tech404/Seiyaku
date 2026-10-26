@@ -18,3 +18,12 @@ fs_permissions = [
 
 [fuzz]
 runs = 1000
+
+[invariant]
+runs = 256
+depth = 64
+fail_on_revert = false
+
+[profile.ci]
+fuzz = { runs = 5000 }
+invariant = { runs = 512, depth = 64, fail_on_revert = false }
