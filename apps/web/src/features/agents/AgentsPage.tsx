@@ -10,10 +10,14 @@ export const SAMPLE_MCP_CLIENT_CONFIG_JSON = JSON.stringify(
   {
     mcpServers: {
       seiyaku: {
-        command: 'npx',
+        command: 'npm',
         args: [
-          '@seiyaku/agent-sdk',
-          'mcp',
+          '--prefix',
+          '<path to repository>',
+          'run',
+          '--silent',
+          'agent:mcp',
+          '--',
           '--vault',
           '0x0165878A594ca255338adfa4d48449f69242Eb8F',
           '--rpc',
@@ -28,6 +32,13 @@ export const SAMPLE_MCP_CLIENT_CONFIG_JSON = JSON.stringify(
   null,
   2,
 );
+
+export const INSTALL_COMMANDS = [
+  'git clone https://github.com/salmon-tech404/Seiyaku.git',
+  'cd Seiyaku',
+  'npm ci',
+  'npm run agent -- --help',
+].join(String.fromCharCode(10));
 
 const BLOCK_REASONS = [
   { code: RULE_FAILURE_CODES.sane, descKey: 'agents.reasons.saneDesc' },
@@ -64,10 +75,10 @@ export function AgentsPage() {
         <div className="agents-code-card" style={{ marginBottom: '24px' }}>
           <div className="agents-code-header">
             <span style={{ fontWeight: 600, fontSize: '14px' }}>{t('agents.cli.install')}</span>
-            <CopyButton textToCopy={'npm install @seiyaku/agent-sdk'} />
+            <CopyButton textToCopy={INSTALL_COMMANDS} />
           </div>
           <pre className="agents-code-pre">
-            <code>{'npm install @seiyaku/agent-sdk'}</code>
+            <code>{INSTALL_COMMANDS}</code>
           </pre>
         </div>
 
@@ -77,7 +88,7 @@ export function AgentsPage() {
             <div key={cmd.name} className="agents-command-card" data-command={cmd.name}>
               <div className="agents-command-header">
                 <div>
-                  <code className="agents-command-name">seiyaku-agent {cmd.name}</code>
+                  <code className="agents-command-name">npm run agent -- {cmd.name}</code>
                   <p className="agents-command-summary">{t(cmd.summaryKey as TranslationKey)}</p>
                 </div>
                 <CopyButton textToCopy={cmd.example} />

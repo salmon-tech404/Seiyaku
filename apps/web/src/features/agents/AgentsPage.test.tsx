@@ -48,8 +48,8 @@ describe('AgentsPage', () => {
     const parsedConfig = JSON.parse(SAMPLE_MCP_CLIENT_CONFIG_JSON) as {
       mcpServers?: { seiyaku?: { command: string; args: string[] } };
     };
-    expect(parsedConfig.mcpServers?.seiyaku?.command).toBe('npx');
-    expect(parsedConfig.mcpServers?.seiyaku?.args).toContain('mcp');
+    expect(parsedConfig.mcpServers?.seiyaku?.command).toBe('npm');
+    expect(parsedConfig.mcpServers?.seiyaku?.args).toContain('agent:mcp');
 
     // Verify block reason codes match @seiyaku/circuit-tools
     expect(screen.getByText(RULE_FAILURE_CODES.sane)).toBeDefined();

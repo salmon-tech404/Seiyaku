@@ -113,6 +113,13 @@ export type TradeOutcome =
       amountOut: bigint;
       gasUsed: bigint;
       blockNumber: bigint;
+    }
+  | {
+      /** The fresh quote taken right before sending is below the minimum the request allowed. Nothing was sent. */
+      status: 'slippage_exceeded';
+      quotedOut: bigint;
+      minimumOut: bigint;
+      block: bigint;
     };
 
 export type FreezeOutcome =

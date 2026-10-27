@@ -283,6 +283,16 @@ export class SeiyakuMcpServer {
             });
           }
 
+          if (outcome.status === 'slippage_exceeded') {
+            return this.formatSuccess({
+              status: 'slippage_exceeded',
+              sent: false,
+              quotedOut: outcome.quotedOut,
+              minimumOut: outcome.minimumOut,
+              block: outcome.block,
+            });
+          }
+
           return this.formatSuccess({
             status: 'simulated',
             sent: false,

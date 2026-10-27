@@ -33,9 +33,9 @@ export interface McpToolDoc {
 export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   {
     name: 'state',
-    usage: 'seiyaku-agent state --vault <address> [--rpc <url>] [--json]',
+    usage: 'npm run agent -- state --vault <address> [--rpc <url>] [--json]',
     summaryKey: 'agents.cli.stateSummary',
-    example: 'npx @seiyaku/agent-sdk state --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F',
+    example: 'npm run agent -- state --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F',
     options: [
       { flag: '--vault, -v', description: 'Target vault address' },
       { flag: '--rpc, -r', description: 'RPC endpoint URL' },
@@ -45,10 +45,9 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   {
     name: 'check',
     usage:
-      'seiyaku-agent check --vault <address> --side buy|exit --token <addr> --amount <n> [--json]',
+      'npm run agent -- check --vault <address> --side buy|exit --token <addr> --amount <n> [--json]',
     summaryKey: 'agents.cli.checkSummary',
-    example:
-      'npx @seiyaku/agent-sdk check --vault 0x0165... --side buy --token 0xe538... --amount 10',
+    example: 'npm run agent -- check --vault 0x0165... --side buy --token 0xe538... --amount 10',
     options: [
       { flag: '--side', description: 'Trade side: buy or exit' },
       { flag: '--token', description: 'Target ERC-20 token address' },
@@ -59,10 +58,10 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   {
     name: 'trade',
     usage:
-      'seiyaku-agent trade --vault <address> --side buy|exit --token <addr> --amount <n> [--send]',
+      'npm run agent -- trade --vault <address> --side buy|exit --token <addr> --amount <n> [--send]',
     summaryKey: 'agents.cli.tradeSummary',
     example:
-      'npx @seiyaku/agent-sdk trade --vault 0x0165... --side buy --token 0xe538... --amount 10 --send',
+      'npm run agent -- trade --vault 0x0165... --side buy --token 0xe538... --amount 10 --send',
     options: [
       {
         flag: '--send',
@@ -77,10 +76,9 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   },
   {
     name: 'freeze',
-    usage: 'seiyaku-agent freeze --vault <address> [--send]',
+    usage: 'npm run agent -- freeze --vault <address> [--send]',
     summaryKey: 'agents.cli.freezeSummary',
-    example:
-      'npx @seiyaku/agent-sdk freeze --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F --send',
+    example: 'npm run agent -- freeze --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F --send',
     options: [
       { flag: '--send', description: 'Broadcast freeze transaction immediately' },
       { flag: '--key-env', description: 'Env var containing private key' },
@@ -88,9 +86,10 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   },
   {
     name: 'tighten',
-    usage: 'seiyaku-agent tighten --vault <address> [--max-trade <n>] [--cooldown <sec>] [--send]',
+    usage:
+      'npm run agent -- tighten --vault <address> [--max-trade <n>] [--cooldown <sec>] [--send]',
     summaryKey: 'agents.cli.tightenSummary',
-    example: 'npx @seiyaku/agent-sdk tighten --vault 0x0165... --max-trade 25 --send',
+    example: 'npm run agent -- tighten --vault 0x0165... --max-trade 25 --send',
     options: [
       { flag: '--max-trade', description: 'Lower max base amount per trade' },
       { flag: '--max-daily', description: 'Lower daily cumulative volume limit' },
@@ -104,10 +103,9 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   {
     name: 'wait',
     usage:
-      'seiyaku-agent wait --vault <address> --side buy --token <addr> --amount <n> [--timeout <sec>]',
+      'npm run agent -- wait --vault <address> --side buy --token <addr> --amount <n> [--timeout <sec>]',
     summaryKey: 'agents.cli.waitSummary',
-    example:
-      'npx @seiyaku/agent-sdk wait --vault 0x0165... --side buy --token 0xe538... --amount 10',
+    example: 'npm run agent -- wait --vault 0x0165... --side buy --token 0xe538... --amount 10',
     options: [
       { flag: '--timeout', description: 'Maximum seconds to wait (default: 600)' },
       { flag: '--poll', description: 'Polling interval in seconds (default: 3)' },
@@ -115,16 +113,16 @@ export const CLI_COMMAND_DOCS: readonly CliCommandDoc[] = [
   },
   {
     name: 'explain',
-    usage: 'seiyaku-agent explain <inputBits> [--lang en|vi]',
+    usage: 'npm run agent -- explain <inputBits> [--lang en|vi]',
     summaryKey: 'agents.cli.explainSummary',
-    example: 'npx @seiyaku/agent-sdk explain 503 --lang en',
+    example: 'npm run agent -- explain 503 --lang en',
     options: [{ flag: '--lang', description: 'Language code: en or vi' }],
   },
   {
     name: 'mcp',
-    usage: 'seiyaku-agent mcp --vault <address> [--allow-send] [--rate-limit-sec <n>]',
+    usage: 'npm run agent -- mcp --vault <address> [--allow-send] [--rate-limit-sec <n>]',
     summaryKey: 'agents.cli.mcpSummary',
-    example: 'npx @seiyaku/agent-sdk mcp --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F',
+    example: 'npm run agent -- mcp --vault 0x0165878A594ca255338adfa4d48449f69242Eb8F',
     options: [
       {
         flag: '--allow-send',

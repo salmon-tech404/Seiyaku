@@ -637,14 +637,16 @@ async function main() {
     if (!hashesByScenario.has(item.scenario)) {
       hashesByScenario.set(item.scenario, new Set());
     }
-    hashesByScenario.get(item.scenario)!.add(item.sha256);
+    const scenarioHashes = hashesByScenario.get(item.scenario) ?? new Set<string>();
+    scenarioHashes.add(item.sha256);
+    hashesByScenario.set(item.scenario, scenarioHashes);
   }
 
   const allHashes = new Map<string, string>();
   let duplicateAcrossScenarios = false;
   for (const item of manifest) {
     if (allHashes.has(item.sha256)) {
-      const prevScenario = allHashes.get(item.sha256)!;
+      const prevScenario = allHashes.get(item.sha256) ?? 'unknown';
       if (prevScenario !== item.scenario) {
         console.error(
           `DUPLICATE HASH across different scenarios: "${item.scenario}" and "${prevScenario}" share hash ${item.sha256}`,

@@ -52,13 +52,18 @@ describe('VerifyPage', () => {
     expect(fitBtn).toBeDefined();
     expect(percentBtn).toBeDefined();
 
-    // Default state: Fit is active
+    // Default state: 100 percent is active so that labels are readable
+    expect(percentBtn.className).toContain('active');
+    expect(fitBtn.className).not.toContain('active');
+
+    // Click Fit
+    fireEvent.click(fitBtn);
     expect(fitBtn.className).toContain('active');
+    expect(percentBtn.className).not.toContain('active');
 
     // Click 100%
     fireEvent.click(percentBtn);
     expect(percentBtn.className).toContain('active');
-    expect(fitBtn.className).not.toContain('active');
 
     // Click Zoom In
     fireEvent.click(zoomInBtn);

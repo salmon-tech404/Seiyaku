@@ -46,7 +46,8 @@ export function parseCliArgs(argv: string[]): ParsedArgs {
 
   let i = 0;
   while (i < args.length) {
-    const arg = args[i]!;
+    const arg = args[i];
+    if (arg === undefined) break;
 
     if (!result.command && !arg.startsWith('-')) {
       result.command = arg.toLowerCase();

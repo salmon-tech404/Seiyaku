@@ -302,3 +302,38 @@
   border-radius: var(--radius-sm, 6px);
   border: 1px solid var(--color-line);
 }
+
+/* Small phones: keep the whole header inside the viewport even with a connected wallet */
+@media (max-width: 520px) {
+  .header-container {
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .brand-link span {
+    display: none;
+  }
+
+  .header-controls {
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .wallet-pill {
+    gap: 4px;
+    padding: 3px 6px 3px 8px;
+    max-width: 168px;
+    min-width: 0;
+    font-size: 12px;
+  }
+
+  .wallet-address-btn {
+    font-size: 12px;
+    min-width: 0;
+  }
+
+  .wallet-copy-btn,
+  .wallet-pill-divider {
+    display: none;
+  }
+}

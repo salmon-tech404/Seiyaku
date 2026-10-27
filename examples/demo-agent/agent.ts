@@ -16,6 +16,12 @@ import {
   http,
   getAddress,
   formatUnits,
+  BaseError,
+  ContractFunctionRevertedError,
+  keccak256,
+  encodeAbiParameters,
+  pad,
+  toHex,
   type Address,
   type Hash,
   defineChain,
@@ -35,7 +41,6 @@ export const DEMO_OWNER_KEY =
   '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d' as const;
 export const DEMO_TRADER_KEY =
   '0x5de4111afa1a4b94908f83103eb2f954b0a473774953a3ed85c2b0056900a2db' as const;
-const USDC_WHALE = '0x9f73888Fb725A3409548BC8d2e42365AC063E148' as const;
 
 export interface DemoAgentOptions {
   mode: 'careful' | 'reckless';
@@ -248,32 +253,34 @@ export async function resolveOrCreateDemoVault(
     minWithdrawDelaySec: 120,
   });
 
-  // Fund owner with USDC from whale
-  try {
-    await publicClient.request({
-      method: 'anvil_impersonateAccount',
-      params: [USDC_WHALE],
-    } as unknown as Parameters<typeof publicClient.request>[0]);
+  // Fund the owner with USDC on the fork by writing the balance slot (native USDC keeps balances in slot 9).
+  // This never touches a real pool or holder.
+  const ownerBalanceSlot = keccak256(
+    encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [ownerAccount.address, 9n]),
+  );
+  await publicClient.request({
+    method: 'anvil_setStorageAt',
+    params: [XLAYER_ADDRESSES.usdc, ownerBalanceSlot, pad(toHex(1_000_000_000n), { size: 32 })],
+  } as unknown as Parameters<typeof publicClient.request>[0]);
+  const fundedBalance = (await publicClient.readContract({
+    address: XLAYER_ADDRESSES.usdc,
+    abi: erc20Abi,
+    functionName: 'balanceOf',
+    args: [ownerAccount.address],
+  })) as bigint;
+  if (fundedBalance !== 1_000_000_000n) {
+    throw new Error('Could not fund the demo owner with USDC on this fork (balance slot changed?)');
+  }
 
-    const whaleWallet = createWalletClient({
-      chain: xlayerChain,
-      account: USDC_WHALE,
-      transport: http(options.rpc),
-    });
-
-    await whaleWallet.writeContract({
-      address: XLAYER_ADDRESSES.usdc,
-      abi: erc20Abi,
-      functionName: 'transfer',
-      args: [ownerAccount.address, 1_000_000_000n],
-    });
-
-    await publicClient.request({
-      method: 'anvil_stopImpersonatingAccount',
-      params: [USDC_WHALE],
-    } as unknown as Parameters<typeof publicClient.request>[0]);
-  } catch {
-    // Mock or non-anvil
+  // Keep the whole demo inside one UTC day: the daily counters reset at UTC midnight, and a run
+  // that happens to cross midnight would show a wrong result. Move the fork clock to 01:00 UTC if needed.
+  {
+    const now = (await publicClient.getBlock({ blockTag: 'latest' })).timestamp;
+    const secondOfDay = Number(now % 86400n);
+    if (secondOfDay < 3600 || secondOfDay > 20 * 3600) {
+      const target = secondOfDay < 3600 ? 3600 : 86400 + 3600;
+      await advanceTime(publicClient, target - secondOfDay);
+    }
   }
 
   // Create demo vault with limits suitable for demo
@@ -487,6 +494,71 @@ export async function runCarefulMode(
   return summary;
 }
 
+/**
+ * Simulates a contract call from the trader account and requires it to revert with the named custom error.
+ * Any other outcome (success, or a different error) stops the demo.
+ */
+async function expectContractRevert(
+  client: AgentClient,
+  call: { functionName: 'tighten' | 'requestWithdraw'; args: readonly unknown[] },
+  expectedError: string,
+  label: string,
+): Promise<string> {
+  if (!client.account) {
+    throw new Error(`INVARIANT FAILURE: ${label} cannot run without a trader account.`);
+  }
+  try {
+    await client.publicClient.simulateContract({
+      address: client.vault,
+      abi: mandateVaultAbi,
+      functionName: call.functionName,
+      args: call.args,
+      account: client.account,
+    } as never);
+  } catch (err: unknown) {
+    const revert =
+      err instanceof BaseError ? err.walk((e) => e instanceof ContractFunctionRevertedError) : null;
+    const observed =
+      revert instanceof ContractFunctionRevertedError
+        ? (revert.data?.errorName ?? revert.reason ?? 'unknown revert')
+        : err instanceof Error
+          ? err.message.slice(0, 120)
+          : String(err);
+    if (observed !== expectedError) {
+      throw new Error(
+        `INVARIANT FAILURE: ${label} reverted with ${observed} instead of ${expectedError}`,
+      );
+    }
+    return expectedError;
+  }
+  throw new Error(`CRITICAL INVARIANT FAILURE: ${label} did not revert.`);
+}
+
+/**
+ * Fails loudly unless the outcome is a block that contains the expected reason code.
+ * The demo must never show "blocked" for the wrong reason.
+ */
+function expectBlockedFor(
+  outcome: { status: string; reasons?: readonly { code: string; text: string }[] },
+  expectedCode: string,
+  label: string,
+): string {
+  if (outcome.status !== 'blocked') {
+    throw new Error(
+      `CRITICAL INVARIANT FAILURE: ${label} was not blocked (status ${outcome.status}).`,
+    );
+  }
+  const reasons = outcome.reasons ?? [];
+  const hit = reasons.find((r) => r.code === expectedCode);
+  if (!hit) {
+    const seen = reasons.map((r) => r.code).join(', ') || 'none';
+    throw new Error(
+      `INVARIANT FAILURE: ${label} was blocked but not for ${expectedCode}. Observed: ${seen}`,
+    );
+  }
+  return hit.text.trim();
+}
+
 export async function runRecklessMode(
   client: AgentClient,
   options: DemoAgentOptions,
@@ -517,8 +589,8 @@ export async function runRecklessMode(
     { send: options.send, lang: options.lang },
   );
 
-  if (att1.status === 'blocked') {
-    const reason = att1.reasons[0]?.text ?? 'Trade amount exceeds per-trade limit';
+  {
+    const reason = expectBlockedFor(att1, 'ERR_TRADE_SIZE_EXCEEDED', 'Oversize buy');
     log.blocked(`Vault BLOCKED oversize trade: "${reason}"`);
     summary.push({
       step: '1. Oversize Buy (70 USDC)',
@@ -526,8 +598,6 @@ export async function runRecklessMode(
       outcome: 'BLOCKED',
       reason,
     });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Oversize trade was not blocked!');
   }
 
   // Baseline buy to activate cooldown
@@ -559,8 +629,8 @@ export async function runRecklessMode(
     { send: options.send, lang: options.lang },
   );
 
-  if (att2.status === 'blocked') {
-    const reason = att2.reasons[0]?.text ?? 'Trade within cooldown period';
+  {
+    const reason = expectBlockedFor(att2, 'ERR_COOLDOWN_ACTIVE', 'Buy inside the cooldown');
     log.blocked(`Vault BLOCKED trade in cooldown: "${reason}"`);
     summary.push({
       step: '2. Rapid Cooldown Trade',
@@ -568,8 +638,6 @@ export async function runRecklessMode(
       outcome: 'BLOCKED',
       reason,
     });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Cooldown violation was not blocked!');
   }
 
   // Advance time to bypass cooldown but accumulate daily count
@@ -601,8 +669,8 @@ export async function runRecklessMode(
     { send: options.send, lang: options.lang },
   );
 
-  if (att3.status === 'blocked') {
-    const reason = att3.reasons[0]?.text ?? 'Daily trade count limit reached';
+  {
+    const reason = expectBlockedFor(att3, 'ERR_DAILY_TRADES_EXCEEDED', 'Sixth buy of the day');
     log.blocked(`Vault BLOCKED 6th daily trade: "${reason}"`);
     summary.push({
       step: '3. Daily Limit Excess',
@@ -610,29 +678,25 @@ export async function runRecklessMode(
       outcome: 'BLOCKED',
       reason,
     });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Daily trade count excess was not blocked!');
   }
 
   // Attempt 4: Unlisted token
   log.info(`----------------------------------------------------------------`);
   log.agent('ATTEMPT 4: Attempting to buy unlisted hostile/random token...');
   await sleep(options.paceSec);
+  // A token with no pool cannot be quoted, so the quote is skipped: only the vault rules are evaluated.
   const UNLISTED_TOKEN = getAddress('0x1111111111111111111111111111111111111111');
-  const att4 = await client.trade(
-    {
-      side: 'buy',
-      token: UNLISTED_TOKEN,
-      amountIn: '5',
-    },
-    { send: options.send, lang: options.lang },
+  const att4Check = await client.check(
+    { side: 'buy', token: UNLISTED_TOKEN, amountIn: '5' },
+    options.lang,
+    { skipQuote: true },
   );
-
-  if (att4.status === 'blocked') {
-    let reason = att4.reasons[0]?.text ?? 'Token not on allowlist';
-    if (reason.includes('\n')) {
-      reason = reason.split('\n')[0].trim();
-    }
+  {
+    const reason = expectBlockedFor(
+      { status: att4Check.allowed ? 'allowed' : 'blocked', reasons: att4Check.reasons },
+      'ERR_TOKEN_NOT_ALLOWED',
+      'Unlisted token buy',
+    );
     log.blocked(`Vault BLOCKED unlisted token trade: "${reason}"`);
     summary.push({
       step: '4. Unlisted Token Trade',
@@ -640,8 +704,6 @@ export async function runRecklessMode(
       outcome: 'BLOCKED',
       reason,
     });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Unlisted token was not blocked!');
   }
 
   // Attempt 5: Freeze vault, then attempt buy
@@ -660,8 +722,8 @@ export async function runRecklessMode(
     { send: options.send, lang: options.lang },
   );
 
-  if (att5.status === 'blocked') {
-    const reason = att5.reasons[0]?.text ?? 'Vault is frozen';
+  {
+    const reason = expectBlockedFor(att5, 'ERR_VAULT_FROZEN', 'Buy while frozen');
     log.blocked(`Vault BLOCKED trade while frozen: "${reason}"`);
     summary.push({
       step: '5. Trade While Frozen',
@@ -669,83 +731,53 @@ export async function runRecklessMode(
       outcome: 'BLOCKED',
       reason,
     });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Trade while frozen was not blocked!');
   }
 
   // Attempt 6: Attempt to loosen limits through tighten
   log.info(`----------------------------------------------------------------`);
   log.agent('ATTEMPT 6: Agent attempting to loosen limit via tighten (increase maxTradeBase)...');
   await sleep(options.paceSec);
-  let loosenRejected = false;
-  let loosenReason = '';
-  try {
-    await client.tighten(
-      {
-        maxTradeBase: 500_000_000n, // Attempt to raise limit to 500 USDC
-      },
-      [],
-      { send: options.send },
-    );
-  } catch (err: unknown) {
-    loosenRejected = true;
-    loosenReason = (err as Error).message;
-  }
+  // Ask the contract itself (not the SDK): a trader call to tighten() with a LOOSER limit must revert NotStricter.
+  const snapshot = await client.getState();
+  const looserLimits = {
+    ...snapshot.limits,
+    maxTradeBase: snapshot.limits.maxTradeBase + 10_000_000n,
+  };
+  const loosenReason = await expectContractRevert(
+    client,
+    { functionName: 'tighten', args: [looserLimits, []] },
+    'NotStricter',
+    'Loosening through tighten',
+  );
+  log.blocked(`Loosening attempt REJECTED by the contract: ${loosenReason}`);
+  summary.push({
+    step: '6. Loosen Limit Attempt',
+    action: 'Raise maxTradeBase via tighten',
+    outcome: 'REJECTED',
+    reason: loosenReason,
+  });
 
-  if (loosenRejected) {
-    log.blocked(`Loosening attempt REJECTED: "${loosenReason}"`);
-    summary.push({
-      step: '6. Loosen Limit Attempt',
-      action: 'Raise maxTradeBase via tighten',
-      outcome: 'REJECTED',
-      reason: loosenReason,
-    });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Limit loosening was not rejected!');
-  }
-
-  // Attempt 7: Trader calling owner withdraw function
+  // Attempt 7: Trader calling an owner function
   log.info(`----------------------------------------------------------------`);
-  log.agent('ATTEMPT 7: Trader attempting to call owner function (withdraw)...');
+  log.agent('ATTEMPT 7: Trader attempting to call an owner function (requestWithdraw)...');
   await sleep(options.paceSec);
-  let withdrawReverted = false;
-  let withdrawReason = '';
-
-  if (client.walletClient && client.account) {
-    try {
-      await client.publicClient.simulateContract({
-        address: client.vault,
-        abi: mandateVaultAbi,
-        functionName: 'withdraw',
-        args: [1_000_000n],
-        account: client.account,
-      });
-    } catch (err: unknown) {
-      withdrawReverted = true;
-      withdrawReason = (err as Error).message.includes('NOT_OWNER')
-        ? 'NOT_OWNER'
-        : 'Reverted: Trader is unauthorized for owner functions';
-    }
-  } else {
-    withdrawReverted = true;
-    withdrawReason = 'Trader is unauthorized for owner functions';
-  }
-
-  if (withdrawReverted) {
-    log.blocked(`Withdraw call REVERTED: "${withdrawReason}"`);
-    summary.push({
-      step: '7. Trader Withdraw Attempt',
-      action: 'Call owner-only withdraw function',
-      outcome: 'REVERTED',
-      reason: withdrawReason,
-    });
-  } else {
-    throw new Error('CRITICAL INVARIANT FAILURE: Trader unauthorized withdraw did not revert!');
-  }
+  const withdrawReason = await expectContractRevert(
+    client,
+    { functionName: 'requestWithdraw', args: [tokens.tokenIn, 1_000_000n] },
+    'NotOwner',
+    'Trader withdrawal request',
+  );
+  log.blocked(`Withdraw request REVERTED by the contract: ${withdrawReason}`);
+  summary.push({
+    step: '7. Trader Withdraw Attempt',
+    action: 'Call owner-only requestWithdraw',
+    outcome: 'REVERTED',
+    reason: withdrawReason,
+  });
 
   // Step 8: Exit position while frozen
   log.info(`----------------------------------------------------------------`);
-  log.agent('STEP 8: Executing de-risking exit while vault is frozen (Property 4)...');
+  log.agent('STEP 8: Executing de-risking exit while vault is frozen ...');
   await sleep(options.paceSec);
 
   const wokbBal = await client.publicClient.readContract({
@@ -768,7 +800,7 @@ export async function runRecklessMode(
   );
 
   if (exitRes.status !== 'blocked') {
-    log.allow('De-risking exit ALLOWED while frozen! Property 4 invariant confirmed.');
+    log.allow('De-risking exit ALLOWED while frozen! exits stay open.');
     if (exitRes.status === 'sent') {
       log.exec(`Exit trade broadcast confirmed in tx ${exitRes.txHash}`);
     }
@@ -776,7 +808,7 @@ export async function runRecklessMode(
       step: '8. Exit While Frozen',
       action: 'Sell WOKB back to USDC',
       outcome: 'ALLOWED',
-      reason: 'Property 4 de-risking exit invariant holds anytime',
+      reason: 'Exit stays open even when the vault is frozen',
       txHash: exitRes.status === 'sent' ? exitRes.txHash : undefined,
     });
   } else {

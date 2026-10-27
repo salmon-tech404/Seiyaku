@@ -155,12 +155,28 @@ describe('Reckless and Careful Mode Logic (Mocked SDK Client)', () => {
       publicClient: {
         request: vi.fn().mockResolvedValue(null),
         readContract: vi.fn().mockResolvedValue(1000000000000000000n), // 1 WOKB
-        simulateContract: vi
-          .fn()
-          .mockRejectedValue(new Error('NOT_OWNER: caller is not the vault owner')),
+        // The demo asks the contract itself: tighten with a looser limit and an owner only call must revert
+        simulateContract: vi.fn().mockImplementation(async (call: { functionName: string }) => {
+          throw new Error(call.functionName === 'tighten' ? 'NotStricter' : 'NotOwner');
+        }),
       },
       walletClient: {},
       account: { address: '0xTrader' },
+      getState: vi.fn().mockResolvedValue({
+        limits: { maxTradeBase: 50_000_000n, maxDailyBase: 100_000_000n },
+      }),
+      // Attempt 4 evaluates only the vault rules (no pool exists for an unlisted token)
+      check: vi.fn().mockResolvedValue({
+        allowed: false,
+        reasons: [
+          {
+            code: 'ERR_TOKEN_NOT_ALLOWED',
+            name: 'tokenAllowed',
+            text: 'Token is not on the vault allowlist',
+            bitIndex: 1,
+          },
+        ],
+      }),
       trade: vi
         .fn()
         .mockImplementation(async (req: { side: string; token: Address; amountIn: string }) => {
@@ -172,7 +188,7 @@ describe('Reckless and Careful Mode Logic (Mocked SDK Client)', () => {
               inputBits: 495,
               reasons: [
                 {
-                  code: 'ERR_MAX_TRADE_EXCEEDED',
+                  code: 'ERR_TRADE_SIZE_EXCEEDED',
                   name: 'tradeAmount',
                   text: 'Trade amount exceeds max per-trade limit',
                   bitIndex: 4,
@@ -248,13 +264,13 @@ describe('Reckless and Careful Mode Logic (Mocked SDK Client)', () => {
             };
           }
           // Attempt 5: Trade while frozen
-          if (tradeCallCount === 10) {
+          if (tradeCallCount === 9) {
             return {
               status: 'blocked',
               inputBits: 510,
               reasons: [
                 {
-                  code: 'ERR_VAULT_INACTIVE',
+                  code: 'ERR_VAULT_FROZEN',
                   name: 'notFrozen',
                   text: 'Vault is currently frozen or inactive',
                   bitIndex: 1,

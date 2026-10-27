@@ -57,11 +57,13 @@ Rather than granting an autonomous agent unconstrained access to a web3 wallet, 
 
 ## 2. Starting the Server
 
-The server runs as a standalone Node.js process communicating over `stdio`. It can be launched directly with `npx` or `node`:
+The server runs as a Node.js process communicating over `stdio`. The package is not published to npm yet, so start it from a clone of the repository (`git clone`, then `npm ci`):
 
 ```bash
-npx seiyaku-mcp --vault <address> --rpc <url>
+npm run --silent agent:mcp -- --vault <address> --rpc <url>
 ```
+
+Always pass `--silent` so that npm prints nothing else on stdout, which would corrupt the MCP stream.
 
 ### Command-Line Options
 
@@ -77,11 +79,11 @@ npx seiyaku-mcp --vault <address> --rpc <url>
 ### Quick Start Example
 
 ```bash
-# Export the trader key into your environment (never pass keys as arguments)
-export SEIYAKU_TRADER_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+# Set the trader key for this terminal window only (never pass keys as arguments, never save them in the repository)
+export SEIYAKU_TRADER_KEY="0x<your trader key>"
 
 # Start the MCP server in broadcast mode with a 5-second rate limiter
-npx seiyaku-mcp \
+npm run --silent agent:mcp -- \
   --vault 0x1234567890123456789012345678901234567890 \
   --rpc https://rpc.xlayer.tech \
   --allow-send \
@@ -114,7 +116,7 @@ To integrate Seiyaku Mandate Vault with Claude Desktop, edit your `claude_deskto
         "--allow-send"
       ],
       "env": {
-        "SEIYAKU_TRADER_KEY": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+        "SEIYAKU_TRADER_KEY": "0x<your trader key>"
       }
     }
   }
@@ -129,9 +131,14 @@ To configure Cursor for repository or workspace interaction, add the server to `
 {
   "mcpServers": {
     "seiyaku-vault": {
-      "command": "npx",
+      "command": "npm",
       "args": [
-        "seiyaku-mcp",
+        "--prefix",
+        "<path to repository>",
+        "run",
+        "--silent",
+        "agent:mcp",
+        "--",
         "--vault",
         "0x1234567890123456789012345678901234567890",
         "--rpc",
@@ -139,7 +146,7 @@ To configure Cursor for repository or workspace interaction, add the server to `
         "--allow-send"
       ],
       "env": {
-        "SEIYAKU_TRADER_KEY": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+        "SEIYAKU_TRADER_KEY": "0x<your trader key>"
       }
     }
   }
@@ -155,9 +162,14 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
 const transport = new StdioClientTransport({
-  command: 'npx',
+  command: 'npm',
   args: [
-    'seiyaku-mcp',
+    '--prefix',
+    '<path to repository>',
+    'run',
+    '--silent',
+    'agent:mcp',
+    '--',
     '--vault',
     '0x1234567890123456789012345678901234567890',
     '--rpc',
@@ -166,7 +178,7 @@ const transport = new StdioClientTransport({
   ],
   env: {
     ...process.env,
-    SEIYAKU_TRADER_KEY: '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
+    SEIYAKU_TRADER_KEY: '0x<your trader key>',
   },
 });
 

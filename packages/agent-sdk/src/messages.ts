@@ -38,7 +38,8 @@ export function explainInputBits(bits: number, lang: 'en' | 'vi' = 'en'): Reason
   const reasons: Reason[] = [];
 
   function addReason(index: number) {
-    const name = MANDATE_V1_INPUTS[index]!;
+    const name = MANDATE_V1_INPUTS[index];
+    if (name === undefined) return;
     const code = RULE_FAILURE_CODES[name];
     const text = REASON_MESSAGES[lang][code] || REASON_MESSAGES.en[code] || `Rule failure: ${name}`;
     reasons.push({

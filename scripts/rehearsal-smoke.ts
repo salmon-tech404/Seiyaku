@@ -6,7 +6,16 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { createPublicClient, createWalletClient, http, getAddress } from 'viem';
+import {
+  createPublicClient,
+  createWalletClient,
+  http,
+  getAddress,
+  keccak256,
+  encodeAbiParameters,
+  pad,
+  toHex,
+} from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { XLAYER_ADDRESSES } from './config/xlayer.js';
 import {
@@ -19,7 +28,6 @@ import { AgentClient, xLayerChain } from '../packages/agent-sdk/src/client.js';
 const RPC_URL = 'http://127.0.0.1:8545';
 const OWNER_KEY = '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d' as const;
 const TRADER_KEY = '0x5de4111afa1a4b94908f83103eb2f954b0a473774953a3ed85c2b0056900a2db' as const;
-const USDC_WHALE = '0x9f73888Fb725A3409548BC8d2e42365AC063E148' as const;
 
 async function main() {
   console.log('================================================================');
@@ -46,28 +54,23 @@ async function main() {
     transport: http(RPC_URL),
   });
 
-  // Fund owner with USDC from whale
-  console.log('\n[1/6] Funding Owner with USDC from whale...');
+  // Fund the owner with USDC on the fork by writing the balance slot (native USDC keeps balances in slot 9).
+  console.log('[1/6] Funding Owner with USDC on the fork (balance slot write)...');
+  // The trader needs native OKB for gas, and the owner may not have any either on a fresh fork.
+  for (const who of [traderAccount.address, ownerAccount.address]) {
+    await publicClient.request({
+      // @ts-expect-error Anvil custom RPC method
+      method: 'anvil_setBalance',
+      params: [who, '0x56BC75E2D63100000'],
+    });
+  }
+  const ownerSlot = keccak256(
+    encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [ownerAccount.address, 9n]),
+  );
   await publicClient.request({
     // @ts-expect-error Anvil custom RPC method
-    method: 'anvil_impersonateAccount',
-    params: [USDC_WHALE],
-  });
-  const whaleWallet = createWalletClient({
-    chain: xLayerChain,
-    account: USDC_WHALE,
-    transport: http(RPC_URL),
-  });
-  await whaleWallet.writeContract({
-    address: XLAYER_ADDRESSES.usdc,
-    abi: erc20Abi,
-    functionName: 'transfer',
-    args: [ownerAccount.address, 100_000_000n],
-  });
-  await publicClient.request({
-    // @ts-expect-error Anvil custom RPC method
-    method: 'anvil_stopImpersonatingAccount',
-    params: [USDC_WHALE],
+    method: 'anvil_setStorageAt',
+    params: [XLAYER_ADDRESSES.usdc, ownerSlot, pad(toHex(100_000_000n), { size: 32 })],
   });
   console.log(`Owner ${ownerAccount.address} funded with 100 USDC.`);
 

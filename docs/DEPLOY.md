@@ -96,3 +96,12 @@ After deployment:
    - `README.md` under the **Deployments** section.
    - `apps/web/src/config/contracts.ts` (or relevant frontend configuration).
 2. Run `npm run verify` to confirm project build integrity.
+
+## Rehearsing on a local fork
+
+Use a freshly generated key for rehearsals and fund it with `anvil_setBalance`. The well known public Anvil keys carry contract code on a mainnet fork, and minting transistors reverts for an account that has code. A normal wallet on the real network is not affected, but the rehearsal is. The same command that the owner runs on mainnet works on the fork with `XLAYER_RPC_URL=http://127.0.0.1:8545`:
+
+```
+npm run deploy:mainnet -- --broadcast --create-processor --i-understand-this-spends-real-funds
+npx tsx scripts/rehearsal-smoke.ts
+```

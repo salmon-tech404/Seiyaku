@@ -43,7 +43,9 @@
     "demo:agent": "tsx examples/demo-agent/agent.ts",
     "build:static": "npm run build:web",
     "headers:check": "tsx scripts/check-headers.ts",
-    "hosting:check": "npm run build:static && npm run headers:check && npm run check:static && tsx scripts/test-base-path.ts"
+    "hosting:check": "npm run build:static && npm run headers:check && npm run check:static && tsx scripts/test-base-path.ts",
+    "agent": "tsx packages/agent-sdk/src/cli/main.ts",
+    "agent:mcp": "tsx packages/agent-sdk/src/mcp/main.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.1",

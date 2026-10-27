@@ -242,6 +242,10 @@ Global options:
             print(`  Amount In: ${tradeRes.tradeParams.amountIn.toString()}`);
             print(`  Expected Out: ${tradeRes.expectedOut.toString()}`);
             print(`  Min Out: ${tradeRes.amountOutMin.toString()}`);
+          } else if (tradeRes.status === 'slippage_exceeded') {
+            print('Trade NOT SENT: the fresh price is below the minimum you allowed.');
+            print(`  Fresh quote: ${tradeRes.quotedOut.toString()}`);
+            print(`  Minimum out: ${tradeRes.minimumOut.toString()}`);
           } else if (tradeRes.status === 'sent') {
             print('Trade EXECUTED on-chain:');
             print(`  Tx Hash: ${tradeRes.txHash}`);
@@ -251,7 +255,9 @@ Global options:
           }
         }
 
-        return tradeRes.status === 'blocked' ? CLI_EXIT_CODES.RULE_BLOCKED : CLI_EXIT_CODES.SUCCESS;
+        if (tradeRes.status === 'blocked') return CLI_EXIT_CODES.RULE_BLOCKED;
+        if (tradeRes.status === 'slippage_exceeded') return CLI_EXIT_CODES.SIMULATION_FAILED;
+        return CLI_EXIT_CODES.SUCCESS;
       }
 
       case 'freeze': {

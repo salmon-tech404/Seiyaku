@@ -46,7 +46,7 @@
 /* Commands Grid */
 .agents-commands-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -153,7 +153,7 @@
 /* Invariants Grid */
 .agents-invariants-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -275,7 +275,7 @@
 /* Block Reason Grid */
 .agents-reasons-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
 }
 
@@ -307,4 +307,23 @@
   .agents-reasons-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Layout safety: grid and flex children may shrink below their content width, long code scrolls inside its own box */
+.agents-container,
+.agents-section,
+.agents-command-card,
+.agents-code-card,
+.agents-table-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.agents-code-pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.agents-table-card {
+  overflow-x: auto;
 }

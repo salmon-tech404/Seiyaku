@@ -5,7 +5,7 @@
  */
 
 import { spawn, execSync, type ChildProcess } from 'node:child_process';
-import { createPublicClient, createWalletClient, http, getAddress } from 'viem';
+import { createPublicClient, createWalletClient, http, getAddress, type Address } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
@@ -174,7 +174,7 @@ async function main() {
       functionName: 'vaultsOf',
       args: [ownerAccount.address],
     });
-    const vaultAddress = getAddress(vaults[vaults.length - 1]!);
+    const vaultAddress = getAddress(vaults[vaults.length - 1] as Address);
     console.log(`Vault created at: ${vaultAddress}`);
 
     // Deposit 100 USDC into vault

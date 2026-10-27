@@ -36,7 +36,8 @@ export function parseMcpArgs(argv: string[]): McpCliArgs {
 
   let i = 0;
   while (i < args.length) {
-    const arg = args[i]!;
+    const arg = args[i];
+    if (arg === undefined) break;
 
     if (arg === '--help' || arg === '-h') {
       result.help = true;

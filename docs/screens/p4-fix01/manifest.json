@@ -1,0 +1,44 @@
+[
+  {
+    "filename": "agents-desktop-dark.png",
+    "scenario": "agents",
+    "viewport": "1280x900",
+    "theme": "dark",
+    "sha256": "d46f0315080675612b52da63ea874aa80e3f711df977906e6b6211c96d5d2c94"
+  },
+  {
+    "filename": "agents-mobile-dark.png",
+    "scenario": "agents",
+    "viewport": "390x844",
+    "theme": "dark",
+    "sha256": "e5e66f43de03bbc4534ece90a405b75e14b296ad25bcf7c263255f8fbe175d73"
+  },
+  {
+    "filename": "agents-desktop-light.png",
+    "scenario": "agents",
+    "viewport": "1280x900",
+    "theme": "light",
+    "sha256": "85653bc251daa7a8910e244f81c19a545cc4b09df09c25d0c83c8e79806989ca"
+  },
+  {
+    "filename": "agents-mobile-light.png",
+    "scenario": "agents",
+    "viewport": "390x844",
+    "theme": "light",
+    "sha256": "379eed589d7c91035ffea8b349c3d461531fcab0e2e7e56077763306b260eb82"
+  },
+  {
+    "filename": "verify-default-desktop-dark.png",
+    "scenario": "verify-default",
+    "viewport": "1280x900",
+    "theme": "dark",
+    "sha256": "22c8accfedee5bbe90445b09e199468e745956938689ab9d141cd1e854deb545"
+  },
+  {
+    "filename": "verify-fit-desktop-dark.png",
+    "scenario": "verify-fit",
+    "viewport": "1280x900",
+    "theme": "dark",
+    "sha256": "9751f0f1aaa376a190365c282c3126125171f74489e14acaa74e91dccba75f1d"
+  }
+]

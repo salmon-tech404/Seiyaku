@@ -21,8 +21,9 @@ async function checkAbis(): Promise<void> {
     await generateAbis(tempSubDirs);
 
     for (let i = 0; i < targetDirs.length; i++) {
-      const committedDir = targetDirs[i]!;
-      const generatedDir = tempSubDirs[i]!;
+      const committedDir = targetDirs[i];
+      const generatedDir = tempSubDirs[i];
+      if (committedDir === undefined || generatedDir === undefined) continue;
 
       if (!fs.existsSync(committedDir)) {
         console.error(`Committed ABI directory does not exist: ${committedDir}`);

@@ -441,7 +441,7 @@
     system-ui,
     -apple-system,
     sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   fill: var(--color-text);
   user-select: none;
   paint-order: stroke fill;

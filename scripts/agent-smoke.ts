@@ -180,7 +180,7 @@ async function main() {
       functionName: 'vaultsOf',
       args: [ownerAccount.address],
     });
-    vaultAddress = getAddress(vaults[vaults.length - 1]!);
+    vaultAddress = getAddress(vaults[vaults.length - 1] as Address);
     console.log(`Vault created at: ${vaultAddress}`);
 
     // 4. Deposit 100 USDC into vault

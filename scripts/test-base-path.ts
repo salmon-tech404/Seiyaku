@@ -2,6 +2,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium, type Browser } from '@playwright/test';
+import { loadProductionHeaders } from './lib/headers.mjs';
 
 const MIME_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -12,14 +13,10 @@ const MIME_TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml',
 };
 
-const SECURITY_HEADERS = {
-  'Content-Security-Policy':
-    "default-src 'self'; script-src 'self' 'sha256-iXNLC8DGEBERXHccD+XUWudkF6vaJw/IFXjWLCRnE6s='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://rpc.xlayer.tech https://xlayerrpc.okx.com https://www.oklink.com http://127.0.0.1:* http://localhost:*; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests;",
-  'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY',
-  'Referrer-Policy': 'no-referrer',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
-};
+// Exactly the production headers (read from the `_headers` file); only the local origins are added for the test.
+const SECURITY_HEADERS: Record<string, string> = loadProductionHeaders({
+  extraConnectSrc: ['http://127.0.0.1:*', 'http://localhost:*'],
+});
 
 function createSubpathServer(distDir: string, subpathPrefix: string) {
   // e.g. subpathPrefix = '/some/sub/path/' or '/'

@@ -217,7 +217,11 @@ export class AgentClient {
   /**
    * Prechecks a trade against on-chain preview and local circuit logic.
    */
-  public async check(request: CheckRequest, lang: 'en' | 'vi' = 'en'): Promise<CheckOutcome> {
+  public async check(
+    request: CheckRequest,
+    lang: 'en' | 'vi' = 'en',
+    options?: { skipQuote?: boolean },
+  ): Promise<CheckOutcome> {
     const token = getAddress(request.token);
     const feeTier = request.feeTier ?? 500;
     const slippageBps = request.slippageBps ?? 50;
@@ -260,35 +264,39 @@ export class AgentClient {
       };
     }
 
-    // 1. Get Uniswap quote
+    // 1. Get Uniswap quote (skipped only to evaluate the rules for a token that has no pool)
     let quote: { expectedOut: bigint; amountOutMin: bigint };
-    try {
-      const res = await getQuote(this.publicClient, {
-        tokenIn,
-        tokenOut,
-        amountIn: amountInRaw,
-        feeTier,
-        slippageBps,
-      });
-      quote = {
-        expectedOut: res.expectedOut,
-        amountOutMin: res.amountOutMin,
-      };
-    } catch (err) {
-      const quoteFailReason = {
-        code: 'ERR_INSANE_PARAMS',
-        name: 'sane' as const,
-        text: `Quote failed: ${err instanceof Error ? err.message : String(err)}`,
-        bitIndex: 0,
-      };
-      return {
-        allowed: false,
-        inputBits: 0,
-        reasons: [quoteFailReason],
-        localAgrees: true,
-        block: state.block,
-        time: state.time,
-      };
+    if (options?.skipQuote) {
+      quote = { expectedOut: 0n, amountOutMin: 1n };
+    } else {
+      try {
+        const res = await getQuote(this.publicClient, {
+          tokenIn,
+          tokenOut,
+          amountIn: amountInRaw,
+          feeTier,
+          slippageBps,
+        });
+        quote = {
+          expectedOut: res.expectedOut,
+          amountOutMin: res.amountOutMin,
+        };
+      } catch (err) {
+        const quoteFailReason = {
+          code: 'ERR_INSANE_PARAMS',
+          name: 'sane' as const,
+          text: `Quote failed: ${err instanceof Error ? err.message : String(err)}`,
+          bitIndex: 0,
+        };
+        return {
+          allowed: false,
+          inputBits: 0,
+          reasons: [quoteFailReason],
+          localAgrees: true,
+          block: state.block,
+          time: state.time,
+        };
+      }
     }
 
     const deadline = state.time + 300n;
@@ -372,7 +380,7 @@ export class AgentClient {
       localAgrees,
       block: state.block,
       time: state.time,
-      quote,
+      quote: options?.skipQuote ? undefined : quote,
       tradeParams,
     };
   }
@@ -418,7 +426,12 @@ export class AgentClient {
     });
 
     if (freshQuote.expectedOut < outcome.quote.amountOutMin) {
-      throw new Error('Slippage tolerance exceeded: fresh quote below minimum expected output');
+      return {
+        status: 'slippage_exceeded',
+        quotedOut: freshQuote.expectedOut,
+        minimumOut: outcome.quote.amountOutMin,
+        block: outcome.block,
+      };
     }
 
     // Update amountOutMin to the fresh re-quote value for freshest market protection
@@ -499,6 +512,16 @@ export class AgentClient {
     const block = await this.publicClient.getBlockNumber();
 
     if (!options?.send) {
+      // Really simulate the call with the trader account when one is configured, so that a call that
+      // would revert (for example from a stranger) is reported instead of being shown as a success.
+      if (this.account) {
+        await this.publicClient.simulateContract({
+          address: this.vault,
+          abi: mandateVaultAbi,
+          functionName: 'freeze',
+          account: this.account,
+        });
+      }
       return {
         status: 'simulated',
         block,

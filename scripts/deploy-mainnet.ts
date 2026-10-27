@@ -482,7 +482,16 @@ export async function deployMainnet() {
   console.log('Recommended Funding:   0.05 OKB (provides safe margin for gas variations)');
   console.log('================================================================\n');
 
-  console.log('Dry run complete. No transactions were broadcast.');
+  if (isDryRun) {
+    console.log('Dry run complete. No transactions were broadcast.');
+  } else {
+    console.log(
+      'Live deployment complete. Addresses are in deployments/mainnet/*.json (not committed).',
+    );
+    console.log(
+      'Next steps: verify the source on Sourcify and record the addresses (docs/DEPLOY.md).',
+    );
+  }
 }
 
 if (

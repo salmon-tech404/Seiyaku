@@ -9,7 +9,7 @@ export interface GateDiagramProps {
 export function GateDiagram({ inputValues }: GateDiagramProps) {
   const { t } = useTranslation();
   const layout = useMemo(() => computeCircuitLayout(inputValues), [inputValues]);
-  const [zoomMode, setZoomMode] = useState<'fit' | '100' | 'custom'>('fit');
+  const [zoomMode, setZoomMode] = useState<'fit' | '100' | 'custom'>('100');
   const [zoom, setZoom] = useState<number>(1);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState<boolean>(false);
